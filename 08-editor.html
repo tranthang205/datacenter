@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>BlogHub — Soạn & Tối Ưu</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared-styles.css">
+<style>
+.editor-grid{display:grid;grid-template-columns:1fr 310px;gap:14px}
+.editor-box{background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);overflow:hidden;display:flex;flex-direction:column}
+.editor-toolbar{padding:9px 14px;border-bottom:1px solid var(--border-subtle);display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.tool-btn{width:28px;height:28px;border:1px solid var(--border-subtle);border-radius:var(--radius-sm);background:none;color:var(--text-tertiary);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .12s;font-size:.78rem;font-weight:700}
+.tool-btn:hover{color:var(--text-primary);background:var(--bg-hover)}
+.tool-btn.active{color:var(--accent);background:var(--accent-subtle);border-color:var(--accent-border)}
+.tool-div{width:1px;height:20px;background:var(--border-subtle);margin:0 2px}
+.editor-content{padding:20px;min-height:380px;outline:none;font-size:.9rem;line-height:1.8;flex:1}
+.editor-content h1{font-family:var(--font-display);font-size:1.5rem;font-weight:500;margin-bottom:12px}
+.editor-content p{margin-bottom:8px;color:var(--text-secondary)}
+.editor-content .ph{color:var(--text-quaternary);font-style:italic}
+.seo-sidebar{display:flex;flex-direction:column;gap:9px}
+.seo-card{background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);padding:12px 14px}
+.seo-card h4{font-size:.78rem;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.link-suggest{padding:5px 7px;background:var(--bg-elevated);border-radius:var(--radius-sm);font-size:.76rem;margin-bottom:4px;cursor:pointer;transition:background .1s}
+.link-suggest:hover{background:var(--bg-hover)}
+@media(max-width:1100px){.editor-grid{grid-template-columns:1fr}}
+
+</style>
+</head>
+<body>
+<div class="app">
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-brand"><div class="logo">B</div><h1>Blog<span>Hub</span></h1></div>
+  <nav class="sidebar-nav" aria-label="Main navigation">
+    <div class="nav-group">
+      <div class="nav-group-title">Tổng quan</div>
+      <a class="nav-item " href="01-dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a>
+      <a class="nav-item " href="07-website-manager.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>Website Manager<span class="nav-badge badge-green">28</span></a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">Nội dung</div>
+      <a class="nav-item " href="14-articles.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>Quản Lý Bài Viết<span class="nav-badge badge-green">247</span></a>
+      <a class="nav-item active" href="08-editor.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>Soạn & Tối Ưu</a>
+      <a class="nav-item " href="09-content-planner.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Content Planner</a>
+      <a class="nav-item " href="10-distribute.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>Đẩy Bài<span class="nav-badge badge-warn">5</span></a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">SEO & Analytics</div>
+      <a class="nav-item " href="02-seo-dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>SEO Dashboard</a>
+      <a class="nav-item " href="03-site-audit.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>Site Audit<span class="nav-badge badge-error">17</span></a>
+      <a class="nav-item " href="04-backlinks.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>Backlinks</a>
+      <a class="nav-item " href="05-competitor.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Competitor</a>
+      <a class="nav-item " href="06-core-web-vitals.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Core Web Vitals</a>
+      <a class="nav-item " href="11-topic-clusters.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="4" r="1.5"/><circle cx="18.5" cy="8" r="1.5"/><circle cx="18.5" cy="16" r="1.5"/><circle cx="12" cy="20" r="1.5"/><circle cx="5.5" cy="16" r="1.5"/><circle cx="5.5" cy="8" r="1.5"/></svg>Topic Clusters</a>
+      <a class="nav-item " href="16-keyword-explorer.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M8 11h6M11 8v6"/></svg>Keyword Explorer</a>
+      <a class="nav-item " href="17-rank-tracker.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>Rank Tracker</a>
+      <a class="nav-item " href="18-serp-analyzer.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>SERP Analyzer</a>
+      <a class="nav-item " href="19-onpage-checker.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>On-Page Checker</a>
+      <a class="nav-item " href="20-link-building.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 7h3a5 5 0 015 5 5 5 0 01-5 5h-3m-6 0H6a5 5 0 01-5-5 5 5 0 015-5h3"/><line x1="8" y1="12" x2="16" y2="12"/></svg>Link Building</a>
+      <a class="nav-item " href="22-crawl-analysis.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>Crawl Analysis</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">Hệ thống</div>
+      <a class="nav-item " href="21-content-explorer.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>Content Explorer</a>
+      <a class="nav-item " href="23-traffic-analytics.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>Traffic Analytics</a>
+      <a class="nav-item " href="25-reports.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/></svg>Báo Cáo</a>
+      <a class="nav-item " href="12-api-settings.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 00-2 2v.18a2 2 0 01-1 1.73l-.43.25a2 2 0 01-2 0l-.15-.08a2 2 0 00-2.73.73l-.22.38a2 2 0 00.73 2.73l.15.1a2 2 0 011 1.72v.51a2 2 0 01-1 1.74l-.15.09a2 2 0 00-.73 2.73l.22.38a2 2 0 002.73.73l.15-.08a2 2 0 012 0l.43.25a2 2 0 011 1.73V20a2 2 0 002 2h.44a2 2 0 002-2v-.18a2 2 0 011-1.73l.43-.25a2 2 0 012 0l.15.08a2 2 0 002.73-.73l.22-.39a2 2 0 00-.73-2.73l-.15-.08a2 2 0 01-1-1.74v-.5a2 2 0 011-1.74l.15-.09a2 2 0 00.73-2.73l-.22-.38a2 2 0 00-2.73-.73l-.15.08a2 2 0 01-2 0l-.43-.25a2 2 0 01-1-1.73V4a2 2 0 00-2-2z"/><circle cx="12" cy="12" r="3"/></svg>API & Kết Nối</a>
+      <a class="nav-item " href="13-team-members.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Thành Viên</a>
+    </div>
+  </nav>
+  <div class="sidebar-footer"><div class="sidebar-user"><div class="avatar">A</div><div><div class="uname">Admin</div><div class="urole">Super Admin</div></div></div></div>
+</aside>
+<div class="sidebar-overlay"></div>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="topbar-left"><button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">☰</button><h2>Soạn & Tối Ưu</h2></div>
+  <div class="topbar-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><input type="text" placeholder="Tìm bài, site, keyword..." aria-label="Tìm kiếm"><kbd>⌘K</kbd></div>
+  <div class="topbar-right">
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" title="Dark/Light">🌙</button>
+    <button class="icon-btn" aria-label="Thông báo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg><span class="dot" aria-hidden="true"></span></button>
+    <a href="08-editor.html" class="btn btn-accent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Tạo bài mới</a>
+  </div>
+</header>
+
+<main class="main">
+
+<!-- FLOW STEPS -->
+<div class="steps">
+  <div class="step done"><div class="num">1</div>Soạn nội dung</div><div class="step-line" style="background:var(--accent)"></div>
+  <div class="step active"><div class="num">2</div>Tối ưu SEO</div><div class="step-line"></div>
+  <div class="step"><div class="num">3</div>Chọn website</div><div class="step-line"></div>
+  <div class="step"><div class="num">4</div>Xuất bản / Hẹn giờ</div>
+</div>
+
+<div class="editor-grid">
+  <div class="editor-box">
+    <div class="editor-toolbar">
+      <button class="tool-btn" onclick="this.classList.toggle('active')" title="Bold"><b>B</b></button>
+      <button class="tool-btn" onclick="this.classList.toggle('active')" title="Italic"><i>I</i></button>
+      <button class="tool-btn" onclick="this.classList.toggle('active')" title="Underline"><u>U</u></button>
+      <div class="tool-div"></div>
+      <button class="tool-btn" style="font-size:.68rem">H1</button><button class="tool-btn" style="font-size:.68rem">H2</button><button class="tool-btn" style="font-size:.68rem">H3</button>
+      <div class="tool-div"></div>
+      <button class="tool-btn" onclick="openModal('linkModal')" title="Chèn link">🔗</button>
+      <button class="tool-btn" onclick="openModal('imageModal')" title="Chèn ảnh">🖼</button>
+      <button class="tool-btn" style="font-family:var(--font-mono);font-size:.68rem" title="Code">&lt;/&gt;</button>
+      <div class="tool-div"></div>
+      <button class="tool-btn" onclick="toast('Schema Markup template inserted!')" title="Schema">{ }</button>
+      <button class="tool-btn" onclick="toast('🔗 Chọn text rồi nhấn để chèn internal link')" title="Internal Link">⛓</button>
+      <div style="margin-left:auto;display:flex;gap:5px">
+        <button class="btn btn-ai" style="font-size:.76rem" onclick="simulateAI()">✦ AI Viết Bài</button>
+        <button class="btn btn-ai" style="font-size:.76rem;background:linear-gradient(135deg,var(--cyan),var(--accent))" onclick="openModal('briefModal')">✦ Content Brief</button>
+      </div>
+    </div>
+    <div class="editor-content" contenteditable="true" id="editorArea" role="textbox" aria-label="Nội dung bài viết" oninput="debouncedWordCount()">
+      <h1>10 Mẹo SEO Không Thể Bỏ Qua Năm 2026</h1>
+      <p>SEO luôn thay đổi và năm 2026 cũng không ngoại lệ. Trong bài viết này, chúng ta sẽ cùng khám phá những chiến lược SEO mới nhất giúp website vươn lên top.</p>
+      <p>Từ việc tối ưu Core Web Vitals, áp dụng AI trong content creation, đến chiến lược link building — tất cả đều được tổng hợp chi tiết.</p>
+      <p class="ph">Tiếp tục viết hoặc nhấn "AI Viết Bài"...</p>
+    </div>
+    <!-- STATUS BAR -->
+    <div class="status-bar">
+      <span>Từ: <strong id="wordCount">52</strong> · Ký tự: <strong id="charCount">380</strong></span>
+      <span class="saved" id="saveStatus">● Đã lưu tự động</span>
+    </div>
+    <!-- ACTION BAR — post-write flow -->
+    <div class="editor-actions">
+      <button class="btn btn-outline" onclick="toast('Đã lưu nháp!')">💾 Lưu nháp</button>
+      <button class="btn btn-outline" onclick="openModal('previewModal')">👁 Xem trước</button>
+      <div style="margin-left:auto;display:flex;gap:6px">
+        <button class="btn btn-accent" onclick="openModal('publishModal')">📤 Chọn website & Xuất bản</button>
+      </div>
+    </div>
+  </div>
+  <div class="seo-sidebar">
+    <div class="seo-card">
+      <h4>🎯 SEO Score</h4>
+      <div style="text-align:center;margin-bottom:8px"><svg viewBox="0 0 80 80" width="65" height="65"><circle cx="40" cy="40" r="30" fill="none" stroke="var(--bg-elevated)" stroke-width="6"/><circle cx="40" cy="40" r="30" fill="none" stroke="var(--accent)" stroke-width="6" stroke-dasharray="188" stroke-dashoffset="47" stroke-linecap="round" transform="rotate(-90 40 40)"/><text x="40" y="44" text-anchor="middle" font-family="var(--font-display)" font-size="17" fill="var(--text-primary)">75</text></svg></div>
+      <div class="progress" style="margin-bottom:3px"><div class="progress-fill" style="width:75%;background:var(--accent)"></div></div>
+      <div style="display:flex;justify-content:space-between;font-size:.63rem;color:var(--text-quaternary)"><span>Cần cải thiện</span><span>75/100</span></div>
+    </div>
+    <div class="seo-card">
+      <h4>📊 Readability & NLP</h4>
+      <div style="display:flex;flex-direction:column;gap:7px">
+        <div><div style="display:flex;justify-content:space-between;font-size:.76rem;margin-bottom:3px"><span>Readability</span><span class="mono" style="color:var(--accent)">Good</span></div><div class="progress"><div class="progress-fill" style="width:72%;background:var(--accent)"></div></div></div>
+        <div><div style="display:flex;justify-content:space-between;font-size:.76rem;margin-bottom:3px"><span>NLP Score</span><span class="mono" style="color:var(--warn)">58%</span></div><div class="progress"><div class="progress-fill" style="width:58%;background:var(--warn)"></div></div></div>
+        <div><div style="display:flex;justify-content:space-between;font-size:.76rem;margin-bottom:3px"><span>Words</span><span class="mono" id="sidebarWC">52/1500+</span></div><div class="progress"><div class="progress-fill" id="wcBar" style="width:3%;background:var(--info)"></div></div></div>
+      </div>
+    </div>
+    <div class="seo-card">
+      <h4>📝 Meta Tags</h4>
+      <div class="field-group"><label class="field-label">Title</label><input class="input-field" id="metaTitle" value="10 Mẹo SEO 2026 | TechBlog" maxlength="60" oninput="document.getElementById('titleCt').textContent=this.value.length+'/60'"><div class="char-ct" id="titleCt">28/60</div></div>
+      <div class="field-group"><label class="field-label">Description</label><textarea class="input-field" rows="2" id="metaDesc" maxlength="160" oninput="document.getElementById('descCt').textContent=this.value.length+'/160'">Khám phá 10 chiến lược SEO mới nhất 2026 giúp website tăng thứ hạng Google.</textarea><div class="char-ct" id="descCt">78/160</div></div>
+      <div class="field-group"><label class="field-label">Focus Keyword</label><input class="input-field" value="mẹo seo 2026"></div>
+      <div class="field-group"><label class="field-label">Slug</label><input class="input-field" value="/meo-seo-2026"></div>
+    </div>
+    <div class="seo-card">
+      <h4>✅ SEO Checklist</h4>
+      <div class="check-list">
+        <div class="check-item"><div class="check-icon ok">✓</div>Keyword trong Title</div>
+        <div class="check-item"><div class="check-icon ok">✓</div>Meta Description hợp lệ</div>
+        <div class="check-item"><div class="check-icon ok">✓</div>URL thân thiện SEO</div>
+        <div class="check-item"><div class="check-icon ok">✓</div>Internal links (3)</div>
+        <div class="check-item"><div class="check-icon warn">!</div>Thiếu H2 chứa keyword</div>
+        <div class="check-item"><div class="check-icon warn">!</div>Nội dung &lt; 1500 từ</div>
+        <div class="check-item"><div class="check-icon fail">✗</div>Thiếu Alt text ảnh</div>
+        <div class="check-item"><div class="check-icon fail">✗</div>Chưa có Schema Markup</div>
+        <div class="check-item"><div class="check-icon fail">✗</div>Missing Open Graph</div>
+      </div>
+    </div>
+    <div class="seo-card">
+      <h4>🔗 Internal Link Gợi Ý</h4>
+      <div class="link-suggest" onclick="toast('Đã chèn link vào bài viết')">→ "Hướng dẫn Core Web Vitals" <span class="mono" style="color:var(--text-tertiary);font-size:.65rem">92</span></div>
+      <div class="link-suggest" onclick="toast('Đã chèn link vào bài viết')">→ "Link Building cho người mới" <span class="mono" style="color:var(--text-tertiary);font-size:.65rem">78</span></div>
+      <div class="link-suggest" onclick="toast('Đã chèn link vào bài viết')">→ "Top 5 công cụ SEO 2026" <span class="mono" style="color:var(--text-tertiary);font-size:.65rem">85</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- MODALS -->
+<!-- Publish Modal -->
+<div class="modal-overlay" id="publishModal" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal" style="max-width:600px">
+    <div class="modal-head"><h3>📤 Xuất Bản Bài Viết</h3><button class="modal-close" aria-label="Đóng" onclick="closeModal('publishModal')">✕</button></div>
+    <div class="modal-body">
+      <p style="font-size:.84rem;color:var(--text-secondary);margin-bottom:14px">Chọn website nhận bài và phương thức xuất bản:</p>
+      <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px">
+        <label style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--bg-elevated);border-radius:var(--radius-md);cursor:pointer;font-size:.84rem"><input type="checkbox" checked style="accent-color:var(--accent)"> <strong>techblog.vn</strong> <span class="tag tag-green" style="margin-left:auto">SEO: 82</span></label>
+        <label style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--bg-elevated);border-radius:var(--radius-md);cursor:pointer;font-size:.84rem"><input type="checkbox" style="accent-color:var(--accent)"> <strong>blog.digimart.vn</strong> <span class="tag tag-warn" style="margin-left:auto">SEO: 71</span></label>
+        <label style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--bg-elevated);border-radius:var(--radius-md);cursor:pointer;font-size:.84rem"><input type="checkbox" style="accent-color:var(--accent)"> <strong>financehub.vn</strong> <span class="tag tag-green" style="margin-left:auto">SEO: 85</span></label>
+        <label style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--bg-elevated);border-radius:var(--radius-md);cursor:pointer;font-size:.84rem"><input type="checkbox" style="accent-color:var(--accent)"> <strong>healthlife.vn</strong> <span class="tag tag-warn" style="margin-left:auto">SEO: 68</span></label>
+      </div>
+      <div class="field-group"><label class="field-label">Phương thức</label>
+        <div style="display:flex;gap:6px">
+          <label style="flex:1;display:flex;align-items:center;gap:6px;padding:10px;background:var(--bg-elevated);border:2px solid var(--accent);border-radius:var(--radius-md);cursor:pointer;font-size:.82rem;font-weight:600"><input type="radio" name="pub" checked style="accent-color:var(--accent)">🚀 Xuất bản ngay</label>
+          <label style="flex:1;display:flex;align-items:center;gap:6px;padding:10px;background:var(--bg-elevated);border:2px solid var(--border-subtle);border-radius:var(--radius-md);cursor:pointer;font-size:.82rem;font-weight:600"><input type="radio" name="pub" style="accent-color:var(--accent)">⏰ Hẹn giờ</label>
+        </div>
+      </div>
+      <div class="field-group" style="margin-top:10px"><label class="field-label">Ngày giờ (nếu hẹn giờ)</label><input type="datetime-local" class="input-field" value="2026-03-25T08:00"></div>
+      <div style="margin-top:12px;padding:10px;background:var(--accent-subtle);border:1px solid var(--accent-border);border-radius:var(--radius-md);font-size:.8rem">
+        <strong>Auto-config:</strong> Schema Markup ✓ · Canonical URL ✓ · Open Graph ✓ · Internal Links ✓
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-outline" onclick="closeModal('publishModal')">Hủy</button>
+      <button class="btn btn-accent btn-lg" onclick="closeModal('publishModal');toast('🚀 Đã gửi bài đến 1 website! Đang xử lý...')">Xuất bản</button>
+    </div>
+  </div>
+</div>
+
+<!-- Link Modal -->
+<div class="modal-overlay" id="linkModal" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal" style="max-width:440px">
+    <div class="modal-head"><h3>🔗 Chèn Link</h3><button class="modal-close" aria-label="Đóng" onclick="closeModal('linkModal')">✕</button></div>
+    <div class="modal-body">
+      <div class="field-group"><label class="field-label">URL</label><input class="input-field" placeholder="https://..."></div>
+      <div class="field-group"><label class="field-label">Anchor Text</label><input class="input-field" placeholder="Text hiển thị..."></div>
+      <div class="field-group"><label style="display:flex;align-items:center;gap:6px;font-size:.8rem;cursor:pointer"><input type="checkbox" style="accent-color:var(--accent)"> Mở trong tab mới (nofollow)</label></div>
+    </div>
+    <div class="modal-foot"><button class="btn btn-outline" onclick="closeModal('linkModal')">Hủy</button><button class="btn btn-accent" onclick="closeModal('linkModal');toast('Đã chèn link')">Chèn</button></div>
+  </div>
+</div>
+
+<!-- Image Modal -->
+<div class="modal-overlay" id="imageModal" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal" style="max-width:440px">
+    <div class="modal-head"><h3>🖼 Chèn Hình Ảnh</h3><button class="modal-close" aria-label="Đóng" onclick="closeModal('imageModal')">✕</button></div>
+    <div class="modal-body">
+      <div style="border:2px dashed var(--border-default);border-radius:var(--radius-lg);padding:30px;text-align:center;cursor:pointer;margin-bottom:12px" onclick="toast('Chọn file...')">
+        <div style="font-size:2rem;margin-bottom:6px">📁</div>
+        <div style="font-size:.84rem;color:var(--text-secondary)">Kéo thả hoặc click để upload</div>
+        <div style="font-size:.72rem;color:var(--text-quaternary);margin-top:4px">PNG, JPG, WebP · Max 5MB</div>
+      </div>
+      <div class="field-group"><label class="field-label">Hoặc nhập URL ảnh</label><input class="input-field" placeholder="https://..."></div>
+      <div class="field-group"><label class="field-label">Alt Text (quan trọng cho SEO!)</label><input class="input-field" placeholder="Mô tả hình ảnh..."></div>
+    </div>
+    <div class="modal-foot"><button class="btn btn-outline" onclick="closeModal('imageModal')">Hủy</button><button class="btn btn-accent" onclick="closeModal('imageModal');toast('Đã chèn ảnh')">Chèn</button></div>
+  </div>
+</div>
+
+<!-- Content Brief Modal -->
+<div class="modal-overlay" id="briefModal" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal" style="max-width:560px">
+    <div class="modal-head"><h3>✦ AI Content Brief</h3><button class="modal-close" aria-label="Đóng" onclick="closeModal('briefModal')">✕</button></div>
+    <div class="modal-body">
+      <div class="field-group"><label class="field-label">Target Keyword</label><input class="input-field" value="mẹo seo 2026"></div>
+      <div class="field-group"><label class="field-label">Content Type</label>
+        <select class="input-field"><option>Listicle (Top X...)</option><option>How-to Guide</option><option>Review / Comparison</option><option>Pillar Page</option></select>
+      </div>
+      <div class="field-group"><label class="field-label">Tone</label>
+        <select class="input-field"><option>Chuyên nghiệp</option><option>Thân thiện</option><option>Học thuật</option></select>
+      </div>
+      <div class="field-group"><label class="field-label">Target Word Count</label><input class="input-field" type="number" value="2000"></div>
+      <div style="padding:10px;background:var(--purple-subtle);border:1px solid var(--purple-border);border-radius:var(--radius-md);font-size:.8rem;margin-top:8px">
+        AI sẽ phân tích top 10 SERP, gợi ý headings, NLP entities, câu hỏi cần trả lời, và outline chi tiết.
+      </div>
+    </div>
+    <div class="modal-foot"><button class="btn btn-outline" onclick="closeModal('briefModal')">Hủy</button><button class="btn btn-ai btn-lg" onclick="closeModal('briefModal');toast('✦ Đang tạo Content Brief... (3-5 giây)')">Tạo Brief</button></div>
+  </div>
+</div>
+
+<!-- Preview Modal -->
+<div class="modal-overlay" id="previewModal" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal" style="max-width:700px">
+    <div class="modal-head"><h3>👁 Xem Trước — Google SERP Preview</h3><button class="modal-close" aria-label="Đóng" onclick="closeModal('previewModal')">✕</button></div>
+    <div class="modal-body">
+      <div style="background:var(--bg-elevated);border-radius:var(--radius-md);padding:16px;margin-bottom:14px">
+        <div style="font-size:.78rem;color:var(--accent);font-family:var(--font-mono);margin-bottom:4px">techblog.vn › blog › meo-seo-2026</div>
+        <div style="font-size:1.1rem;color:var(--info);font-weight:600;margin-bottom:4px;cursor:pointer">10 Mẹo SEO 2026 | TechBlog</div>
+        <div style="font-size:.82rem;color:var(--text-secondary);line-height:1.5">Khám phá 10 chiến lược SEO mới nhất 2026 giúp website tăng thứ hạng Google.</div>
+      </div>
+      <div style="font-size:.78rem;color:var(--text-tertiary)">
+        <strong>Social Preview:</strong>
+        <div style="margin-top:8px;border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:12px">
+          <div style="font-weight:700">10 Mẹo SEO 2026 | TechBlog</div>
+          <div style="font-size:.76rem;color:var(--text-tertiary);margin-top:2px">Khám phá 10 chiến lược SEO mới nhất 2026...</div>
+          <div style="font-size:.68rem;color:var(--text-quaternary);margin-top:4px">techblog.vn</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot"><button class="btn btn-outline" onclick="closeModal('previewModal')">Đóng</button></div>
+  </div>
+</div>
+
+</main>
+</div>
+<div id="toast" class="toast"></div>
+<script src="shared.js"></script>
+<script>
+/* Debounced word count — prevents lag on fast typing */
+let _wcTimer=null;
+function debouncedWordCount(){
+  clearTimeout(_wcTimer);
+  _wcTimer=setTimeout(updateWordCount,150);
+}
+function updateWordCount(){
+  const text=document.getElementById('editorArea').innerText;
+  const words=text.trim().split(/\s+/).filter(w=>w).length;
+  const chars=text.length;
+  document.getElementById('wordCount').textContent=words;
+  document.getElementById('charCount').textContent=chars;
+  document.getElementById('sidebarWC').textContent=words+'/1500+';
+  document.getElementById('wcBar').style.width=Math.min(100,words/15)+'%';
+  document.getElementById('saveStatus').textContent='● Đang lưu...';
+  clearTimeout(window._saveT);
+  window._saveT=setTimeout(()=>{document.getElementById('saveStatus').textContent='● Đã lưu tự động'},800);
+}
+function simulateAI(){
+  toast('✦ AI đang viết bài... vui lòng chờ');
+  setTimeout(()=>{
+    const area=document.getElementById('editorArea');
+    const ph=area.querySelector('.ph');if(ph)ph.remove();
+    /* Sanitize: use textContent for user-visible text, only allow safe tags */
+    const p=document.createElement('p');
+    const strong=document.createElement('strong');
+    strong.textContent='1. Tối ưu Core Web Vitals';
+    p.appendChild(strong);
+    p.appendChild(document.createElement('br'));
+    p.appendChild(document.createTextNode('Google đã xác nhận Core Web Vitals là yếu tố xếp hạng chính. Hãy đảm bảo LCP dưới 2.5s, INP dưới 200ms và CLS dưới 0.1 cho tất cả các trang.'));
+    area.appendChild(p);
+    updateWordCount();
+    toast('✓ AI đã thêm nội dung mới!');
+  },2000);
+}
+
+</script>
+</body></html>

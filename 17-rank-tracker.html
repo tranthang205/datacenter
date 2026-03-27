@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>BlogHub — Rank Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared-styles.css">
+<style>
+.rt-filters{display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap}
+.rt-filters select{background:var(--bg-elevated);border:1px solid var(--border-subtle);border-radius:var(--radius-sm);padding:7px 10px;color:var(--text-primary);font-size:.8rem;font-family:var(--font-body);outline:none;cursor:pointer}
+.rt-filters select:focus{border-color:var(--accent)}
+.tab-group{display:flex;gap:2px;background:var(--bg-elevated);border-radius:var(--radius-sm);padding:3px}
+.tab-group .tab-btn{padding:6px 14px;border:none;background:none;color:var(--text-tertiary);font-size:.78rem;font-weight:600;border-radius:var(--radius-xs);cursor:pointer;transition:all .15s;font-family:var(--font-body)}
+.tab-group .tab-btn.active{background:var(--accent);color:#fff}
+.tab-group .tab-btn:hover:not(.active){color:var(--text-primary);background:var(--bg-hover)}
+.pos-change{font-weight:700;font-size:.78rem;display:inline-flex;align-items:center;gap:2px;padding:2px 8px;border-radius:20px}
+.pos-up{color:var(--accent);background:var(--accent-subtle)}
+.pos-down{color:var(--error);background:var(--error-subtle)}
+.pos-same{color:var(--text-quaternary);background:var(--bg-elevated)}
+.rank-table{display:grid;grid-template-columns:1.5fr .6fr .7fr .7fr 1.2fr .7fr;gap:6px;font-size:.82rem;align-items:center;padding:8px 4px;border-bottom:1px solid var(--border-subtle);cursor:pointer;transition:background .1s}
+.rank-table:hover:not(:first-child){background:var(--bg-hover)}
+.rank-table:first-child{font-size:.66rem;font-weight:700;color:var(--text-quaternary);text-transform:uppercase;letter-spacing:.05em;border:none;padding-bottom:6px;cursor:default}
+.h-bar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.h-bar-label{width:60px;font-size:.78rem;color:var(--text-secondary);text-align:right;flex-shrink:0}
+.h-bar{flex:1;height:28px;background:var(--bg-elevated);border-radius:var(--radius-sm);overflow:hidden;position:relative}
+.h-bar .h-fill{height:100%;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:flex-end;padding-right:8px;font-size:.7rem;font-weight:700;color:#fff;transition:width .5s var(--ease)}
+.h-bar-count{font-size:.78rem;color:var(--text-tertiary);width:30px;text-align:left;font-family:var(--font-mono)}
+</style>
+</head>
+<body>
+<div class="app">
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-brand"><div class="logo">B</div><h1>Blog<span>Hub</span></h1></div>
+  <nav class="sidebar-nav">
+    <div class="nav-group">
+      <div class="nav-group-title">Tổng quan</div>
+      <a class="nav-item " href="01-dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a>
+      <a class="nav-item " href="07-website-manager.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>Website Manager<span class="nav-badge badge-green">28</span></a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">Nội dung</div>
+      <a class="nav-item " href="14-articles.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>Quản Lý Bài Viết<span class="nav-badge badge-green">247</span></a>
+      <a class="nav-item " href="08-editor.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>Soạn & Tối Ưu</a>
+      <a class="nav-item " href="09-content-planner.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Content Planner</a>
+      <a class="nav-item " href="10-distribute.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>Đẩy Bài<span class="nav-badge badge-warn">5</span></a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">SEO & Analytics</div>
+      <a class="nav-item " href="02-seo-dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>SEO Dashboard</a>
+      <a class="nav-item " href="03-site-audit.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>Site Audit<span class="nav-badge badge-error">17</span></a>
+      <a class="nav-item " href="04-backlinks.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>Backlinks</a>
+      <a class="nav-item " href="05-competitor.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Competitor</a>
+      <a class="nav-item " href="06-core-web-vitals.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Core Web Vitals</a>
+      <a class="nav-item " href="11-topic-clusters.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="4" r="1.5"/><circle cx="18.5" cy="8" r="1.5"/><circle cx="18.5" cy="16" r="1.5"/><circle cx="12" cy="20" r="1.5"/><circle cx="5.5" cy="16" r="1.5"/><circle cx="5.5" cy="8" r="1.5"/></svg>Topic Clusters</a>
+      <a class="nav-item " href="16-keyword-explorer.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M8 11h6M11 8v6"/></svg>Keyword Explorer</a>
+      <a class="nav-item active" href="17-rank-tracker.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>Rank Tracker</a>
+      <a class="nav-item " href="18-serp-analyzer.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>SERP Analyzer</a>
+      <a class="nav-item " href="19-onpage-checker.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>On-Page Checker</a>
+      <a class="nav-item " href="20-link-building.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 7h3a5 5 0 015 5 5 5 0 01-5 5h-3m-6 0H6a5 5 0 01-5-5 5 5 0 015-5h3"/><line x1="8" y1="12" x2="16" y2="12"/></svg>Link Building</a>
+      <a class="nav-item " href="22-crawl-analysis.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>Crawl Analysis</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">Hệ thống</div>
+      <a class="nav-item " href="21-content-explorer.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>Content Explorer</a>
+      <a class="nav-item " href="23-traffic-analytics.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>Traffic Analytics</a>
+      <a class="nav-item " href="25-reports.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/></svg>Báo Cáo</a>
+      <a class="nav-item " href="12-api-settings.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 00-2 2v.18a2 2 0 01-1 1.73l-.43.25a2 2 0 01-2 0l-.15-.08a2 2 0 00-2.73.73l-.22.38a2 2 0 00.73 2.73l.15.1a2 2 0 011 1.72v.51a2 2 0 01-1 1.74l-.15.09a2 2 0 00-.73 2.73l.22.38a2 2 0 002.73.73l.15-.08a2 2 0 012 0l.43.25a2 2 0 011 1.73V20a2 2 0 002 2h.44a2 2 0 002-2v-.18a2 2 0 011-1.73l.43-.25a2 2 0 012 0l.15.08a2 2 0 002.73-.73l.22-.39a2 2 0 00-.73-2.73l-.15-.08a2 2 0 01-1-1.74v-.5a2 2 0 011-1.74l.15-.09a2 2 0 00.73-2.73l-.22-.38a2 2 0 00-2.73-.73l-.15.08a2 2 0 01-2 0l-.43-.25a2 2 0 01-1-1.73V4a2 2 0 00-2-2z"/><circle cx="12" cy="12" r="3"/></svg>API & Kết Nối</a>
+      <a class="nav-item " href="13-team-members.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Thành Viên</a>
+    </div>
+  </nav>
+  <div class="sidebar-footer"><div class="sidebar-user"><div class="avatar">A</div><div><div class="uname">Admin</div><div class="urole">Super Admin</div></div></div></div>
+</aside>
+<div class="sidebar-overlay"></div>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="topbar-left"><button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button><h2>Rank Tracker</h2></div>
+  <div class="topbar-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><input type="text" placeholder="Tìm bài, site, keyword..." aria-label="Tìm kiếm"><kbd>⌘K</kbd></div>
+  <div class="topbar-right">
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" title="Dark/Light">🌙</button>
+    <button class="icon-btn" aria-label="Thông báo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg><div class="dot"></div></button>
+    <a href="08-editor.html" class="btn btn-accent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Tạo bài mới</a>
+  </div>
+</header>
+
+<main class="main">
+
+<!-- Stats Row -->
+<div class="stats-grid stats-5">
+  <div class="stat-card"><div class="stat-icon" style="background:var(--accent-subtle);color:var(--accent)">🔑</div><div class="stat-label">Tổng Keywords</div><div class="stat-value">342</div></div>
+  <div class="stat-card"><div class="stat-icon" style="background:var(--accent-subtle);color:var(--accent)">🥇</div><div class="stat-label">Top 3</div><div class="stat-value" style="color:var(--accent)">28</div><div class="stat-change up"><span class="tag tag-green">+5</span></div></div>
+  <div class="stat-card"><div class="stat-icon" style="background:var(--info-subtle);color:var(--info)">🏆</div><div class="stat-label">Top 10</div><div class="stat-value" style="color:var(--info)">87</div><div class="stat-change up"><span class="tag tag-green">+12</span></div></div>
+  <div class="stat-card"><div class="stat-icon" style="background:var(--purple-subtle);color:var(--purple)">📊</div><div class="stat-label">Top 100</div><div class="stat-value">256</div></div>
+  <div class="stat-card"><div class="stat-icon" style="background:var(--warn-subtle);color:var(--warn)">📍</div><div class="stat-label">Avg Position</div><div class="stat-value" style="color:var(--warn)">18.4</div><div class="stat-change down">↓ -1.2</div></div>
+</div>
+
+<!-- Filters Bar -->
+<div class="rt-filters">
+  <div class="tab-group">
+    <button class="tab-btn active">Tất cả</button>
+    <button class="tab-btn">Tăng</button>
+    <button class="tab-btn">Giảm</button>
+    <button class="tab-btn">Mới</button>
+  </div>
+  <select>
+    <option selected>Desktop</option>
+    <option>Mobile</option>
+  </select>
+  <select>
+    <option selected>Việt Nam</option>
+    <option>US</option>
+  </select>
+</div>
+
+<!-- Main Table -->
+<div class="card mb-16">
+  <div class="card-head"><h3>Theo dõi từ khóa</h3><span class="tag tag-info">342 keywords</span></div>
+  <div class="card-body" style="padding:8px 16px">
+    <div class="rank-table"><span>Keyword</span><span style="text-align:center">Vị trí</span><span style="text-align:center">Thay đổi</span><span style="text-align:center">Volume</span><span>URL</span><span style="text-align:center">Updated</span></div>
+    <div class="rank-table"><span style="font-weight:500">seo la gi</span><span class="mono" style="text-align:center">2</span><span style="text-align:center"><span class="pos-change pos-up">▲ 3</span></span><span class="mono" style="text-align:center">12,100</span><span style="font-size:.72rem;color:var(--text-tertiary)">/blog/seo-la-gi</span><span style="text-align:center;font-size:.72rem;color:var(--text-tertiary)">2h</span></div>
+    <div class="rank-table"><span style="font-weight:500">cach lam seo website</span><span class="mono" style="text-align:center">5</span><span style="text-align:center"><span class="pos-change pos-up">▲ 2</span></span><span class="mono" style="text-align:center">8,400</span><span style="font-size:.72rem;color:var(--text-tertiary)">/huong-dan/cach-lam-seo</span><span style="text-align:center;font-size:.72rem;color:var(--text-tertiary)">2h</span></div>
+    <div class="rank-table"><span style="font-weight:500">dich vu seo tphcm</span><span class="mono" style="text-align:center">1</span><span style="text-align:center"><span class="pos-change pos-up">▲ 1</span></span><span class="mono" style="text-align:center">6,600</span><span style="font-size:.72rem;color:var(--text-tertiary)">/dich-vu/seo-tphcm</span><span style="text-align:center;font-size:.72rem;color:var(--text-tertiary)">3h</span></div>
+    <div class="rank-table"><span style="font-weight:500">keyword research tool</span><span class="mono" style="text-align:center">8</span><span style="text-align:center"><span class="pos-change pos-down">▼ 2</span></span><span class="mono" style="text-align:center">5,200</span><span style="font-size:.72rem;color:var(--text-tertiary)">/tools/keyword-research</span><span style="text-align:center;font-size:.72rem;color:var(--text-tertiary)">2h</span></div>
+    <div class="rank-table"><span style="font-weight:500">on-page seo checklist</span><span class="mono" style="text-align:center">3</span><span style="text-align:center"><span class="pos-change pos-same">— 0</span></span><span class="mono" style="text-align:center">4,800</span><span style="font-size:.72rem;color:var(--text-tertiary)">/blog/on-page-seo</span><span style="text-align:center;font-size:.72rem;color:var(--text-tertiary)">4h</span></div>
+    <div class="rank-table"><span style="font-weight:500">backlink la gi</span><span class="mono" style="text-align:center">4</span><span style="text-align:center"><span class="pos-change pos-up">▲ 5</span></span><span class="mono" style="text-align:center">4,200</span><span style="font-size:.72rem;color:var(--text-tertiary)">/blog/backlink-la-gi</span><span style="text-align:center;font-size:.72rem;color:var(--text-tertiary)">2h</span></div>
+    <div class="rank-table"><span style="font-weight:500">cong cu seo mien phi</span><span class="mono" style="text-align:center">12</span><span style="text-align:center"><span class="pos-change pos-down">▼ 4</span></span><span class="mono" style="text-align:center">3,800</span><span style="font-size:.72rem;color:var(--text-tertiary)">/tools/seo-mien-phi</span><span style="text-align:center;font-size:.72rem;color:var(--text-tertiary)">3h</span></div>
+    <div class="rank-table"><span style="font-weight:500">google search console</span><span class="mono" style="text-align:center">6</span><span style="text-align:center"><span class="pos-change pos-up">▲ 1</span></span><span class="mono" style="text-align:center">3,400</span><span style="font-size:.72rem;color:var(--text-tertiary)">/huong-dan/gsc</span><span style="text-align:center;font-size:.72rem;color:var(--text-tertiary)">4h</span></div>
+    <div class="rank-table"><span style="font-weight:500">content marketing la gi <span class="tag tag-info" style="font-size:.58rem">Mới</span></span><span class="mono" style="text-align:center">15</span><span style="text-align:center"><span class="pos-change pos-same">— new</span></span><span class="mono" style="text-align:center">3,100</span><span style="font-size:.72rem;color:var(--text-tertiary)">/blog/content-marketing</span><span style="text-align:center;font-size:.72rem;color:var(--text-tertiary)">1h</span></div>
+    <div class="rank-table"><span style="font-weight:500">kiem tra thu hang tu khoa</span><span class="mono" style="text-align:center">7</span><span style="text-align:center"><span class="pos-change pos-up">▲ 8</span></span><span class="mono" style="text-align:center">2,900</span><span style="font-size:.72rem;color:var(--text-tertiary)">/tools/rank-checker</span><span style="text-align:center;font-size:.72rem;color:var(--text-tertiary)">2h</span></div>
+    <div class="rank-table"><span style="font-weight:500">toi uu hoa website</span><span class="mono" style="text-align:center">22</span><span style="text-align:center"><span class="pos-change pos-down">▼ 6</span></span><span class="mono" style="text-align:center">2,400</span><span style="font-size:.72rem;color:var(--text-tertiary)">/blog/toi-uu-website</span><span style="text-align:center;font-size:.72rem;color:var(--text-tertiary)">5h</span></div>
+    <div class="rank-table" style="border:none"><span style="font-weight:500">link building strategy <span class="tag tag-info" style="font-size:.58rem">Mới</span></span><span class="mono" style="text-align:center">18</span><span style="text-align:center"><span class="pos-change pos-same">— new</span></span><span class="mono" style="text-align:center">2,100</span><span style="font-size:.72rem;color:var(--text-tertiary)">/blog/link-building</span><span style="text-align:center;font-size:.72rem;color:var(--text-tertiary)">1h</span></div>
+  </div>
+</div>
+
+<!-- Distribution + 7-day trend -->
+<div class="grid-2">
+  <div class="card">
+    <div class="card-head"><h3>Phân bố vị trí</h3></div>
+    <div class="card-body" style="padding:12px 16px">
+      <div class="h-bar-row"><span class="h-bar-label">Top 3</span><div class="h-bar"><div class="h-fill" style="width:8.2%;background:var(--accent)"></div></div><span class="h-bar-count">28</span></div>
+      <div class="h-bar-row"><span class="h-bar-label">4-10</span><div class="h-bar"><div class="h-fill" style="width:17.3%;background:var(--info)"></div></div><span class="h-bar-count">59</span></div>
+      <div class="h-bar-row"><span class="h-bar-label">11-20</span><div class="h-bar"><div class="h-fill" style="width:21.1%;background:var(--purple)"></div></div><span class="h-bar-count">72</span></div>
+      <div class="h-bar-row"><span class="h-bar-label">21-50</span><div class="h-bar"><div class="h-fill" style="width:19%;background:var(--warn)"></div></div><span class="h-bar-count">65</span></div>
+      <div class="h-bar-row"><span class="h-bar-label">51-100</span><div class="h-bar"><div class="h-fill" style="width:9.4%;background:var(--error)"></div></div><span class="h-bar-count">32</span></div>
+      <div class="h-bar-row"><span class="h-bar-label">100+</span><div class="h-bar"><div class="h-fill" style="width:25.1%;background:var(--text-quaternary)"></div></div><span class="h-bar-count">86</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-head"><h3>Thay đổi 7 ngày</h3><span style="font-size:.72rem;color:var(--text-tertiary)">Avg Position</span></div>
+    <div class="card-body" style="padding:16px">
+      <svg viewBox="0 0 400 140" style="width:100%;height:140px">
+        <defs>
+          <linearGradient id="rtGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="var(--info)" stop-opacity="0.3"/>
+            <stop offset="100%" stop-color="var(--info)" stop-opacity="0.02"/>
+          </linearGradient>
+        </defs>
+        <!-- Grid -->
+        <line x1="30" y1="10" x2="390" y2="10" stroke="var(--border-subtle)" stroke-width="0.5"/>
+        <line x1="30" y1="40" x2="390" y2="40" stroke="var(--border-subtle)" stroke-width="0.5"/>
+        <line x1="30" y1="70" x2="390" y2="70" stroke="var(--border-subtle)" stroke-width="0.5"/>
+        <line x1="30" y1="100" x2="390" y2="100" stroke="var(--border-subtle)" stroke-width="0.5"/>
+        <line x1="30" y1="130" x2="390" y2="130" stroke="var(--border-subtle)" stroke-width="0.5"/>
+        <!-- Y labels -->
+        <text x="26" y="14" text-anchor="end" fill="var(--text-quaternary)" font-size="9" font-family="var(--font-mono)">15</text>
+        <text x="26" y="44" text-anchor="end" fill="var(--text-quaternary)" font-size="9" font-family="var(--font-mono)">17</text>
+        <text x="26" y="74" text-anchor="end" fill="var(--text-quaternary)" font-size="9" font-family="var(--font-mono)">19</text>
+        <text x="26" y="104" text-anchor="end" fill="var(--text-quaternary)" font-size="9" font-family="var(--font-mono)">21</text>
+        <text x="26" y="134" text-anchor="end" fill="var(--text-quaternary)" font-size="9" font-family="var(--font-mono)">23</text>
+        <!-- Area -->
+        <path d="M50,85 L110,72 L170,60 L230,45 L290,38 L350,50 L390,55 L390,130 L50,130 Z" fill="url(#rtGrad)"/>
+        <!-- Line -->
+        <polyline points="50,85 110,72 170,60 230,45 290,38 350,50 390,55" fill="none" stroke="var(--info)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- Dots -->
+        <circle cx="50" cy="85" r="3" fill="var(--info)"/>
+        <circle cx="110" cy="72" r="3" fill="var(--info)"/>
+        <circle cx="170" cy="60" r="3" fill="var(--info)"/>
+        <circle cx="230" cy="45" r="3" fill="var(--info)"/>
+        <circle cx="290" cy="38" r="3" fill="var(--info)"/>
+        <circle cx="350" cy="50" r="3" fill="var(--info)"/>
+        <circle cx="390" cy="55" r="4" fill="var(--bg-card)" stroke="var(--info)" stroke-width="2"/>
+        <!-- X labels -->
+        <text x="50" y="140" fill="var(--text-quaternary)" font-size="8" text-anchor="middle">T2</text>
+        <text x="110" y="140" fill="var(--text-quaternary)" font-size="8" text-anchor="middle">T3</text>
+        <text x="170" y="140" fill="var(--text-quaternary)" font-size="8" text-anchor="middle">T4</text>
+        <text x="230" y="140" fill="var(--text-quaternary)" font-size="8" text-anchor="middle">T5</text>
+        <text x="290" y="140" fill="var(--text-quaternary)" font-size="8" text-anchor="middle">T6</text>
+        <text x="350" y="140" fill="var(--text-quaternary)" font-size="8" text-anchor="middle">T7</text>
+        <text x="390" y="140" fill="var(--text-quaternary)" font-size="8" text-anchor="middle">Nay</text>
+      </svg>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+<div id="toast" class="toast"></div>
+<script src="shared.js"></script>
+</body></html>

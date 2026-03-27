@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>BlogHub — Alerts & Tasks</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared-styles.css">
+<style>
+.alert-card{background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);padding:14px 16px;display:flex;align-items:flex-start;gap:12px;transition:all .2s var(--ease);cursor:pointer}
+.alert-card:hover{border-color:var(--border-hover);transform:translateY(-1px);box-shadow:var(--shadow-md)}
+.alert-card.unread{border-left:3px solid var(--accent)}
+.alert-icon{width:36px;height:36px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+.alert-body{flex:1;min-width:0}
+.alert-title{font-weight:600;font-size:.85rem;margin-bottom:2px}
+.alert-desc{font-size:.78rem;color:var(--text-secondary);line-height:1.4}
+.alert-meta{display:flex;align-items:center;gap:10px;margin-top:6px;font-size:.7rem;color:var(--text-tertiary)}
+.alert-list{display:flex;flex-direction:column;gap:8px}
+.rule-card{background:var(--bg-elevated);border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:12px 14px;display:flex;align-items:center;gap:12px}
+.rule-card:hover{border-color:var(--border-hover)}
+.rule-info{flex:1}
+.rule-name{font-weight:600;font-size:.85rem}
+.rule-desc{font-size:.75rem;color:var(--text-tertiary);margin-top:2px}
+.rule-meta{display:flex;align-items:center;gap:10px;margin-top:4px;font-size:.7rem;color:var(--text-tertiary)}
+.task-item{background:var(--bg-elevated);border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:10px 14px;display:flex;align-items:center;gap:10px;transition:background .15s}
+.task-item:hover{background:var(--bg-hover)}
+.task-check{width:18px;height:18px;border-radius:4px;border:2px solid var(--border-default);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.6rem;flex-shrink:0;transition:all .15s}
+.task-check.done{background:var(--accent);border-color:var(--accent);color:#fff}
+.task-text{flex:1;font-size:.82rem}.task-text.done-text{text-decoration:line-through;color:var(--text-tertiary)}
+.task-priority{font-size:.66rem;font-weight:600;padding:2px 7px;border-radius:20px}
+</style>
+</head>
+<body>
+<div class="app">
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-brand"><div class="logo">B</div><h1>Blog<span>Hub</span></h1></div>
+  <nav class="sidebar-nav" aria-label="Main navigation">
+    <div class="nav-group">
+      <div class="nav-group-title">Tổng quan</div>
+      <a class="nav-item" href="01-dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a>
+      <a class="nav-item" href="07-website-manager.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>Website Manager<span class="nav-badge badge-green">28</span></a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">Nội dung</div>
+      <a class="nav-item" href="14-articles.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>Quản Lý Bài Viết<span class="nav-badge badge-green">247</span></a>
+      <a class="nav-item" href="08-editor.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>Soạn & Tối Ưu</a>
+      <a class="nav-item" href="09-content-planner.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Content Planner</a>
+      <a class="nav-item" href="10-distribute.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>Đẩy Bài<span class="nav-badge badge-warn">5</span></a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">SEO & Analytics</div>
+      <a class="nav-item" href="02-seo-dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>SEO Dashboard</a>
+      <a class="nav-item" href="03-site-audit.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>Site Audit<span class="nav-badge badge-error">17</span></a>
+      <a class="nav-item" href="04-backlinks.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>Backlinks</a>
+      <a class="nav-item" href="05-competitor.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Competitor</a>
+      <a class="nav-item" href="06-core-web-vitals.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Core Web Vitals</a>
+      <a class="nav-item" href="11-topic-clusters.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="4" r="1.5"/><circle cx="18.5" cy="8" r="1.5"/><circle cx="18.5" cy="16" r="1.5"/><circle cx="12" cy="20" r="1.5"/><circle cx="5.5" cy="16" r="1.5"/><circle cx="5.5" cy="8" r="1.5"/></svg>Topic Clusters</a>
+      <a class="nav-item" href="16-keyword-explorer.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M8 11h6M11 8v6"/></svg>Keyword Explorer</a>
+      <a class="nav-item" href="17-rank-tracker.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>Rank Tracker</a>
+      <a class="nav-item" href="18-serp-analyzer.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>SERP Analyzer</a>
+      <a class="nav-item" href="19-onpage-checker.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>On-Page Checker</a>
+      <a class="nav-item" href="20-link-building.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 7h3a5 5 0 015 5 5 5 0 01-5 5h-3m-6 0H6a5 5 0 01-5-5 5 5 0 015-5h3"/><line x1="8" y1="12" x2="16" y2="12"/></svg>Link Building</a>
+      <a class="nav-item" href="22-crawl-analysis.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>Crawl Analysis</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">Hệ thống</div>
+      <a class="nav-item" href="21-content-explorer.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>Content Explorer</a>
+      <a class="nav-item" href="23-traffic-analytics.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>Traffic Analytics</a>
+      <a class="nav-item" href="25-reports.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/></svg>Báo Cáo</a>
+      <a class="nav-item active" href="26-seo-tasks.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>Alerts & Tasks<span class="nav-badge badge-error">8</span></a>
+      <a class="nav-item" href="12-api-settings.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 00-2 2v.18a2 2 0 01-1 1.73l-.43.25a2 2 0 01-2 0l-.15-.08a2 2 0 00-2.73.73l-.22.38a2 2 0 00.73 2.73l.15.1a2 2 0 011 1.72v.51a2 2 0 01-1 1.74l-.15.09a2 2 0 00-.73 2.73l.22.38a2 2 0 002.73.73l.15-.08a2 2 0 012 0l.43.25a2 2 0 011 1.73V20a2 2 0 002 2h.44a2 2 0 002-2v-.18a2 2 0 011-1.73l.43-.25a2 2 0 012 0l.15.08a2 2 0 002.73-.73l.22-.39a2 2 0 00-.73-2.73l-.15-.08a2 2 0 01-1-1.74v-.5a2 2 0 011-1.74l.15-.09a2 2 0 00.73-2.73l-.22-.38a2 2 0 00-2.73-.73l-.15.08a2 2 0 01-2 0l-.43-.25a2 2 0 01-1-1.73V4a2 2 0 00-2-2z"/><circle cx="12" cy="12" r="3"/></svg>API & Kết Nối</a>
+      <a class="nav-item" href="13-team-members.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Thành Viên</a>
+    </div>
+  </nav>
+  <div class="sidebar-footer"><div class="sidebar-user"><div class="avatar">A</div><div><div class="uname">Admin</div><div class="urole">Super Admin</div></div></div></div>
+</aside>
+<div class="sidebar-overlay"></div>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="topbar-left"><button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button><h2>Alerts & Tasks</h2></div>
+  <div class="topbar-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><input type="text" placeholder="Tìm bài, site, keyword..." aria-label="Tìm kiếm"><kbd>⌘K</kbd></div>
+  <div class="topbar-right">
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" title="Dark/Light">🌙</button>
+    <button class="icon-btn" aria-label="Thông báo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg><span class="dot" aria-hidden="true"></span></button>
+    <a href="08-editor.html" class="btn btn-accent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg><span>Tạo bài mới</span></a>
+  </div>
+</header>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- Stats -->
+<div class="stats-grid stats-4 mb-16">
+  <div class="stat-card">
+    <div class="stat-icon" style="background:var(--error-subtle);color:var(--error)">🔔</div>
+    <div class="stat-label">Alerts chưa đọc</div>
+    <div class="stat-value">8</div>
+    <div class="stat-change down">+3 hôm nay</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon" style="background:var(--warn-subtle);color:var(--warn)">⚡</div>
+    <div class="stat-label">Quy tắc hoạt động</div>
+    <div class="stat-value">12</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon" style="background:var(--accent-subtle);color:var(--accent)">✓</div>
+    <div class="stat-label">Tasks hoàn thành</div>
+    <div class="stat-value">34</div>
+    <div class="stat-change up">+8 tuần này</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon" style="background:var(--info-subtle);color:var(--info)">📋</div>
+    <div class="stat-label">Tasks đang chờ</div>
+    <div class="stat-value">7</div>
+  </div>
+</div>
+
+<!-- Tabs + actions -->
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px">
+  <div class="tabs">
+    <button class="tab-btn on">Alerts</button>
+    <button class="tab-btn">Tasks</button>
+    <button class="tab-btn">Quy Tắc</button>
+  </div>
+  <div style="display:flex;gap:6px">
+    <button class="btn btn-outline" style="font-size:.76rem">Đánh dấu đã đọc</button>
+    <button class="btn btn-accent" style="font-size:.76rem" onclick="openModal('ruleModal')">+ Tạo quy tắc</button>
+  </div>
+</div>
+
+<!-- Alerts -->
+<div class="alert-list mb-24">
+  <div class="alert-card unread">
+    <div class="alert-icon" style="background:var(--error-subtle);color:var(--error)">📉</div>
+    <div class="alert-body">
+      <div class="alert-title">Ranking giảm mạnh: "seo la gi" -8 vị trí</div>
+      <div class="alert-desc">Từ khóa "seo la gi" giảm từ #5 xuống #13 trên Google.com.vn. Đối thủ semrush.com đã vượt qua.</div>
+      <div class="alert-meta"><span>2 giờ trước</span><span class="tag tag-error">Quan trọng</span><span>bloghub.vn</span></div>
+    </div>
+  </div>
+  <div class="alert-card unread">
+    <div class="alert-icon" style="background:var(--accent-subtle);color:var(--accent)">🔗</div>
+    <div class="alert-body">
+      <div class="alert-title">+12 backlinks mới phát hiện</div>
+      <div class="alert-desc">12 referring domains mới trong 24h, bao gồm 3 domain DR > 50.</div>
+      <div class="alert-meta"><span>5 giờ trước</span><span class="tag tag-green">Tích cực</span><span>bloghub.vn</span></div>
+    </div>
+  </div>
+  <div class="alert-card unread">
+    <div class="alert-icon" style="background:var(--warn-subtle);color:var(--warn)">⚠</div>
+    <div class="alert-body">
+      <div class="alert-title">Core Web Vitals: LCP vượt ngưỡng trên 3 trang</div>
+      <div class="alert-desc">LCP > 4s trên /blog/seo-2026, /tools/keyword, /guides/backlink. Cần tối ưu hình ảnh.</div>
+      <div class="alert-meta"><span>8 giờ trước</span><span class="tag tag-warn">Cảnh báo</span><span>bloghub.vn</span></div>
+    </div>
+  </div>
+  <div class="alert-card">
+    <div class="alert-icon" style="background:var(--error-subtle);color:var(--error)">🔴</div>
+    <div class="alert-body">
+      <div class="alert-title">Site Audit: Health Score giảm xuống 72%</div>
+      <div class="alert-desc">Health score giảm 6% do 23 lỗi 404 mới và 5 redirect chains.</div>
+      <div class="alert-meta"><span>1 ngày trước</span><span class="tag tag-error">Quan trọng</span><span>techblog.io</span></div>
+    </div>
+  </div>
+  <div class="alert-card">
+    <div class="alert-icon" style="background:var(--info-subtle);color:var(--info)">🏆</div>
+    <div class="alert-body">
+      <div class="alert-title">Keyword mới vào Top 10: "content marketing la gi"</div>
+      <div class="alert-desc">Vị trí #7 lần đầu. Volume: 2,400/tháng.</div>
+      <div class="alert-meta"><span>1 ngày trước</span><span class="tag tag-green">Tích cực</span><span>bloghub.vn</span></div>
+    </div>
+  </div>
+  <div class="alert-card">
+    <div class="alert-icon" style="background:var(--purple-subtle);color:var(--purple)">🕷</div>
+    <div class="alert-body">
+      <div class="alert-title">Googlebot crawl tăng đột biến (+340%)</div>
+      <div class="alert-desc">Crawl rate từ 120 lên 528 pages/day. Có thể do sitemap mới submit.</div>
+      <div class="alert-meta"><span>2 ngày trước</span><span class="tag tag-info">Thông tin</span><span>bloghub.vn</span></div>
+    </div>
+  </div>
+  <div class="alert-card">
+    <div class="alert-icon" style="background:var(--error-subtle);color:var(--error)">🗑</div>
+    <div class="alert-body">
+      <div class="alert-title">Mất 4 backlinks từ domain DR > 60</div>
+      <div class="alert-desc">vnexpress.net, dantri.com.vn, tuoitre.vn, thanhnien.vn đã gỡ hoặc nofollow.</div>
+      <div class="alert-meta"><span>3 ngày trước</span><span class="tag tag-error">Quan trọng</span><span>bloghub.vn</span></div>
+    </div>
+  </div>
+  <div class="alert-card">
+    <div class="alert-icon" style="background:var(--accent-subtle);color:var(--accent)">📊</div>
+    <div class="alert-body">
+      <div class="alert-title">Organic traffic tăng 18.5% so với tuần trước</div>
+      <div class="alert-desc">Traffic organic tăng từ 38,200 lên 45,270 sessions.</div>
+      <div class="alert-meta"><span>3 ngày trước</span><span class="tag tag-green">Tích cực</span><span>bloghub.vn</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Rules & Tasks -->
+<div class="grid-2">
+  <div class="card">
+    <div class="card-head"><h3>Quy Tắc Alert</h3><button class="btn btn-outline" style="font-size:.72rem">Xem tất cả</button></div>
+    <div class="card-body" style="display:flex;flex-direction:column;gap:8px">
+      <div class="rule-card">
+        <div style="font-size:1rem">📉</div>
+        <div class="rule-info">
+          <div class="rule-name">Ranking Drop > 5 vị trí</div>
+          <div class="rule-desc">Thông báo khi keyword giảm > 5 vị trí trong 7 ngày</div>
+          <div class="rule-meta"><span class="tag tag-green" style="font-size:.6rem">Bật</span><span>Email + In-app</span></div>
+        </div>
+        <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+      </div>
+      <div class="rule-card">
+        <div style="font-size:1rem">🔗</div>
+        <div class="rule-info">
+          <div class="rule-name">Backlink mới / mất</div>
+          <div class="rule-desc">Thông báo khi có/mất backlink DR > 30</div>
+          <div class="rule-meta"><span class="tag tag-green" style="font-size:.6rem">Bật</span><span>Email</span></div>
+        </div>
+        <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+      </div>
+      <div class="rule-card">
+        <div style="font-size:1rem">⚡</div>
+        <div class="rule-info">
+          <div class="rule-name">Core Web Vitals vượt ngưỡng</div>
+          <div class="rule-desc">LCP > 2.5s, INP > 200ms, hoặc CLS > 0.1</div>
+          <div class="rule-meta"><span class="tag tag-green" style="font-size:.6rem">Bật</span><span>In-app</span></div>
+        </div>
+        <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+      </div>
+      <div class="rule-card">
+        <div style="font-size:1rem">🔴</div>
+        <div class="rule-info">
+          <div class="rule-name">Health Score giảm > 5%</div>
+          <div class="rule-desc">Thông báo khi site audit health giảm > 5%</div>
+          <div class="rule-meta"><span class="tag tag-green" style="font-size:.6rem">Bật</span><span>Email + In-app</span></div>
+        </div>
+        <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+      </div>
+      <div class="rule-card">
+        <div style="font-size:1rem">📊</div>
+        <div class="rule-info">
+          <div class="rule-name">Traffic thay đổi > 15%</div>
+          <div class="rule-desc">Organic traffic tăng/giảm > 15% so tuần trước</div>
+          <div class="rule-meta"><span class="tag tag-warn" style="font-size:.6rem">Tắt</span><span>Email</span></div>
+        </div>
+        <label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><h3>SEO Tasks</h3><button class="btn btn-outline" style="font-size:.72rem">+ Thêm task</button></div>
+    <div class="card-body" style="display:flex;flex-direction:column;gap:6px">
+      <div class="task-item"><div class="task-check done">✓</div><div class="task-text done-text">Tối ưu title tag cho 5 trang top traffic</div><span class="task-priority" style="background:var(--accent-subtle);color:var(--accent)">Thấp</span></div>
+      <div class="task-item"><div class="task-check done">✓</div><div class="task-text done-text">Submit sitemap mới lên GSC</div><span class="task-priority" style="background:var(--info-subtle);color:var(--info)">TB</span></div>
+      <div class="task-item"><div class="task-check done">✓</div><div class="task-text done-text">Fix 12 broken internal links</div><span class="task-priority" style="background:var(--error-subtle);color:var(--error)">Cao</span></div>
+      <div class="task-item"><div class="task-check"></div><div class="task-text">Thêm schema FAQ cho 8 bài guide</div><span class="task-priority" style="background:var(--warn-subtle);color:var(--warn)">TB</span></div>
+      <div class="task-item"><div class="task-check"></div><div class="task-text">Tối ưu hình ảnh (lazy load + WebP)</div><span class="task-priority" style="background:var(--error-subtle);color:var(--error)">Cao</span></div>
+      <div class="task-item"><div class="task-check"></div><div class="task-text">Viết 3 bài pillar cho cluster "SEO cơ bản"</div><span class="task-priority" style="background:var(--warn-subtle);color:var(--warn)">TB</span></div>
+      <div class="task-item"><div class="task-check"></div><div class="task-text">Outreach 20 domain cho link building T4</div><span class="task-priority" style="background:var(--info-subtle);color:var(--info)">Thấp</span></div>
+      <div class="task-item"><div class="task-check"></div><div class="task-text">Audit và redirect 23 URL lỗi 404</div><span class="task-priority" style="background:var(--error-subtle);color:var(--error)">Cao</span></div>
+      <div class="task-item"><div class="task-check"></div><div class="task-text">Cải thiện meta description 15 trang CTR thấp</div><span class="task-priority" style="background:var(--warn-subtle);color:var(--warn)">TB</span></div>
+      <div class="task-item"><div class="task-check"></div><div class="task-text">Setup GA4 event tracking cho CTA buttons</div><span class="task-priority" style="background:var(--info-subtle);color:var(--info)">Thấp</span></div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+
+<!-- Rule Modal -->
+<div class="modal-overlay" id="ruleModal" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal">
+    <div class="modal-head"><h3>Tạo Quy Tắc Alert Mới</h3><button class="modal-close" onclick="closeModal('ruleModal')" aria-label="Đóng">&times;</button></div>
+    <div class="modal-body">
+      <div class="field-group"><label class="field-label">Tên quy tắc</label><input class="input-field" placeholder="VD: Ranking giảm > 10 vị trí"></div>
+      <div class="field-group"><label class="field-label">Loại trigger</label><select class="input-field"><option>Ranking thay đổi</option><option>Backlink mới / mất</option><option>Health Score thay đổi</option><option>Core Web Vitals</option><option>Traffic thay đổi</option><option>Lỗi crawl mới</option></select></div>
+      <div class="field-group"><label class="field-label">Ngưỡng</label><input class="input-field" placeholder="VD: > 5 vị trí"></div>
+      <div class="field-group"><label class="field-label">Kênh thông báo</label><div style="display:flex;gap:12px;margin-top:4px"><label style="display:flex;align-items:center;gap:5px;font-size:.82rem;cursor:pointer"><input type="checkbox" checked> Email</label><label style="display:flex;align-items:center;gap:5px;font-size:.82rem;cursor:pointer"><input type="checkbox" checked> In-app</label><label style="display:flex;align-items:center;gap:5px;font-size:.82rem;cursor:pointer"><input type="checkbox"> Slack</label></div></div>
+      <div class="field-group"><label class="field-label">Website áp dụng</label><select class="input-field"><option>Tất cả websites</option><option>bloghub.vn</option><option>techblog.io</option><option>marketingpro.vn</option></select></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-outline" onclick="closeModal('ruleModal')">Hủy</button>
+      <button class="btn btn-accent" onclick="closeModal('ruleModal');toast('Đã tạo quy tắc alert mới!')">Tạo quy tắc</button>
+    </div>
+  </div>
+</div>
+
+<script src="shared.js"></script>
+<script>
+document.querySelectorAll('.task-check').forEach(el=>{
+  el.addEventListener('click',function(){
+    this.classList.toggle('done');
+    this.textContent=this.classList.contains('done')?'✓':'';
+    const t=this.nextElementSibling;
+    if(t)t.classList.toggle('done-text');
+  });
+});
+</script>
+<div id="toast" class="toast" role="alert"></div>
+</body></html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>BlogHub — Content Planner</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared-styles.css">
+<style>
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.cal-head{text-align:center;font-size:.68rem;font-weight:700;color:var(--text-quaternary);padding:5px 0}
+.cal-cell{aspect-ratio:1.1;border:1px solid var(--border-subtle);border-radius:var(--radius-sm);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:.76rem;cursor:pointer;position:relative;min-height:48px;transition:all .12s;user-select:none}
+.cal-cell:hover{border-color:var(--accent);background:var(--bg-hover)}
+.cal-cell .cal-day{font-weight:600}
+.cal-cell .cal-dot{width:5px;height:5px;border-radius:50%;position:absolute;bottom:3px}
+.cal-cell.today{border-color:var(--accent);background:var(--accent-subtle)}
+.cal-cell.faded{opacity:.35}
+.cal-cell.selected{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-subtle)}
+.sched-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border-subtle)}
+.sched-item:last-child{border:none}
+
+</style>
+</head>
+<body>
+<div class="app">
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-brand"><div class="logo">B</div><h1>Blog<span>Hub</span></h1></div>
+  <nav class="sidebar-nav" aria-label="Main navigation">
+    <div class="nav-group">
+      <div class="nav-group-title">Tổng quan</div>
+      <a class="nav-item " href="01-dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a>
+      <a class="nav-item " href="07-website-manager.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>Website Manager<span class="nav-badge badge-green">28</span></a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">Nội dung</div>
+      <a class="nav-item " href="14-articles.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>Quản Lý Bài Viết<span class="nav-badge badge-green">247</span></a>
+      <a class="nav-item " href="08-editor.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>Soạn & Tối Ưu</a>
+      <a class="nav-item active" href="09-content-planner.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Content Planner</a>
+      <a class="nav-item " href="10-distribute.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>Đẩy Bài<span class="nav-badge badge-warn">5</span></a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">SEO & Analytics</div>
+      <a class="nav-item " href="02-seo-dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>SEO Dashboard</a>
+      <a class="nav-item " href="03-site-audit.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>Site Audit<span class="nav-badge badge-error">17</span></a>
+      <a class="nav-item " href="04-backlinks.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>Backlinks</a>
+      <a class="nav-item " href="05-competitor.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Competitor</a>
+      <a class="nav-item " href="06-core-web-vitals.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Core Web Vitals</a>
+      <a class="nav-item " href="11-topic-clusters.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="4" r="1.5"/><circle cx="18.5" cy="8" r="1.5"/><circle cx="18.5" cy="16" r="1.5"/><circle cx="12" cy="20" r="1.5"/><circle cx="5.5" cy="16" r="1.5"/><circle cx="5.5" cy="8" r="1.5"/></svg>Topic Clusters</a>
+      <a class="nav-item " href="16-keyword-explorer.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M8 11h6M11 8v6"/></svg>Keyword Explorer</a>
+      <a class="nav-item " href="17-rank-tracker.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>Rank Tracker</a>
+      <a class="nav-item " href="18-serp-analyzer.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>SERP Analyzer</a>
+      <a class="nav-item " href="19-onpage-checker.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>On-Page Checker</a>
+      <a class="nav-item " href="20-link-building.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 7h3a5 5 0 015 5 5 5 0 01-5 5h-3m-6 0H6a5 5 0 01-5-5 5 5 0 015-5h3"/><line x1="8" y1="12" x2="16" y2="12"/></svg>Link Building</a>
+      <a class="nav-item " href="22-crawl-analysis.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>Crawl Analysis</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">Hệ thống</div>
+      <a class="nav-item " href="21-content-explorer.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>Content Explorer</a>
+      <a class="nav-item " href="23-traffic-analytics.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>Traffic Analytics</a>
+      <a class="nav-item " href="25-reports.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/></svg>Báo Cáo</a>
+      <a class="nav-item " href="12-api-settings.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 00-2 2v.18a2 2 0 01-1 1.73l-.43.25a2 2 0 01-2 0l-.15-.08a2 2 0 00-2.73.73l-.22.38a2 2 0 00.73 2.73l.15.1a2 2 0 011 1.72v.51a2 2 0 01-1 1.74l-.15.09a2 2 0 00-.73 2.73l.22.38a2 2 0 002.73.73l.15-.08a2 2 0 012 0l.43.25a2 2 0 011 1.73V20a2 2 0 002 2h.44a2 2 0 002-2v-.18a2 2 0 011-1.73l.43-.25a2 2 0 012 0l.15.08a2 2 0 002.73-.73l.22-.39a2 2 0 00-.73-2.73l-.15-.08a2 2 0 01-1-1.74v-.5a2 2 0 011-1.74l.15-.09a2 2 0 00.73-2.73l-.22-.38a2 2 0 00-2.73-.73l-.15.08a2 2 0 01-2 0l-.43-.25a2 2 0 01-1-1.73V4a2 2 0 00-2-2z"/><circle cx="12" cy="12" r="3"/></svg>API & Kết Nối</a>
+      <a class="nav-item " href="13-team-members.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Thành Viên</a>
+    </div>
+  </nav>
+  <div class="sidebar-footer"><div class="sidebar-user"><div class="avatar">A</div><div><div class="uname">Admin</div><div class="urole">Super Admin</div></div></div></div>
+</aside>
+<div class="sidebar-overlay"></div>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="topbar-left"><button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">☰</button><h2>Content Planner</h2></div>
+  <div class="topbar-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><input type="text" placeholder="Tìm bài, site, keyword..." aria-label="Tìm kiếm"><kbd>⌘K</kbd></div>
+  <div class="topbar-right">
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" title="Dark/Light">🌙</button>
+    <button class="icon-btn" aria-label="Thông báo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg><span class="dot" aria-hidden="true"></span></button>
+    <a href="08-editor.html" class="btn btn-accent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Tạo bài mới</a>
+  </div>
+</header>
+
+<main class="main">
+
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+  <div style="display:flex;align-items:center;gap:10px">
+    <h3 style="font-family:var(--font-display);font-size:1.1rem">Tháng 3 / 2026</h3>
+    <button class="btn btn-outline" style="padding:4px 10px" onclick="toast('Chuyển sang tháng 2 / 2026')">←</button>
+    <button class="btn btn-outline" style="padding:4px 10px" onclick="toast('Chuyển sang tháng 4 / 2026')">→</button>
+  </div>
+  <div style="display:flex;gap:6px">
+    <div class="tabs"><button class="tab-btn on">Month</button><button class="tab-btn">Week</button><button class="tab-btn">List</button></div>
+    <button class="btn btn-accent" onclick="openModal('schedModal')">+ Lên lịch bài mới</button>
+  </div>
+</div>
+
+<div style="display:grid;grid-template-columns:2.5fr 1fr;gap:14px">
+  <div class="card">
+    <div class="card-body">
+      <div style="font-size:.76rem;color:var(--text-tertiary);margin-bottom:8px">💡 <strong>Click phải</strong> vào ngày bất kỳ để xem tùy chọn</div>
+      <div class="cal-grid" id="calGrid">
+        <div class="cal-head">T2</div><div class="cal-head">T3</div><div class="cal-head">T4</div><div class="cal-head">T5</div><div class="cal-head">T6</div><div class="cal-head">T7</div><div class="cal-head">CN</div>
+        <div class="cal-cell faded" data-ctx data-day="24/02"><div class="cal-day">24</div></div>
+        <div class="cal-cell faded" data-ctx data-day="25/02"><div class="cal-day">25</div></div>
+        <div class="cal-cell faded" data-ctx data-day="26/02"><div class="cal-day">26</div></div>
+        <div class="cal-cell faded" data-ctx data-day="27/02"><div class="cal-day">27</div></div>
+        <div class="cal-cell faded" data-ctx data-day="28/02"><div class="cal-day">28</div></div>
+        <div class="cal-cell" data-ctx data-day="01/03"><div class="cal-day">1</div></div>
+        <div class="cal-cell" data-ctx data-day="02/03"><div class="cal-day">2</div></div>
+        <div class="cal-cell" data-ctx data-day="03/03"><div class="cal-day">3</div><div class="cal-dot" style="background:var(--accent)"></div></div>
+        <div class="cal-cell" data-ctx data-day="04/03"><div class="cal-day">4</div></div>
+        <div class="cal-cell" data-ctx data-day="05/03"><div class="cal-day">5</div><div class="cal-dot" style="background:var(--info)"></div></div>
+        <div class="cal-cell" data-ctx data-day="06/03"><div class="cal-day">6</div></div>
+        <div class="cal-cell" data-ctx data-day="07/03"><div class="cal-day">7</div><div class="cal-dot" style="background:var(--accent)"></div></div>
+        <div class="cal-cell" data-ctx data-day="08/03"><div class="cal-day">8</div></div>
+        <div class="cal-cell" data-ctx data-day="09/03"><div class="cal-day">9</div></div>
+        <div class="cal-cell" data-ctx data-day="10/03"><div class="cal-day">10</div><div class="cal-dot" style="background:var(--purple)"></div></div>
+        <div class="cal-cell" data-ctx data-day="11/03"><div class="cal-day">11</div></div>
+        <div class="cal-cell" data-ctx data-day="12/03"><div class="cal-day">12</div><div class="cal-dot" style="background:var(--accent)"></div></div>
+        <div class="cal-cell" data-ctx data-day="13/03"><div class="cal-day">13</div></div>
+        <div class="cal-cell" data-ctx data-day="14/03"><div class="cal-day">14</div><div class="cal-dot" style="background:var(--info)"></div></div>
+        <div class="cal-cell" data-ctx data-day="15/03"><div class="cal-day">15</div></div>
+        <div class="cal-cell" data-ctx data-day="16/03"><div class="cal-day">16</div></div>
+        <div class="cal-cell" data-ctx data-day="17/03"><div class="cal-day">17</div></div>
+        <div class="cal-cell" data-ctx data-day="18/03"><div class="cal-day">18</div><div class="cal-dot" style="background:var(--accent)"></div></div>
+        <div class="cal-cell" data-ctx data-day="19/03"><div class="cal-day">19</div></div>
+        <div class="cal-cell" data-ctx data-day="20/03"><div class="cal-day">20</div></div>
+        <div class="cal-cell" data-ctx data-day="21/03"><div class="cal-day">21</div><div class="cal-dot" style="background:var(--warn)"></div></div>
+        <div class="cal-cell" data-ctx data-day="22/03"><div class="cal-day">22</div></div>
+        <div class="cal-cell" data-ctx data-day="23/03"><div class="cal-day">23</div></div>
+        <div class="cal-cell today" data-ctx data-day="24/03"><div class="cal-day" style="color:var(--accent);font-weight:800">24</div><div class="cal-dot" style="background:var(--accent)"></div></div>
+        <div class="cal-cell" data-ctx data-day="25/03"><div class="cal-day">25</div></div>
+        <div class="cal-cell" data-ctx data-day="26/03"><div class="cal-day">26</div></div>
+        <div class="cal-cell" data-ctx data-day="27/03"><div class="cal-day">27</div></div>
+        <div class="cal-cell" data-ctx data-day="28/03"><div class="cal-day">28</div><div class="cal-dot" style="background:var(--info)"></div></div>
+        <div class="cal-cell" data-ctx data-day="29/03"><div class="cal-day">29</div></div>
+        <div class="cal-cell" data-ctx data-day="30/03"><div class="cal-day">30</div></div>
+        <div class="cal-cell" data-ctx data-day="31/03"><div class="cal-day">31</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-head"><h3>Sắp Xuất Bản</h3></div>
+    <div class="card-body" style="padding:8px 14px">
+      <div class="sched-item"><span class="tag tag-green" style="min-width:42px;justify-content:center">24/03</span><div style="flex:1"><div style="font-weight:600;font-size:.82rem">10 Mẹo SEO 2026</div><div style="font-size:.68rem;color:var(--text-tertiary)">techblog.vn</div></div><span class="tag tag-info">Sched</span></div>
+      <div class="sched-item"><span class="tag tag-warn" style="min-width:42px;justify-content:center">28/03</span><div style="flex:1"><div style="font-weight:600;font-size:.82rem">Cài VPS 2026</div><div style="font-size:.68rem;color:var(--text-tertiary)">techblog.vn</div></div><span class="tag tag-warn">Draft</span></div>
+      <div class="sched-item"><span class="tag tag-purple" style="min-width:42px;justify-content:center">03/04</span><div style="flex:1"><div style="font-weight:600;font-size:.82rem">iPhone 17 vs S26</div><div style="font-size:.68rem;color:var(--text-tertiary)">2 sites</div></div><span class="tag tag-purple">AI</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Context Menu -->
+<div class="ctx-menu" id="calCtx" role="menu">
+  <div class="ctx-item" onclick="hideCtx();openModal('schedModal')">📝 Lên lịch bài mới</div>
+  <div class="ctx-item" onclick="hideCtx();window.location='08-editor.html'">✏️ Soạn bài mới cho ngày này</div>
+  <div class="ctx-item" onclick="hideCtx();toast('✦ AI đang gợi ý chủ đề...')">✦ AI gợi ý chủ đề</div>
+  <div class="ctx-divider"></div>
+  <div class="ctx-item" onclick="hideCtx();toast('Xem bài viết ngày này')">📋 Xem bài đã lên lịch</div>
+  <div class="ctx-divider"></div>
+  <div class="ctx-item danger" onclick="hideCtx();toast('Đã xóa lịch ngày này','error')">🗑 Xóa lịch ngày này</div>
+</div>
+
+<!-- Schedule Modal -->
+<div class="modal-overlay" id="schedModal" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal" style="max-width:500px">
+    <div class="modal-head"><h3>📅 Lên Lịch Bài Viết</h3><button class="modal-close" aria-label="Đóng" onclick="closeModal('schedModal')">✕</button></div>
+    <div class="modal-body">
+      <div class="field-group"><label class="field-label">Tiêu đề bài viết</label><input class="input-field" placeholder="Nhập tiêu đề..." id="schedTitle"></div>
+      <div class="field-group"><label class="field-label">Ngày xuất bản</label><input type="date" class="input-field" id="schedDate" value="2026-03-25"></div>
+      <div class="field-group"><label class="field-label">Giờ xuất bản</label><input type="time" class="input-field" value="08:00"></div>
+      <div class="field-group"><label class="field-label">Website đích</label>
+        <select class="input-field"><option>techblog.vn</option><option>financehub.vn</option><option>blog.digimart.vn</option><option>healthlife.vn</option></select>
+      </div>
+      <div class="field-group"><label class="field-label">Trạng thái</label>
+        <select class="input-field"><option>Draft — Soạn sau</option><option>Scheduled — Đã có nội dung</option><option>AI Draft — AI soạn tự động</option></select>
+      </div>
+      <div class="field-group"><label class="field-label">Ghi chú</label><textarea class="input-field" rows="2" placeholder="Ghi chú thêm..."></textarea></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-outline" onclick="closeModal('schedModal')">Hủy</button>
+      <button class="btn btn-accent btn-lg" onclick="closeModal('schedModal');toast('✓ Đã lên lịch bài viết!')">Lưu Lịch</button>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+<div id="toast" class="toast"></div>
+<script src="shared.js"></script>
+<script>
+// Calendar right-click context menu
+let selectedDay='';
+document.querySelectorAll('.cal-cell[data-ctx]').forEach(cell=>{
+  cell.addEventListener('contextmenu',e=>{
+    e.preventDefault();
+    hideCtx();
+    selectedDay=cell.dataset.day||'';
+    const ctx=document.getElementById('calCtx');
+    ctx.style.left=Math.min(e.clientX,window.innerWidth-220)+'px';
+    ctx.style.top=Math.min(e.clientY,window.innerHeight-250)+'px';
+    ctx.classList.add('show');
+    activeCtx=ctx;
+    // highlight
+    document.querySelectorAll('.cal-cell.selected').forEach(c=>c.classList.remove('selected'));
+    cell.classList.add('selected');
+  });
+  cell.addEventListener('click',()=>{
+    var parts=cell.dataset.day.split('/');document.getElementById('schedDate').value='2026-'+parts[1]+'-'+parts[0];
+    openModal('schedModal');
+  });
+});
+
+</script>
+</body></html>

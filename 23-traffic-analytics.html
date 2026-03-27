@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>BlogHub — Traffic Analytics</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared-styles.css">
+<style>
+.area-chart{width:100%;height:220px;position:relative;overflow:hidden;border-radius:var(--radius-md)}
+.area-chart svg{width:100%;height:100%}
+.chart-grid-line{stroke:var(--border-subtle);stroke-dasharray:4 4}
+.chart-line-clicks{fill:none;stroke:var(--accent);stroke-width:2.5}
+.chart-line-impressions{fill:none;stroke:var(--info);stroke-width:2;opacity:.6}
+.chart-area-clicks{fill:url(#gradClicks)}
+.chart-area-impressions{fill:url(#gradImpressions)}
+.chart-labels{display:flex;justify-content:space-between;padding:6px 4px 0;font-size:.62rem;color:var(--text-quaternary);font-family:var(--font-mono)}
+.chart-legend{display:flex;gap:16px;margin-bottom:8px}
+.chart-legend span{display:flex;align-items:center;gap:5px;font-size:.72rem;color:var(--text-secondary)}
+.chart-legend span::before{content:'';width:12px;height:3px;border-radius:2px;flex-shrink:0}
+.legend-clicks::before{background:var(--accent)}.legend-imp::before{background:var(--info)}
+.donut-wrap{display:flex;align-items:center;justify-content:center;gap:24px;padding:12px 0}
+.donut-legend{display:flex;flex-direction:column;gap:8px}
+.donut-item{display:flex;align-items:center;gap:8px;font-size:.8rem}
+.donut-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+.donut-val{font-family:var(--font-mono);font-weight:700;min-width:36px}
+</style>
+</head>
+<body>
+<div class="app">
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-brand"><div class="logo">B</div><h1>Blog<span>Hub</span></h1></div>
+  <nav class="sidebar-nav">
+    <div class="nav-group">
+      <div class="nav-group-title">Tổng quan</div>
+      <a class="nav-item " href="01-dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a>
+      <a class="nav-item " href="07-website-manager.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>Website Manager<span class="nav-badge badge-green">28</span></a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">Nội dung</div>
+      <a class="nav-item " href="14-articles.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>Quản Lý Bài Viết<span class="nav-badge badge-green">247</span></a>
+      <a class="nav-item " href="08-editor.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>Soạn & Tối Ưu</a>
+      <a class="nav-item " href="09-content-planner.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Content Planner</a>
+      <a class="nav-item " href="10-distribute.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>Đẩy Bài<span class="nav-badge badge-warn">5</span></a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">SEO & Analytics</div>
+      <a class="nav-item " href="02-seo-dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>SEO Dashboard</a>
+      <a class="nav-item " href="03-site-audit.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>Site Audit<span class="nav-badge badge-error">17</span></a>
+      <a class="nav-item " href="04-backlinks.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>Backlinks</a>
+      <a class="nav-item " href="05-competitor.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Competitor</a>
+      <a class="nav-item " href="06-core-web-vitals.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Core Web Vitals</a>
+      <a class="nav-item " href="11-topic-clusters.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="4" r="1.5"/><circle cx="18.5" cy="8" r="1.5"/><circle cx="18.5" cy="16" r="1.5"/><circle cx="12" cy="20" r="1.5"/><circle cx="5.5" cy="16" r="1.5"/><circle cx="5.5" cy="8" r="1.5"/></svg>Topic Clusters</a>
+      <a class="nav-item " href="16-keyword-explorer.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M8 11h6M11 8v6"/></svg>Keyword Explorer</a>
+      <a class="nav-item " href="17-rank-tracker.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>Rank Tracker</a>
+      <a class="nav-item " href="18-serp-analyzer.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>SERP Analyzer</a>
+      <a class="nav-item " href="19-onpage-checker.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>On-Page Checker</a>
+      <a class="nav-item " href="20-link-building.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 7h3a5 5 0 015 5 5 5 0 01-5 5h-3m-6 0H6a5 5 0 01-5-5 5 5 0 015-5h3"/><line x1="8" y1="12" x2="16" y2="12"/></svg>Link Building</a>
+      <a class="nav-item " href="22-crawl-analysis.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>Crawl Analysis</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">Hệ thống</div>
+      <a class="nav-item " href="21-content-explorer.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>Content Explorer</a>
+      <a class="nav-item active" href="23-traffic-analytics.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>Traffic Analytics</a>
+      <a class="nav-item " href="25-reports.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/></svg>Báo Cáo</a>
+      <a class="nav-item " href="12-api-settings.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 00-2 2v.18a2 2 0 01-1 1.73l-.43.25a2 2 0 01-2 0l-.15-.08a2 2 0 00-2.73.73l-.22.38a2 2 0 00.73 2.73l.15.1a2 2 0 011 1.72v.51a2 2 0 01-1 1.74l-.15.09a2 2 0 00-.73 2.73l.22.38a2 2 0 002.73.73l.15-.08a2 2 0 012 0l.43.25a2 2 0 011 1.73V20a2 2 0 002 2h.44a2 2 0 002-2v-.18a2 2 0 011-1.73l.43-.25a2 2 0 012 0l.15.08a2 2 0 002.73-.73l.22-.39a2 2 0 00-.73-2.73l-.15-.08a2 2 0 01-1-1.74v-.5a2 2 0 011-1.74l.15-.09a2 2 0 00.73-2.73l-.22-.38a2 2 0 00-2.73-.73l-.15.08a2 2 0 01-2 0l-.43-.25a2 2 0 01-1-1.73V4a2 2 0 00-2-2z"/><circle cx="12" cy="12" r="3"/></svg>API & Kết Nối</a>
+      <a class="nav-item " href="13-team-members.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Thành Viên</a>
+    </div>
+  </nav>
+  <div class="sidebar-footer"><div class="sidebar-user"><div class="avatar">A</div><div><div class="uname">Admin</div><div class="urole">Super Admin</div></div></div></div>
+</aside>
+<div class="sidebar-overlay"></div>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="topbar-left"><button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button><h2>Traffic Analytics</h2></div>
+  <div class="topbar-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><input type="text" placeholder="Tìm bài, site, keyword..." aria-label="Tìm kiếm"><kbd>⌘K</kbd></div>
+  <div class="topbar-right">
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" title="Dark/Light">🌙</button>
+    <button class="icon-btn" aria-label="Thông báo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg><div class="dot"></div></button>
+    <a href="08-editor.html" class="btn btn-accent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Tạo bài mới</a>
+  </div>
+</header>
+
+<main class="main">
+
+<div class="stats-grid stats-5">
+  <div class="stat-card"><div class="stat-icon" style="background:var(--accent-subtle);color:var(--accent)">📈</div><div class="stat-label">Organic Traffic</div><div class="stat-value">45,230</div><div class="stat-change up">↑ +12.3%</div></div>
+  <div class="stat-card"><div class="stat-icon" style="background:var(--info-subtle);color:var(--info)">👁</div><div class="stat-label">Impressions</div><div class="stat-value">892,400</div></div>
+  <div class="stat-card"><div class="stat-icon" style="background:var(--purple-subtle);color:var(--purple)">🎯</div><div class="stat-label">Avg CTR</div><div class="stat-value">5.07%</div></div>
+  <div class="stat-card"><div class="stat-icon" style="background:var(--warn-subtle);color:var(--warn)">📊</div><div class="stat-label">Avg Position</div><div class="stat-value">18.4</div></div>
+  <div class="stat-card"><div class="stat-icon" style="background:var(--accent-subtle);color:var(--accent)">👆</div><div class="stat-label">Clicks</div><div class="stat-value">45,230</div></div>
+</div>
+
+<div class="tabs mb-20">
+  <button class="tab-btn on">Tổng quan</button>
+  <button class="tab-btn">Trang</button>
+  <button class="tab-btn">Truy vấn</button>
+  <button class="tab-btn">Quốc gia</button>
+  <button class="tab-btn">Thiết bị</button>
+</div>
+
+<div class="card mb-16">
+  <div class="card-head"><h3>Xu hướng Traffic</h3><div class="chart-legend"><span class="legend-clicks">Clicks</span><span class="legend-imp">Impressions</span></div></div>
+  <div class="card-body">
+    <div class="area-chart">
+      <svg viewBox="0 0 600 200" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="gradClicks" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="var(--accent)" stop-opacity=".3"/><stop offset="100%" stop-color="var(--accent)" stop-opacity="0"/></linearGradient>
+          <linearGradient id="gradImpressions" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="var(--info)" stop-opacity=".15"/><stop offset="100%" stop-color="var(--info)" stop-opacity="0"/></linearGradient>
+        </defs>
+        <line x1="0" y1="50" x2="600" y2="50" class="chart-grid-line"/>
+        <line x1="0" y1="100" x2="600" y2="100" class="chart-grid-line"/>
+        <line x1="0" y1="150" x2="600" y2="150" class="chart-grid-line"/>
+        <path d="M0,120 L20,115 L40,110 L60,118 L80,105 L100,100 L120,95 L140,102 L160,90 L180,85 L200,92 L220,80 L240,75 L260,82 L280,70 L300,65 L320,72 L340,60 L360,55 L380,62 L400,50 L420,45 L440,52 L460,40 L480,35 L500,42 L520,30 L540,25 L560,32 L580,20 L600,15 L600,200 L0,200Z" class="chart-area-impressions"/>
+        <path d="M0,120 L20,115 L40,110 L60,118 L80,105 L100,100 L120,95 L140,102 L160,90 L180,85 L200,92 L220,80 L240,75 L260,82 L280,70 L300,65 L320,72 L340,60 L360,55 L380,62 L400,50 L420,45 L440,52 L460,40 L480,35 L500,42 L520,30 L540,25 L560,32 L580,20 L600,15" class="chart-line-impressions"/>
+        <path d="M0,160 L20,155 L40,152 L60,158 L80,148 L100,142 L120,138 L140,145 L160,135 L180,130 L200,136 L220,125 L240,120 L260,128 L280,115 L300,110 L320,118 L340,105 L360,100 L380,108 L400,95 L420,88 L440,96 L460,82 L480,75 L500,84 L520,70 L540,65 L560,72 L580,58 L600,52 L600,200 L0,200Z" class="chart-area-clicks"/>
+        <path d="M0,160 L20,155 L40,152 L60,158 L80,148 L100,142 L120,138 L140,145 L160,135 L180,130 L200,136 L220,125 L240,120 L260,128 L280,115 L300,110 L320,118 L340,105 L360,100 L380,108 L400,95 L420,88 L440,96 L460,82 L480,75 L500,84 L520,70 L540,65 L560,72 L580,58 L600,52" class="chart-line-clicks"/>
+      </svg>
+    </div>
+    <div class="chart-labels">
+      <span>25/02</span><span>01/03</span><span>05/03</span><span>09/03</span><span>13/03</span><span>17/03</span><span>21/03</span><span>25/03</span>
+    </div>
+  </div>
+</div>
+
+<div class="grid-2 mb-16">
+  <div class="card">
+    <div class="card-head"><h3>Top Trang</h3><span class="tag tag-info">8 trang</span></div>
+    <div class="card-body" style="padding:8px 16px">
+      <div class="tbl-wrap"><table class="tbl">
+        <thead><tr><th>URL</th><th>Clicks</th><th>Impressions</th><th>CTR</th><th>Position</th></tr></thead>
+        <tbody>
+          <tr><td class="mono" style="color:var(--info);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">/blog/seo-2026-guide</td><td class="mono">4,231</td><td class="mono">89,234</td><td class="mono">4.74%</td><td class="mono">5.2</td></tr>
+          <tr><td class="mono" style="color:var(--info);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">/blog/keyword-research</td><td class="mono">3,847</td><td class="mono">76,543</td><td class="mono">5.03%</td><td class="mono">6.4</td></tr>
+          <tr><td class="mono" style="color:var(--info);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">/blog/core-web-vitals</td><td class="mono">2,956</td><td class="mono">62,187</td><td class="mono">4.75%</td><td class="mono">11.7</td></tr>
+          <tr><td class="mono" style="color:var(--info);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">/blog/onpage-checklist</td><td class="mono">2,678</td><td class="mono">54,892</td><td class="mono">4.88%</td><td class="mono">9.3</td></tr>
+          <tr><td class="mono" style="color:var(--info);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">/blog/content-marketing</td><td class="mono">2,341</td><td class="mono">48,123</td><td class="mono">4.86%</td><td class="mono">14.2</td></tr>
+          <tr><td class="mono" style="color:var(--info);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">/blog/backlink-guide</td><td class="mono">1,987</td><td class="mono">41,876</td><td class="mono">4.75%</td><td class="mono">12.8</td></tr>
+          <tr><td class="mono" style="color:var(--info);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">/blog/technical-seo</td><td class="mono">1,654</td><td class="mono">35,234</td><td class="mono">4.69%</td><td class="mono">16.5</td></tr>
+          <tr><td class="mono" style="color:var(--info);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">/blog/local-seo-vn</td><td class="mono">1,423</td><td class="mono">29,876</td><td class="mono">4.76%</td><td class="mono">7.9</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-head"><h3>Top Truy vấn</h3><span class="tag tag-purple">8 queries</span></div>
+    <div class="card-body" style="padding:8px 16px">
+      <div class="tbl-wrap"><table class="tbl">
+        <thead><tr><th>Query</th><th>Clicks</th><th>Impressions</th><th>CTR</th><th>Position</th></tr></thead>
+        <tbody>
+          <tr><td style="font-weight:600">seo 2026</td><td class="mono">3,421</td><td class="mono">89,000</td><td class="mono">3.84%</td><td class="mono">4.1</td></tr>
+          <tr><td style="font-weight:600">keyword research tool</td><td class="mono">2,187</td><td class="mono">67,200</td><td class="mono">3.25%</td><td class="mono">7.3</td></tr>
+          <tr><td style="font-weight:600">core web vitals la gi</td><td class="mono">1,876</td><td class="mono">54,100</td><td class="mono">3.47%</td><td class="mono">5.8</td></tr>
+          <tr><td style="font-weight:600">on page seo checklist</td><td class="mono">1,543</td><td class="mono">42,300</td><td class="mono">3.65%</td><td class="mono">8.2</td></tr>
+          <tr><td style="font-weight:600">backlink building</td><td class="mono">1,234</td><td class="mono">38,700</td><td class="mono">3.19%</td><td class="mono">12.4</td></tr>
+          <tr><td style="font-weight:600">content marketing strategy</td><td class="mono">1,102</td><td class="mono">34,200</td><td class="mono">3.22%</td><td class="mono">15.1</td></tr>
+          <tr><td style="font-weight:600">technical seo audit</td><td class="mono">987</td><td class="mono">28,400</td><td class="mono">3.47%</td><td class="mono">9.6</td></tr>
+          <tr><td style="font-weight:600">local seo vietnam</td><td class="mono">845</td><td class="mono">22,100</td><td class="mono">3.82%</td><td class="mono">6.7</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </div>
+</div>
+
+<div class="grid-2">
+  <div class="card">
+    <div class="card-head"><h3>Thiết bị</h3></div>
+    <div class="card-body">
+      <div class="donut-wrap">
+        <svg width="140" height="140" viewBox="0 0 140 140">
+          <circle cx="70" cy="70" r="56" fill="none" stroke="var(--bg-elevated)" stroke-width="20"/>
+          <circle cx="70" cy="70" r="56" fill="none" stroke="var(--info)" stroke-width="20" stroke-dasharray="218.3 133.4" stroke-dashoffset="0" transform="rotate(-90 70 70)"/>
+          <circle cx="70" cy="70" r="56" fill="none" stroke="var(--accent)" stroke-width="20" stroke-dasharray="123.2 228.5" stroke-dashoffset="-218.3" transform="rotate(-90 70 70)"/>
+          <circle cx="70" cy="70" r="56" fill="none" stroke="var(--purple)" stroke-width="20" stroke-dasharray="10.6 341.2" stroke-dashoffset="-341.5" transform="rotate(-90 70 70)"/>
+          <text x="70" y="66" text-anchor="middle" fill="var(--text-primary)" font-size="18" font-weight="700" font-family="var(--font-display)">62%</text>
+          <text x="70" y="82" text-anchor="middle" fill="var(--text-tertiary)" font-size="9">Desktop</text>
+        </svg>
+        <div class="donut-legend">
+          <div class="donut-item"><div class="donut-dot" style="background:var(--info)"></div><span>Desktop</span><span class="donut-val">62%</span></div>
+          <div class="donut-item"><div class="donut-dot" style="background:var(--accent)"></div><span>Mobile</span><span class="donut-val">35%</span></div>
+          <div class="donut-item"><div class="donut-dot" style="background:var(--purple)"></div><span>Tablet</span><span class="donut-val">3%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-head"><h3>Quốc gia</h3></div>
+    <div class="card-body" style="padding:8px 16px">
+      <div class="tbl-wrap"><table class="tbl">
+        <thead><tr><th>Quốc gia</th><th>Clicks</th><th>Impressions</th><th>CTR</th></tr></thead>
+        <tbody>
+          <tr><td>🇻🇳 Việt Nam</td><td class="mono">32,456</td><td class="mono">624,000</td><td class="mono" style="color:var(--accent)">5.20%</td></tr>
+          <tr><td>🇺🇸 United States</td><td class="mono">5,234</td><td class="mono">112,300</td><td class="mono">4.66%</td></tr>
+          <tr><td>🇯🇵 Japan</td><td class="mono">2,876</td><td class="mono">58,400</td><td class="mono">4.92%</td></tr>
+          <tr><td>🇸🇬 Singapore</td><td class="mono">1,987</td><td class="mono">42,100</td><td class="mono">4.72%</td></tr>
+          <tr><td>🇹🇭 Thailand</td><td class="mono">1,432</td><td class="mono">32,800</td><td class="mono">4.37%</td></tr>
+          <tr><td>🇦🇺 Australia</td><td class="mono">1,245</td><td class="mono">22,800</td><td class="mono" style="color:var(--accent)">5.46%</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+<div id="toast" class="toast"></div>
+<script src="shared.js"></script>
+</body></html>

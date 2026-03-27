@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>BlogHub — SEO Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared-styles.css">
+</head>
+<body>
+<div class="app">
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-brand"><div class="logo">B</div><h1>Blog<span>Hub</span></h1></div>
+  <nav class="sidebar-nav" aria-label="Main navigation">
+    <div class="nav-group">
+      <div class="nav-group-title">Tổng quan</div>
+      <a class="nav-item " href="01-dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a>
+      <a class="nav-item " href="07-website-manager.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>Website Manager<span class="nav-badge badge-green">28</span></a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">Nội dung</div>
+      <a class="nav-item " href="14-articles.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>Quản Lý Bài Viết<span class="nav-badge badge-green">247</span></a>
+      <a class="nav-item " href="08-editor.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>Soạn & Tối Ưu</a>
+      <a class="nav-item " href="09-content-planner.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Content Planner</a>
+      <a class="nav-item " href="10-distribute.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>Đẩy Bài<span class="nav-badge badge-warn">5</span></a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">SEO & Analytics</div>
+      <a class="nav-item active" href="02-seo-dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>SEO Dashboard</a>
+      <a class="nav-item " href="03-site-audit.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>Site Audit<span class="nav-badge badge-error">17</span></a>
+      <a class="nav-item " href="04-backlinks.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>Backlinks</a>
+      <a class="nav-item " href="05-competitor.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Competitor</a>
+      <a class="nav-item " href="06-core-web-vitals.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Core Web Vitals</a>
+      <a class="nav-item " href="11-topic-clusters.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="4" r="1.5"/><circle cx="18.5" cy="8" r="1.5"/><circle cx="18.5" cy="16" r="1.5"/><circle cx="12" cy="20" r="1.5"/><circle cx="5.5" cy="16" r="1.5"/><circle cx="5.5" cy="8" r="1.5"/></svg>Topic Clusters</a>
+      <a class="nav-item " href="16-keyword-explorer.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M8 11h6M11 8v6"/></svg>Keyword Explorer</a>
+      <a class="nav-item " href="17-rank-tracker.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>Rank Tracker</a>
+      <a class="nav-item " href="18-serp-analyzer.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>SERP Analyzer</a>
+      <a class="nav-item " href="19-onpage-checker.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>On-Page Checker</a>
+      <a class="nav-item " href="20-link-building.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 7h3a5 5 0 015 5 5 5 0 01-5 5h-3m-6 0H6a5 5 0 01-5-5 5 5 0 015-5h3"/><line x1="8" y1="12" x2="16" y2="12"/></svg>Link Building</a>
+      <a class="nav-item " href="22-crawl-analysis.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>Crawl Analysis</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">Hệ thống</div>
+      <a class="nav-item " href="21-content-explorer.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>Content Explorer</a>
+      <a class="nav-item " href="23-traffic-analytics.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>Traffic Analytics</a>
+      <a class="nav-item " href="25-reports.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/></svg>Báo Cáo</a>
+      <a class="nav-item " href="12-api-settings.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 00-2 2v.18a2 2 0 01-1 1.73l-.43.25a2 2 0 01-2 0l-.15-.08a2 2 0 00-2.73.73l-.22.38a2 2 0 00.73 2.73l.15.1a2 2 0 011 1.72v.51a2 2 0 01-1 1.74l-.15.09a2 2 0 00-.73 2.73l.22.38a2 2 0 002.73.73l.15-.08a2 2 0 012 0l.43.25a2 2 0 011 1.73V20a2 2 0 002 2h.44a2 2 0 002-2v-.18a2 2 0 011-1.73l.43-.25a2 2 0 012 0l.15.08a2 2 0 002.73-.73l.22-.39a2 2 0 00-.73-2.73l-.15-.08a2 2 0 01-1-1.74v-.5a2 2 0 011-1.74l.15-.09a2 2 0 00.73-2.73l-.22-.38a2 2 0 00-2.73-.73l-.15.08a2 2 0 01-2 0l-.43-.25a2 2 0 01-1-1.73V4a2 2 0 00-2-2z"/><circle cx="12" cy="12" r="3"/></svg>API & Kết Nối</a>
+      <a class="nav-item " href="13-team-members.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Thành Viên</a>
+    </div>
+  </nav>
+  <div class="sidebar-footer"><div class="sidebar-user"><div class="avatar">A</div><div><div class="uname">Admin</div><div class="urole">Super Admin</div></div></div></div>
+</aside>
+<div class="sidebar-overlay"></div>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="topbar-left"><button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button><h2>SEO Dashboard</h2></div>
+  <div class="topbar-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><input type="text" placeholder="Tìm bài, site, keyword..." aria-label="Tìm kiếm"><kbd>⌘K</kbd></div>
+  <div class="topbar-right">
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" title="Dark/Light">🌙</button>
+    <button class="icon-btn" aria-label="Thông báo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg><span class="dot" aria-hidden="true"></span></button>
+    <a href="08-editor.html" class="btn btn-accent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Tạo bài mới</a>
+  </div>
+</header>
+
+<main class="main">
+<div class="stats-grid stats-4"><div class="stat-card"><div class="stat-label">SEO Score TB</div><div class="stat-value" style="color:var(--accent)">78<span style="font-size:.85rem;color:var(--text-tertiary)">/100</span></div><div class="stat-change up">↑ +5</div></div><div class="stat-card"><div class="stat-label">Keyword Top 3</div><div class="stat-value">42</div><div class="stat-change up">↑ +8</div></div><div class="stat-card"><div class="stat-label">Trang Index</div><div class="stat-value">2,891</div><div class="stat-change up">↑ +156</div></div><div class="stat-card"><div class="stat-label">Lỗi</div><div class="stat-value" style="color:var(--error)">17</div><div class="stat-change down">↓ +3</div></div></div>
+<div class="grid-2 mb-24"><div class="card"><div class="card-head"><h3>Keyword Rankings</h3><button class="btn btn-ai" onclick="toast('✦ AI đang phân tích keywords...')">✦ AI Gợi Ý</button></div><div class="card-body"><table class="tbl"><thead><tr><th>Keyword</th><th>Pos</th><th>Vol</th><th>KD</th><th>Trend</th><th>Intent</th></tr></thead><tbody>
+<tr><td style="font-weight:600">mua laptop giá rẻ</td><td class="mono" style="color:var(--accent);font-weight:700">#2</td><td class="mono">12.4K</td><td class="mono">45</td><td><div class="mini-bars"><span style="height:30%"></span><span style="height:50%"></span><span style="height:70%"></span><span style="height:90%"></span><span style="height:85%"></span></div></td><td><span class="tag tag-purple">Commercial</span></td></tr>
+<tr><td style="font-weight:600">review điện thoại 2026</td><td class="mono" style="color:var(--accent);font-weight:700">#1</td><td class="mono">8.2K</td><td class="mono">38</td><td><div class="mini-bars"><span style="height:60%"></span><span style="height:75%"></span><span style="height:95%"></span><span style="height:100%"></span></div></td><td><span class="tag tag-info">Info</span></td></tr>
+<tr><td style="font-weight:600">cách kiếm tiền online</td><td class="mono" style="color:var(--warn)">#7</td><td class="mono">22.1K</td><td class="mono">72</td><td><div class="mini-bars"><span style="height:80%"></span><span style="height:60%"></span><span style="height:50%"></span><span style="height:40%"></span></div></td><td><span class="tag tag-info">Info</span></td></tr>
+<tr><td style="font-weight:600">hosting tốt nhất VN</td><td class="mono" style="color:var(--warn)">#5</td><td class="mono">6.5K</td><td class="mono">51</td><td><div class="mini-bars"><span style="height:55%"></span><span style="height:58%"></span><span style="height:62%"></span><span style="height:60%"></span></div></td><td><span class="tag tag-purple">Commercial</span></td></tr>
+</tbody></table></div></div>
+<div class="card"><div class="card-head"><h3>SEO Health</h3></div><div class="card-body" style="text-align:center"><svg viewBox="0 0 120 120" width="130" height="130"><circle cx="60" cy="60" r="50" fill="none" stroke="var(--bg-elevated)" stroke-width="8"/><circle cx="60" cy="60" r="50" fill="none" stroke="var(--accent)" stroke-width="8" stroke-dasharray="314" stroke-dashoffset="69" stroke-linecap="round" transform="rotate(-90 60 60)"><animate attributeName="stroke-dashoffset" from="314" to="69" dur=".8s" fill="freeze"/></circle><text x="60" y="56" text-anchor="middle" font-family="var(--font-display)" font-size="26" fill="var(--text-primary)">78</text><text x="60" y="72" text-anchor="middle" font-size="10" fill="var(--text-tertiary)">/100</text></svg>
+<div class="grid-2" style="margin-top:14px;gap:6px"><div class="audit-row"><span style="width:7px;height:7px;border-radius:50%;background:var(--accent)"></span>Performance <span class="mono" style="margin-left:auto;color:var(--accent)">85</span></div><div class="audit-row"><span style="width:7px;height:7px;border-radius:50%;background:var(--info)"></span>Accessibility <span class="mono" style="margin-left:auto;color:var(--info)">72</span></div><div class="audit-row"><span style="width:7px;height:7px;border-radius:50%;background:var(--warn)"></span>Best Practices <span class="mono" style="margin-left:auto;color:var(--warn)">80</span></div><div class="audit-row"><span style="width:7px;height:7px;border-radius:50%;background:var(--purple)"></span>SEO <span class="mono" style="margin-left:auto;color:var(--purple)">75</span></div></div></div></div></div>
+<div class="card"><div class="card-head"><h3>Topic Clusters</h3><a href="11-topic-clusters.html" class="btn btn-outline" style="font-size:.72rem">Chi tiết →</a></div><div class="card-body"><div style="display:flex;gap:10px;flex-wrap:wrap">
+<div style="background:var(--accent-subtle);border:1px solid var(--accent-border);border-radius:var(--radius-lg);padding:12px 14px;min-width:170px"><div style="font-weight:700;font-size:.84rem;margin-bottom:3px">Laptop & PC</div><div style="font-size:.7rem;color:var(--text-tertiary)">Pillar + 12</div><div class="progress" style="margin-top:7px"><div class="progress-fill" style="width:85%;background:var(--accent)"></div></div><div style="font-size:.65rem;color:var(--text-tertiary);margin-top:3px">85%</div></div>
+<div style="background:var(--info-subtle);border:1px solid var(--info-border);border-radius:var(--radius-lg);padding:12px 14px;min-width:170px"><div style="font-weight:700;font-size:.84rem;margin-bottom:3px">Hosting</div><div style="font-size:.7rem;color:var(--text-tertiary)">Pillar + 8</div><div class="progress" style="margin-top:7px"><div class="progress-fill" style="width:60%;background:var(--info)"></div></div><div style="font-size:.65rem;color:var(--text-tertiary);margin-top:3px">60%</div></div>
+<div style="background:var(--purple-subtle);border:1px solid rgba(139,92,246,.2);border-radius:var(--radius-lg);padding:12px 14px;min-width:170px"><div style="font-weight:700;font-size:.84rem;margin-bottom:3px">Kiếm Tiền</div><div style="font-size:.7rem;color:var(--text-tertiary)">Pillar + 15</div><div class="progress" style="margin-top:7px"><div class="progress-fill" style="width:42%;background:var(--purple)"></div></div><div style="font-size:.65rem;color:var(--text-tertiary);margin-top:3px">42%</div></div>
+</div></div></div>
+</main>
+</div>
+<div id="toast" class="toast"></div>
+<script src="shared.js"></script>
+</body></html>

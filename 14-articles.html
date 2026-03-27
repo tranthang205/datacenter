@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>BlogHub — Quản Lý Bài Viết</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared-styles.css">
+<style>
+/* ARTICLE TABLE */
+.art-toolbar{display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.art-toolbar .search-box{display:flex;align-items:center;gap:6px;background:var(--bg-elevated);border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:6px 10px;width:260px}
+.art-toolbar .search-box input{background:none;border:none;outline:none;color:var(--text-primary);font-size:.82rem;width:100%;font-family:var(--font-body)}
+.art-toolbar .search-box input::placeholder{color:var(--text-quaternary)}
+.filter-select{background:var(--bg-elevated);border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:6px 10px;color:var(--text-primary);font-size:.8rem;font-family:var(--font-body);outline:none;cursor:pointer}
+.filter-select:focus{border-color:var(--accent)}
+
+.art-table{width:100%;border-collapse:collapse}
+.art-table thead th{text-align:left;font-size:.66rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-quaternary);padding:8px 6px;font-weight:700;border-bottom:1px solid var(--border-subtle);white-space:nowrap}
+.art-table thead th:first-child{width:30px}
+.art-table tbody tr{transition:background .1s;cursor:pointer}
+.art-table tbody tr:hover{background:var(--bg-hover)}
+.art-table td{padding:10px 6px;border-bottom:1px solid var(--border-subtle);font-size:.82rem;vertical-align:middle}
+.art-table td:first-child{width:30px}
+.art-title{font-weight:600;color:var(--text-primary);display:block;margin-bottom:2px}
+.art-slug{font-size:.7rem;color:var(--text-quaternary);font-family:var(--font-mono)}
+.art-sites{display:flex;gap:3px;flex-wrap:wrap}
+.art-site-badge{padding:1px 6px;border-radius:10px;font-size:.62rem;font-weight:600;background:var(--bg-elevated);color:var(--text-secondary);border:1px solid var(--border-subtle)}
+.art-site-badge.pushed{background:var(--accent-subtle);color:var(--accent);border-color:var(--accent-border)}
+.art-site-badge.failed{background:var(--error-subtle);color:var(--error);border-color:var(--error-border)}
+.art-site-badge.pending{background:var(--warn-subtle);color:var(--warn);border-color:var(--warn-border)}
+
+.bulk-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--accent-subtle);border:1px solid var(--accent-border);border-radius:var(--radius-md);margin-bottom:12px;font-size:.84rem;display:none}
+.bulk-bar.show{display:flex}
+.bulk-bar .count{font-weight:700;color:var(--accent)}
+
+.pagination{display:flex;align-items:center;justify-content:center;gap:4px;margin-top:16px}
+.pagination .page{width:32px;height:32px;border-radius:var(--radius-sm);border:1px solid var(--border-subtle);display:flex;align-items:center;justify-content:center;font-size:.8rem;cursor:pointer;transition:all .12s;background:var(--bg-surface)}
+.pagination .page:hover{border-color:var(--border-hover);background:var(--bg-hover)}
+.pagination .page.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+</style>
+</head>
+<body>
+<div class="app">
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-brand"><div class="logo">B</div><h1>Blog<span>Hub</span></h1></div>
+  <nav class="sidebar-nav" aria-label="Main navigation">
+    <div class="nav-group">
+      <div class="nav-group-title">Tổng quan</div>
+      <a class="nav-item " href="01-dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a>
+      <a class="nav-item " href="07-website-manager.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>Website Manager<span class="nav-badge badge-green">28</span></a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">Nội dung</div>
+      <a class="nav-item active" href="14-articles.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>Quản Lý Bài Viết<span class="nav-badge badge-green">247</span></a>
+      <a class="nav-item " href="08-editor.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>Soạn & Tối Ưu</a>
+      <a class="nav-item " href="09-content-planner.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Content Planner</a>
+      <a class="nav-item " href="10-distribute.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>Đẩy Bài<span class="nav-badge badge-warn">5</span></a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">SEO & Analytics</div>
+      <a class="nav-item " href="02-seo-dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>SEO Dashboard</a>
+      <a class="nav-item " href="03-site-audit.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>Site Audit<span class="nav-badge badge-error">17</span></a>
+      <a class="nav-item " href="04-backlinks.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>Backlinks</a>
+      <a class="nav-item " href="05-competitor.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Competitor</a>
+      <a class="nav-item " href="06-core-web-vitals.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Core Web Vitals</a>
+      <a class="nav-item " href="11-topic-clusters.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="4" r="1.5"/><circle cx="18.5" cy="8" r="1.5"/><circle cx="18.5" cy="16" r="1.5"/><circle cx="12" cy="20" r="1.5"/><circle cx="5.5" cy="16" r="1.5"/><circle cx="5.5" cy="8" r="1.5"/></svg>Topic Clusters</a>
+      <a class="nav-item " href="16-keyword-explorer.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M8 11h6M11 8v6"/></svg>Keyword Explorer</a>
+      <a class="nav-item " href="17-rank-tracker.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>Rank Tracker</a>
+      <a class="nav-item " href="18-serp-analyzer.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>SERP Analyzer</a>
+      <a class="nav-item " href="19-onpage-checker.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>On-Page Checker</a>
+      <a class="nav-item " href="20-link-building.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 7h3a5 5 0 015 5 5 5 0 01-5 5h-3m-6 0H6a5 5 0 01-5-5 5 5 0 015-5h3"/><line x1="8" y1="12" x2="16" y2="12"/></svg>Link Building</a>
+      <a class="nav-item " href="22-crawl-analysis.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>Crawl Analysis</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">Hệ thống</div>
+      <a class="nav-item " href="21-content-explorer.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>Content Explorer</a>
+      <a class="nav-item " href="23-traffic-analytics.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>Traffic Analytics</a>
+      <a class="nav-item " href="25-reports.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/></svg>Báo Cáo</a>
+      <a class="nav-item " href="12-api-settings.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 00-2 2v.18a2 2 0 01-1 1.73l-.43.25a2 2 0 01-2 0l-.15-.08a2 2 0 00-2.73.73l-.22.38a2 2 0 00.73 2.73l.15.1a2 2 0 011 1.72v.51a2 2 0 01-1 1.74l-.15.09a2 2 0 00-.73 2.73l.22.38a2 2 0 002.73.73l.15-.08a2 2 0 012 0l.43.25a2 2 0 011 1.73V20a2 2 0 002 2h.44a2 2 0 002-2v-.18a2 2 0 011-1.73l.43-.25a2 2 0 012 0l.15.08a2 2 0 002.73-.73l.22-.39a2 2 0 00-.73-2.73l-.15-.08a2 2 0 01-1-1.74v-.5a2 2 0 011-1.74l.15-.09a2 2 0 00.73-2.73l-.22-.38a2 2 0 00-2.73-.73l-.15.08a2 2 0 01-2 0l-.43-.25a2 2 0 01-1-1.73V4a2 2 0 00-2-2z"/><circle cx="12" cy="12" r="3"/></svg>API & Kết Nối</a>
+      <a class="nav-item " href="13-team-members.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Thành Viên</a>
+    </div>
+  </nav>
+  <div class="sidebar-footer"><div class="sidebar-user"><div class="avatar">A</div><div><div class="uname">Admin</div><div class="urole">Super Admin</div></div></div></div>
+</aside>
+<div class="sidebar-overlay"></div>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="topbar-left"><button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">☰</button><h2>Quản Lý Bài Viết</h2></div>
+  <div class="topbar-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><input type="text" placeholder="Tìm bài, site, keyword..." aria-label="Tìm kiếm"><kbd>⌘K</kbd></div>
+  <div class="topbar-right">
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" title="Dark/Light">🌙</button>
+    <button class="icon-btn" aria-label="Thông báo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg><span class="dot" aria-hidden="true"></span></button>
+    <a href="08-editor.html" class="btn btn-accent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Tạo bài mới</a>
+  </div>
+</header>
+
+<main class="main">
+
+<!-- STATS -->
+<div class="stats-grid stats-5 mb-24">
+  <div class="stat-card"><div class="stat-label">Tổng Bài Viết</div><div class="stat-value">247</div><div class="stat-change up">↑ +18 tháng này</div></div>
+  <div class="stat-card"><div class="stat-label">Đã Xuất Bản</div><div class="stat-value" style="color:var(--accent)">198</div></div>
+  <div class="stat-card"><div class="stat-label">Bản Nháp</div><div class="stat-value" style="color:var(--warn)">32</div></div>
+  <div class="stat-card"><div class="stat-label">Đang Chờ Đẩy</div><div class="stat-value" style="color:var(--info)">12</div></div>
+  <div class="stat-card"><div class="stat-label">Lỗi Đẩy</div><div class="stat-value" style="color:var(--error)">5</div></div>
+</div>
+
+<!-- TOOLBAR -->
+<div class="art-toolbar">
+  <div class="search-box">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+    <input placeholder="Tìm bài viết...">
+  </div>
+  <select class="filter-select">
+    <option>Tất cả trạng thái</option>
+    <option>✅ Đã xuất bản</option>
+    <option>📝 Bản nháp</option>
+    <option>⏰ Đã lên lịch</option>
+    <option>🚀 Đang đẩy</option>
+    <option>❌ Lỗi đẩy</option>
+  </select>
+  <select class="filter-select">
+    <option>Tất cả website</option>
+    <option>techblog.vn</option>
+    <option>financehub.vn</option>
+    <option>blog.digimart.vn</option>
+    <option>healthlife.vn</option>
+  </select>
+  <select class="filter-select">
+    <option>Tất cả danh mục</option>
+    <option>🖥 Laptop & PC</option>
+    <option>📱 Điện thoại</option>
+    <option>🌐 Hosting</option>
+    <option>💰 Kiếm tiền</option>
+    <option>📊 SEO</option>
+  </select>
+  <select class="filter-select">
+    <option>Sắp xếp: Mới nhất</option>
+    <option>Cũ nhất</option>
+    <option>SEO Score cao</option>
+    <option>SEO Score thấp</option>
+    <option>Traffic cao</option>
+  </select>
+  <div style="margin-left:auto;display:flex;gap:6px">
+    <a href="08-editor.html" class="btn btn-accent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M12 5v14M5 12h14"/></svg>Tạo bài mới</a>
+    <button class="btn btn-ai" onclick="toast('✦ AI đang tạo 5 bản nháp...')">✦ AI Tạo Hàng Loạt</button>
+  </div>
+</div>
+
+<!-- BULK ACTIONS BAR -->
+<div class="bulk-bar" id="bulkBar">
+  <span>Đã chọn: <span class="count" id="bulkCount">0</span> bài</span>
+  <div style="margin-left:auto;display:flex;gap:6px">
+    <button class="btn btn-accent" style="font-size:.76rem" onclick="toast('🚀 Đang đẩy bài đã chọn...')">🚀 Đẩy bài đã chọn</button>
+    <button class="btn btn-outline" style="font-size:.76rem" onclick="openModal('bulkSiteModal')">📤 Chọn site & đẩy</button>
+    <button class="btn btn-outline" style="font-size:.76rem" onclick="toast('Đã archive','error')">📦 Archive</button>
+    <button class="btn btn-outline" style="font-size:.76rem;color:var(--error)" onclick="if(confirm('Xóa các bài đã chọn?'))toast('Đã xóa','error')">🗑 Xóa</button>
+  </div>
+</div>
+
+<!-- ARTICLE TABLE -->
+<div class="card">
+<div class="card-body" style="padding:0">
+<div class="tbl-wrap"><table class="art-table">
+  <thead>
+    <tr>
+      <th><input type="checkbox" id="selectAll" style="accent-color:var(--accent)" onclick="toggleAll()"></th>
+      <th>Tiêu đề</th>
+      <th>Trạng thái</th>
+      <th>Danh mục</th>
+      <th>Website đã đẩy</th>
+      <th>SEO</th>
+      <th>Ngày tạo</th>
+      <th>Tác giả</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr onclick="if(!event.target.closest('input,button,.ctx-item'))location='15-article-detail.html'">
+      <td><input type="checkbox" class="art-cb" style="accent-color:var(--accent)" onclick="event.stopPropagation();updateBulk()"></td>
+      <td><span class="art-title">10 Mẹo SEO Không Thể Bỏ Qua Năm 2026</span><span class="art-slug">/meo-seo-2026</span></td>
+      <td><span class="tag tag-green">Đã xuất bản</span></td>
+      <td><span style="font-size:.78rem">📊 SEO</span></td>
+      <td><div class="art-sites"><span class="art-site-badge pushed">techblog.vn ✓</span><span class="art-site-badge pushed">digimart ✓</span></div></td>
+      <td><span class="mono" style="color:var(--accent);font-weight:700">82</span></td>
+      <td><span class="mono" style="font-size:.76rem;color:var(--text-tertiary)">24/03</span></td>
+      <td><span style="font-size:.78rem">Admin</span></td>
+      <td><button class="btn btn-outline" style="font-size:.66rem;padding:2px 6px" onclick="event.stopPropagation();showRowCtx(event)">⋯</button></td>
+    </tr>
+    <tr onclick="if(!event.target.closest('input,button'))location='15-article-detail.html'">
+      <td><input type="checkbox" class="art-cb" style="accent-color:var(--accent)" onclick="event.stopPropagation();updateBulk()"></td>
+      <td><span class="art-title">Hướng Dẫn Cài Đặt VPS Từ A-Z</span><span class="art-slug">/cai-dat-vps-2026</span></td>
+      <td><span class="tag tag-info">Đã lên lịch</span></td>
+      <td><span style="font-size:.78rem">🌐 Hosting</span></td>
+      <td><div class="art-sites"><span class="art-site-badge pending">techblog ⏰</span></div></td>
+      <td><span class="mono" style="color:var(--accent);font-weight:700">78</span></td>
+      <td><span class="mono" style="font-size:.76rem;color:var(--text-tertiary)">22/03</span></td>
+      <td><span style="font-size:.78rem">Minh</span></td>
+      <td><button class="btn btn-outline" style="font-size:.66rem;padding:2px 6px" onclick="event.stopPropagation();showRowCtx(event)">⋯</button></td>
+    </tr>
+    <tr onclick="if(!event.target.closest('input,button'))location='15-article-detail.html'">
+      <td><input type="checkbox" class="art-cb" style="accent-color:var(--accent)" onclick="event.stopPropagation();updateBulk()"></td>
+      <td><span class="art-title">Review MacBook Pro M4 — Đánh Giá Chi Tiết</span><span class="art-slug">/review-macbook-m4</span></td>
+      <td><span class="tag tag-green">Đã xuất bản</span></td>
+      <td><span style="font-size:.78rem">🖥 Laptop</span></td>
+      <td><div class="art-sites"><span class="art-site-badge pushed">techblog ✓</span><span class="art-site-badge pushed">finance ✓</span><span class="art-site-badge pushed">digimart ✓</span></div></td>
+      <td><span class="mono" style="color:var(--accent);font-weight:700">91</span></td>
+      <td><span class="mono" style="font-size:.76rem;color:var(--text-tertiary)">20/03</span></td>
+      <td><span style="font-size:.78rem">Linh</span></td>
+      <td><button class="btn btn-outline" style="font-size:.66rem;padding:2px 6px" onclick="event.stopPropagation();showRowCtx(event)">⋯</button></td>
+    </tr>
+    <tr onclick="if(!event.target.closest('input,button'))location='15-article-detail.html'">
+      <td><input type="checkbox" class="art-cb" style="accent-color:var(--accent)" onclick="event.stopPropagation();updateBulk()"></td>
+      <td><span class="art-title">So Sánh iPhone 17 vs Samsung S26 Ultra</span><span class="art-slug">/iphone-17-vs-s26</span></td>
+      <td><span class="tag tag-warn">Bản nháp</span></td>
+      <td><span style="font-size:.78rem">📱 Điện thoại</span></td>
+      <td><div class="art-sites"><span class="art-site-badge" style="opacity:.4">Chưa đẩy</span></div></td>
+      <td><span class="mono" style="color:var(--warn);font-weight:700">45</span></td>
+      <td><span class="mono" style="font-size:.76rem;color:var(--text-tertiary)">18/03</span></td>
+      <td><span style="font-size:.78rem">AI ✦</span></td>
+      <td><button class="btn btn-outline" style="font-size:.66rem;padding:2px 6px" onclick="event.stopPropagation();showRowCtx(event)">⋯</button></td>
+    </tr>
+    <tr onclick="if(!event.target.closest('input,button'))location='15-article-detail.html'">
+      <td><input type="checkbox" class="art-cb" style="accent-color:var(--accent)" onclick="event.stopPropagation();updateBulk()"></td>
+      <td><span class="art-title">Top 5 Laptop Gaming Dưới 20 Triệu</span><span class="art-slug">/laptop-gaming-duoi-20tr</span></td>
+      <td><span class="tag tag-green">Đã xuất bản</span></td>
+      <td><span style="font-size:.78rem">🖥 Laptop</span></td>
+      <td><div class="art-sites"><span class="art-site-badge pushed">techblog ✓</span><span class="art-site-badge failed">health ✗</span></div></td>
+      <td><span class="mono" style="color:var(--accent);font-weight:700">87</span></td>
+      <td><span class="mono" style="font-size:.76rem;color:var(--text-tertiary)">15/03</span></td>
+      <td><span style="font-size:.78rem">Hoa</span></td>
+      <td><button class="btn btn-outline" style="font-size:.66rem;padding:2px 6px" onclick="event.stopPropagation();showRowCtx(event)">⋯</button></td>
+    </tr>
+    <tr onclick="if(!event.target.closest('input,button'))location='15-article-detail.html'">
+      <td><input type="checkbox" class="art-cb" style="accent-color:var(--accent)" onclick="event.stopPropagation();updateBulk()"></td>
+      <td><span class="art-title">Cách Kiếm Tiền Online 2026 — Hướng Dẫn Từ A-Z</span><span class="art-slug">/kiem-tien-online-2026</span></td>
+      <td><span class="tag tag-purple">AI Draft ✦</span></td>
+      <td><span style="font-size:.78rem">💰 Kiếm tiền</span></td>
+      <td><div class="art-sites"><span class="art-site-badge" style="opacity:.4">Chưa đẩy</span></div></td>
+      <td><span class="mono" style="color:var(--error);font-weight:700">32</span></td>
+      <td><span class="mono" style="font-size:.76rem;color:var(--text-tertiary)">14/03</span></td>
+      <td><span style="font-size:.78rem">AI ✦</span></td>
+      <td><button class="btn btn-outline" style="font-size:.66rem;padding:2px 6px" onclick="event.stopPropagation();showRowCtx(event)">⋯</button></td>
+    </tr>
+    <tr onclick="if(!event.target.closest('input,button'))location='15-article-detail.html'">
+      <td><input type="checkbox" class="art-cb" style="accent-color:var(--accent)" onclick="event.stopPropagation();updateBulk()"></td>
+      <td><span class="art-title">SSL Let's Encrypt — Cài Đặt Miễn Phí</span><span class="art-slug">/ssl-lets-encrypt</span></td>
+      <td><span class="tag tag-error">Lỗi đẩy</span></td>
+      <td><span style="font-size:.78rem">🌐 Hosting</span></td>
+      <td><div class="art-sites"><span class="art-site-badge pushed">techblog ✓</span><span class="art-site-badge failed">finance ✗ API timeout</span></div></td>
+      <td><span class="mono" style="color:var(--accent);font-weight:700">76</span></td>
+      <td><span class="mono" style="font-size:.76rem;color:var(--text-tertiary)">12/03</span></td>
+      <td><span style="font-size:.78rem">Tuấn</span></td>
+      <td><button class="btn btn-outline" style="font-size:.66rem;padding:2px 6px" onclick="event.stopPropagation();showRowCtx(event)">⋯</button></td>
+    </tr>
+  </tbody>
+</table></div>
+</div>
+</div>
+
+<!-- Pagination -->
+<div class="pagination">
+  <button class="page" onclick="toast('Trang trước')" title="Trang trước" aria-label="Trang trước">←</button>
+  <button class="page active" onclick="this.parentElement.querySelector('.active').classList.remove('active');this.classList.add('active')" aria-label="Trang 1">1</button>
+  <button class="page" onclick="this.parentElement.querySelector('.active').classList.remove('active');this.classList.add('active');toast('Đang tải trang 2...')" aria-label="Trang 2">2</button>
+  <button class="page" onclick="this.parentElement.querySelector('.active').classList.remove('active');this.classList.add('active');toast('Đang tải trang 3...')" aria-label="Trang 3">3</button>
+  <button class="page" style="cursor:default;border:none" aria-label="Thêm trang">...</button>
+  <button class="page" onclick="this.parentElement.querySelector('.active').classList.remove('active');this.classList.add('active');toast('Đang tải trang 13...')" aria-label="Trang 13">13</button>
+  <button class="page" onclick="toast('Trang sau')" title="Trang sau" aria-label="Trang sau">→</button>
+</div>
+
+<!-- Row Context Menu -->
+<div class="ctx-menu" id="rowCtx" role="menu">
+  <div class="ctx-item" onclick="hideCtx();location='08-editor.html'">✏️ Chỉnh sửa</div>
+  <div class="ctx-item" onclick="hideCtx();location='15-article-detail.html'">📄 Xem chi tiết</div>
+  <div class="ctx-divider"></div>
+  <div class="ctx-item" onclick="hideCtx();openModal('bulkSiteModal')">🚀 Đẩy đến website</div>
+  <div class="ctx-item" onclick="hideCtx();toast('Đã đẩy lại thành công!')">🔄 Đẩy lại (retry)</div>
+  <div class="ctx-item" onclick="hideCtx();toast('Đã tạo bản sao')">📋 Duplicate</div>
+  <div class="ctx-divider"></div>
+  <div class="ctx-item" onclick="hideCtx();toast('Đã archive')">📦 Archive</div>
+  <div class="ctx-item danger" onclick="hideCtx();if(confirm('Xóa bài viết này?'))toast('Đã xóa','error')">🗑 Xóa</div>
+</div>
+
+<!-- Bulk Push to Site Modal -->
+<div class="modal-overlay" id="bulkSiteModal" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal" style="max-width:480px">
+    <div class="modal-head"><h3>🚀 Đẩy Bài Đến Website</h3><button class="modal-close" aria-label="Đóng" onclick="closeModal('bulkSiteModal')">✕</button></div>
+    <div class="modal-body">
+      <p style="font-size:.82rem;color:var(--text-secondary);margin-bottom:12px">Chọn website nhận bài:</p>
+      <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:14px">
+        <label style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--bg-elevated);border-radius:var(--radius-md);cursor:pointer;font-size:.84rem"><input type="checkbox" checked style="accent-color:var(--accent)"> techblog.vn <span class="tag tag-green" style="margin-left:auto">82</span></label>
+        <label style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--bg-elevated);border-radius:var(--radius-md);cursor:pointer;font-size:.84rem"><input type="checkbox" style="accent-color:var(--accent)"> financehub.vn <span class="tag tag-green" style="margin-left:auto">85</span></label>
+        <label style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--bg-elevated);border-radius:var(--radius-md);cursor:pointer;font-size:.84rem"><input type="checkbox" style="accent-color:var(--accent)"> blog.digimart.vn <span class="tag tag-warn" style="margin-left:auto">71</span></label>
+        <label style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--bg-elevated);border-radius:var(--radius-md);cursor:pointer;font-size:.84rem"><input type="checkbox" style="accent-color:var(--accent)"> healthlife.vn <span class="tag tag-warn" style="margin-left:auto">68</span></label>
+      </div>
+      <div class="field-group"><label class="field-label">Thời điểm</label>
+        <div style="display:flex;gap:6px">
+          <label style="flex:1;display:flex;align-items:center;gap:6px;padding:8px;background:var(--bg-elevated);border:2px solid var(--accent);border-radius:var(--radius-md);cursor:pointer;font-size:.8rem"><input type="radio" name="when" checked style="accent-color:var(--accent)">Ngay lập tức</label>
+          <label style="flex:1;display:flex;align-items:center;gap:6px;padding:8px;background:var(--bg-elevated);border:2px solid var(--border-subtle);border-radius:var(--radius-md);cursor:pointer;font-size:.8rem"><input type="radio" name="when" style="accent-color:var(--accent)">Hẹn giờ</label>
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot"><button class="btn btn-outline" onclick="closeModal('bulkSiteModal')">Hủy</button><button class="btn btn-accent btn-lg" onclick="closeModal('bulkSiteModal');toast('🚀 Đã gửi bài! Đang xử lý...')">Đẩy Bài</button></div>
+  </div>
+</div>
+
+</main>
+</div>
+<div id="toast" class="toast"></div>
+<script src="shared.js"></script>
+<script>
+function toggleAll(){
+  const checked=document.getElementById('selectAll').checked;
+  document.querySelectorAll('.art-cb').forEach(cb=>{cb.checked=checked});
+  updateBulk();
+}
+function updateBulk(){
+  const checked=document.querySelectorAll('.art-cb:checked').length;
+  const bar=document.getElementById('bulkBar');
+  document.getElementById('bulkCount').textContent=checked;
+  if(checked>0){bar.classList.add('show')}else{bar.classList.remove('show')}
+}
+function showRowCtx(e){
+  e.stopPropagation();hideCtx();
+  const ctx=document.getElementById('rowCtx');
+  ctx.style.left=Math.min(e.clientX,window.innerWidth-220)+'px';
+  ctx.style.top=Math.min(e.clientY,window.innerHeight-280)+'px';
+  ctx.classList.add('show');activeCtx=ctx;
+}
+
+</script>
+</body></html>

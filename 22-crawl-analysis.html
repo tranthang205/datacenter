@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>BlogHub — Crawl Analysis</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared-styles.css">
+<style>
+.hbar-row{display:flex;align-items:center;gap:10px;padding:6px 0;font-size:.8rem}
+.hbar-label{min-width:56px;font-weight:600;font-family:var(--font-mono);font-size:.76rem}
+.hbar-track{flex:1;height:22px;background:var(--bg-elevated);border-radius:var(--radius-sm);overflow:hidden}
+.hbar-fill{height:100%;border-radius:var(--radius-sm);transition:width .6s var(--ease)}
+.hbar-pct{min-width:48px;text-align:right;font-family:var(--font-mono);font-size:.74rem;color:var(--text-secondary)}
+.crawl-stat{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border-subtle);font-size:.82rem}
+.crawl-stat:last-child{border:none}
+.crawl-stat .label{color:var(--text-secondary)}.crawl-stat .val{font-weight:700;font-family:var(--font-mono)}
+.depth-bar{display:flex;align-items:center;gap:8px;padding:4px 0;font-size:.78rem}
+.depth-bar .dlabel{min-width:70px;color:var(--text-secondary);font-size:.74rem}
+.depth-bar .dtrack{flex:1;height:16px;background:var(--bg-elevated);border-radius:var(--radius-xs);overflow:hidden}
+.depth-bar .dfill{height:100%;border-radius:var(--radius-xs)}
+.depth-bar .dval{min-width:36px;text-align:right;font-family:var(--font-mono);font-size:.72rem;color:var(--text-tertiary)}
+.code-block{background:var(--bg-elevated);border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:14px 16px;font-family:var(--font-mono);font-size:.76rem;line-height:1.7;white-space:pre-wrap;color:var(--text-secondary);overflow-x:auto}
+.code-block .comment{color:var(--text-quaternary)}.code-block .highlight{color:var(--warn);font-weight:600}
+</style>
+</head>
+<body>
+<div class="app">
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-brand"><div class="logo">B</div><h1>Blog<span>Hub</span></h1></div>
+  <nav class="sidebar-nav">
+    <div class="nav-group">
+      <div class="nav-group-title">Tổng quan</div>
+      <a class="nav-item " href="01-dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a>
+      <a class="nav-item " href="07-website-manager.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>Website Manager<span class="nav-badge badge-green">28</span></a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">Nội dung</div>
+      <a class="nav-item " href="14-articles.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>Quản Lý Bài Viết<span class="nav-badge badge-green">247</span></a>
+      <a class="nav-item " href="08-editor.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>Soạn & Tối Ưu</a>
+      <a class="nav-item " href="09-content-planner.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Content Planner</a>
+      <a class="nav-item " href="10-distribute.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>Đẩy Bài<span class="nav-badge badge-warn">5</span></a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">SEO & Analytics</div>
+      <a class="nav-item " href="02-seo-dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>SEO Dashboard</a>
+      <a class="nav-item " href="03-site-audit.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>Site Audit<span class="nav-badge badge-error">17</span></a>
+      <a class="nav-item " href="04-backlinks.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>Backlinks</a>
+      <a class="nav-item " href="05-competitor.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Competitor</a>
+      <a class="nav-item " href="06-core-web-vitals.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Core Web Vitals</a>
+      <a class="nav-item " href="11-topic-clusters.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="4" r="1.5"/><circle cx="18.5" cy="8" r="1.5"/><circle cx="18.5" cy="16" r="1.5"/><circle cx="12" cy="20" r="1.5"/><circle cx="5.5" cy="16" r="1.5"/><circle cx="5.5" cy="8" r="1.5"/></svg>Topic Clusters</a>
+      <a class="nav-item " href="16-keyword-explorer.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M8 11h6M11 8v6"/></svg>Keyword Explorer</a>
+      <a class="nav-item " href="17-rank-tracker.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>Rank Tracker</a>
+      <a class="nav-item " href="18-serp-analyzer.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>SERP Analyzer</a>
+      <a class="nav-item " href="19-onpage-checker.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>On-Page Checker</a>
+      <a class="nav-item " href="20-link-building.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 7h3a5 5 0 015 5 5 5 0 01-5 5h-3m-6 0H6a5 5 0 01-5-5 5 5 0 015-5h3"/><line x1="8" y1="12" x2="16" y2="12"/></svg>Link Building</a>
+      <a class="nav-item active" href="22-crawl-analysis.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>Crawl Analysis</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">Hệ thống</div>
+      <a class="nav-item " href="21-content-explorer.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>Content Explorer</a>
+      <a class="nav-item " href="23-traffic-analytics.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>Traffic Analytics</a>
+      <a class="nav-item " href="25-reports.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/></svg>Báo Cáo</a>
+      <a class="nav-item " href="12-api-settings.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 00-2 2v.18a2 2 0 01-1 1.73l-.43.25a2 2 0 01-2 0l-.15-.08a2 2 0 00-2.73.73l-.22.38a2 2 0 00.73 2.73l.15.1a2 2 0 011 1.72v.51a2 2 0 01-1 1.74l-.15.09a2 2 0 00-.73 2.73l.22.38a2 2 0 002.73.73l.15-.08a2 2 0 012 0l.43.25a2 2 0 011 1.73V20a2 2 0 002 2h.44a2 2 0 002-2v-.18a2 2 0 011-1.73l.43-.25a2 2 0 012 0l.15.08a2 2 0 002.73-.73l.22-.39a2 2 0 00-.73-2.73l-.15-.08a2 2 0 01-1-1.74v-.5a2 2 0 011-1.74l.15-.09a2 2 0 00.73-2.73l-.22-.38a2 2 0 00-2.73-.73l-.15.08a2 2 0 01-2 0l-.43-.25a2 2 0 01-1-1.73V4a2 2 0 00-2-2z"/><circle cx="12" cy="12" r="3"/></svg>API & Kết Nối</a>
+      <a class="nav-item " href="13-team-members.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Thành Viên</a>
+    </div>
+  </nav>
+  <div class="sidebar-footer"><div class="sidebar-user"><div class="avatar">A</div><div><div class="uname">Admin</div><div class="urole">Super Admin</div></div></div></div>
+</aside>
+<div class="sidebar-overlay"></div>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="topbar-left"><button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button><h2>Crawl Analysis</h2></div>
+  <div class="topbar-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><input type="text" placeholder="Tìm bài, site, keyword..." aria-label="Tìm kiếm"><kbd>⌘K</kbd></div>
+  <div class="topbar-right">
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" title="Dark/Light">🌙</button>
+    <button class="icon-btn" aria-label="Thông báo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg><div class="dot"></div></button>
+    <a href="08-editor.html" class="btn btn-accent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Tạo bài mới</a>
+  </div>
+</header>
+
+<main class="main">
+
+<div class="stats-grid stats-5">
+  <div class="stat-card"><div class="stat-icon" style="background:var(--info-subtle);color:var(--info)">🔍</div><div class="stat-label">Trang đã crawl</div><div class="stat-value">4,287</div></div>
+  <div class="stat-card"><div class="stat-icon" style="background:var(--accent-subtle);color:var(--accent)">✓</div><div class="stat-label">Healthy</div><div class="stat-value">3,842</div><div class="stat-change"><span class="tag tag-green">89.6%</span></div></div>
+  <div class="stat-card"><div class="stat-icon" style="background:var(--warn-subtle);color:var(--warn)">↩</div><div class="stat-label">Redirects</div><div class="stat-value">187</div><div class="stat-change"><span class="tag tag-warn">4.4%</span></div></div>
+  <div class="stat-card"><div class="stat-icon" style="background:var(--error-subtle);color:var(--error)">✗</div><div class="stat-label">Broken (4xx)</div><div class="stat-value">134</div><div class="stat-change"><span class="tag tag-error">3.1%</span></div></div>
+  <div class="stat-card"><div class="stat-icon" style="background:var(--error-subtle);color:var(--error)">⚠</div><div class="stat-label">Server Error (5xx)</div><div class="stat-value">24</div><div class="stat-change"><span class="tag tag-error">0.6%</span></div></div>
+</div>
+
+<div class="grid-2 mb-16">
+  <div class="card">
+    <div class="card-head"><h3>Phân bố Status Code</h3></div>
+    <div class="card-body">
+      <div class="hbar-row"><span class="hbar-label">200 OK</span><div class="hbar-track"><div class="hbar-fill" style="width:89.6%;background:var(--accent)"></div></div><span class="hbar-pct">89.6%</span></div>
+      <div class="hbar-row"><span class="hbar-label">301</span><div class="hbar-track"><div class="hbar-fill" style="width:32%;background:var(--info)"></div></div><span class="hbar-pct">3.2%</span></div>
+      <div class="hbar-row"><span class="hbar-label">302</span><div class="hbar-track"><div class="hbar-fill" style="width:11%;background:var(--info);opacity:.7"></div></div><span class="hbar-pct">1.1%</span></div>
+      <div class="hbar-row"><span class="hbar-label">404</span><div class="hbar-track"><div class="hbar-fill" style="width:28%;background:var(--warn)"></div></div><span class="hbar-pct">2.8%</span></div>
+      <div class="hbar-row"><span class="hbar-label">410</span><div class="hbar-track"><div class="hbar-fill" style="width:3%;background:var(--warn);opacity:.7"></div></div><span class="hbar-pct">0.3%</span></div>
+      <div class="hbar-row"><span class="hbar-label">500</span><div class="hbar-track"><div class="hbar-fill" style="width:6%;background:var(--error)"></div></div><span class="hbar-pct">0.6%</span></div>
+      <div class="hbar-row"><span class="hbar-label">503</span><div class="hbar-track"><div class="hbar-fill" style="width:1%;background:var(--error);opacity:.7"></div></div><span class="hbar-pct">0.1%</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-head"><h3>Crawl Budget</h3></div>
+    <div class="card-body">
+      <div class="crawl-stat"><span class="label">Pages/day crawled (avg)</span><span class="val">342</span></div>
+      <div class="crawl-stat"><span class="label">Avg response time</span><span class="val">0.84s</span></div>
+      <div class="crawl-stat"><span class="label">Crawl efficiency</span><span class="val" style="color:var(--accent)">91.2%</span></div>
+      <div style="margin-top:12px;margin-bottom:6px;font-size:.74rem;font-weight:700;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:.05em">Crawl Depth Distribution</div>
+      <div class="depth-bar"><span class="dlabel">Level 1</span><div class="dtrack"><div class="dfill" style="width:35%;background:var(--accent)"></div></div><span class="dval">1,502</span></div>
+      <div class="depth-bar"><span class="dlabel">Level 2</span><div class="dtrack"><div class="dfill" style="width:40%;background:var(--info)"></div></div><span class="dval">1,715</span></div>
+      <div class="depth-bar"><span class="dlabel">Level 3</span><div class="dtrack"><div class="dfill" style="width:18%;background:var(--warn)"></div></div><span class="dval">784</span></div>
+      <div class="depth-bar"><span class="dlabel">Level 4+</span><div class="dtrack"><div class="dfill" style="width:7%;background:var(--error)"></div></div><span class="dval">286</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="card mb-16">
+  <div class="card-head"><h3>Vấn đề kỹ thuật</h3><span class="tag tag-error">134 issues</span></div>
+  <div class="card-body" style="padding:8px 16px">
+    <div class="tbl-wrap"><table class="tbl">
+      <thead><tr><th>URL</th><th>Status</th><th>Issue Type</th><th>Priority</th><th>First Found</th><th>Last Crawled</th></tr></thead>
+      <tbody>
+        <tr><td class="mono" style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">/blog/huong-dan-seo-2025</td><td><span class="tag tag-error">404</span></td><td>Broken page</td><td><span class="tag tag-error">High</span></td><td>12/02/2026</td><td>25/03/2026</td></tr>
+        <tr><td class="mono" style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">/san-pham/ao-thun-nam</td><td><span class="tag tag-error">404</span></td><td>Broken page</td><td><span class="tag tag-error">High</span></td><td>05/01/2026</td><td>25/03/2026</td></tr>
+        <tr><td class="mono" style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">/category/tin-tuc → /news</td><td><span class="tag tag-warn">301</span></td><td>Redirect chain</td><td><span class="tag tag-warn">Medium</span></td><td>18/11/2025</td><td>24/03/2026</td></tr>
+        <tr><td class="mono" style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">/dich-vu/thiet-ke-web</td><td><span class="tag tag-warn">301→302</span></td><td>Redirect chain</td><td><span class="tag tag-error">High</span></td><td>22/12/2025</td><td>25/03/2026</td></tr>
+        <tr><td class="mono" style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">/blog/marketing-online</td><td><span class="tag tag-info">200</span></td><td>Slow page (4.2s)</td><td><span class="tag tag-warn">Medium</span></td><td>01/03/2026</td><td>25/03/2026</td></tr>
+        <tr><td class="mono" style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">/lien-he</td><td><span class="tag tag-info">200</span></td><td>Missing canonical</td><td><span class="tag tag-warn">Medium</span></td><td>15/02/2026</td><td>24/03/2026</td></tr>
+        <tr><td class="mono" style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">/blog/seo-la-gi</td><td><span class="tag tag-info">200</span></td><td>Duplicate content</td><td><span class="tag tag-error">High</span></td><td>08/01/2026</td><td>25/03/2026</td></tr>
+        <tr><td class="mono" style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">/api/health-check</td><td><span class="tag tag-error">500</span></td><td>Server error</td><td><span class="tag tag-error">High</span></td><td>20/03/2026</td><td>25/03/2026</td></tr>
+        <tr><td class="mono" style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">/tag/javascript</td><td><span class="tag tag-error">404</span></td><td>Broken page</td><td><span class="tag tag-warn">Medium</span></td><td>14/02/2026</td><td>24/03/2026</td></tr>
+        <tr><td class="mono" style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">/blog/react-hooks-guide</td><td><span class="tag tag-info">200</span></td><td>Duplicate content</td><td><span class="tag tag-warn">Medium</span></td><td>27/02/2026</td><td>25/03/2026</td></tr>
+        <tr><td class="mono" style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">/old-sitemap.xml</td><td><span class="tag tag-error">410</span></td><td>Gone resource</td><td><span class="tag tag-info">Low</span></td><td>03/12/2025</td><td>23/03/2026</td></tr>
+        <tr><td class="mono" style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">/blog/cach-viet-content</td><td><span class="tag tag-info">200</span></td><td>Slow page (3.8s)</td><td><span class="tag tag-warn">Medium</span></td><td>10/03/2026</td><td>25/03/2026</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</div>
+
+<div class="grid-2">
+  <div class="card">
+    <div class="card-head"><h3>Sitemap Status</h3></div>
+    <div class="card-body">
+      <div class="check-list">
+        <div class="check-item"><div class="check-icon ok">✓</div><span>sitemap.xml found</span></div>
+        <div class="check-item"><div class="check-icon ok">✓</div><span>4,120 URLs in sitemap</span></div>
+        <div class="check-item"><div class="check-icon warn">!</div><span style="color:var(--warn)">167 URLs in sitemap return non-200</span></div>
+        <div class="check-item"><div class="check-icon fail">✗</div><span style="color:var(--error)">89 indexed URLs not in sitemap</span></div>
+        <div class="check-item"><div class="check-icon ok">✓</div><span>robots.txt valid</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-head"><h3>Robots.txt</h3><span class="tag tag-info">Preview</span></div>
+    <div class="card-body">
+      <div class="code-block"><span class="comment"># robots.txt for techblog.vn</span>
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /tmp/
+<span class="highlight">Disallow: /blog/draft/  # ⚠ Blocking 23 published pages</span>
+
+Sitemap: https://techblog.vn/sitemap.xml
+<span class="highlight">Sitemap: https://techblog.vn/old-sitemap.xml  # ⚠ Returns 410</span>
+
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1</div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+<div id="toast" class="toast"></div>
+<script src="shared.js"></script>
+</body></html>

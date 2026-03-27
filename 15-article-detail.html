@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>BlogHub — Chi Tiết Bài Viết</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared-styles.css">
+<style>
+.detail-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px}
+.detail-title{font-family:var(--font-display);font-size:1.4rem;font-weight:500;margin-bottom:6px}
+.detail-meta{display:flex;gap:12px;font-size:.78rem;color:var(--text-tertiary);flex-wrap:wrap}
+.detail-meta span{display:flex;align-items:center;gap:4px}
+.push-status{background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);padding:12px 16px;display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.push-status:hover{border-color:var(--border-hover)}
+.push-site{font-weight:700;font-size:.86rem;min-width:140px}
+.push-time{font-size:.74rem;color:var(--text-tertiary);font-family:var(--font-mono)}
+.push-actions{margin-left:auto;display:flex;gap:5px}
+.history-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border-subtle);font-size:.82rem}
+.history-item:last-child{border:none}
+
+</style>
+</head>
+<body>
+<div class="app">
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-brand"><div class="logo">B</div><h1>Blog<span>Hub</span></h1></div>
+  <nav class="sidebar-nav" aria-label="Main navigation">
+    <div class="nav-group">
+      <div class="nav-group-title">Tổng quan</div>
+      <a class="nav-item " href="01-dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a>
+      <a class="nav-item " href="07-website-manager.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>Website Manager<span class="nav-badge badge-green">28</span></a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">Nội dung</div>
+      <a class="nav-item active" href="14-articles.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>Quản Lý Bài Viết<span class="nav-badge badge-green">247</span></a>
+      <a class="nav-item " href="08-editor.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>Soạn & Tối Ưu</a>
+      <a class="nav-item " href="09-content-planner.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Content Planner</a>
+      <a class="nav-item " href="10-distribute.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>Đẩy Bài<span class="nav-badge badge-warn">5</span></a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">SEO & Analytics</div>
+      <a class="nav-item " href="02-seo-dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>SEO Dashboard</a>
+      <a class="nav-item " href="03-site-audit.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>Site Audit<span class="nav-badge badge-error">17</span></a>
+      <a class="nav-item " href="04-backlinks.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>Backlinks</a>
+      <a class="nav-item " href="05-competitor.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Competitor</a>
+      <a class="nav-item " href="06-core-web-vitals.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Core Web Vitals</a>
+      <a class="nav-item " href="11-topic-clusters.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="4" r="1.5"/><circle cx="18.5" cy="8" r="1.5"/><circle cx="18.5" cy="16" r="1.5"/><circle cx="12" cy="20" r="1.5"/><circle cx="5.5" cy="16" r="1.5"/><circle cx="5.5" cy="8" r="1.5"/></svg>Topic Clusters</a>
+      <a class="nav-item " href="16-keyword-explorer.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M8 11h6M11 8v6"/></svg>Keyword Explorer</a>
+      <a class="nav-item " href="17-rank-tracker.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>Rank Tracker</a>
+      <a class="nav-item " href="18-serp-analyzer.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>SERP Analyzer</a>
+      <a class="nav-item " href="19-onpage-checker.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>On-Page Checker</a>
+      <a class="nav-item " href="20-link-building.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 7h3a5 5 0 015 5 5 5 0 01-5 5h-3m-6 0H6a5 5 0 01-5-5 5 5 0 015-5h3"/><line x1="8" y1="12" x2="16" y2="12"/></svg>Link Building</a>
+      <a class="nav-item " href="22-crawl-analysis.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>Crawl Analysis</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">Hệ thống</div>
+      <a class="nav-item " href="21-content-explorer.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>Content Explorer</a>
+      <a class="nav-item " href="23-traffic-analytics.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>Traffic Analytics</a>
+      <a class="nav-item " href="25-reports.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/></svg>Báo Cáo</a>
+      <a class="nav-item " href="12-api-settings.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 00-2 2v.18a2 2 0 01-1 1.73l-.43.25a2 2 0 01-2 0l-.15-.08a2 2 0 00-2.73.73l-.22.38a2 2 0 00.73 2.73l.15.1a2 2 0 011 1.72v.51a2 2 0 01-1 1.74l-.15.09a2 2 0 00-.73 2.73l.22.38a2 2 0 002.73.73l.15-.08a2 2 0 012 0l.43.25a2 2 0 011 1.73V20a2 2 0 002 2h.44a2 2 0 002-2v-.18a2 2 0 011-1.73l.43-.25a2 2 0 012 0l.15.08a2 2 0 002.73-.73l.22-.39a2 2 0 00-.73-2.73l-.15-.08a2 2 0 01-1-1.74v-.5a2 2 0 011-1.74l.15-.09a2 2 0 00.73-2.73l-.22-.38a2 2 0 00-2.73-.73l-.15.08a2 2 0 01-2 0l-.43-.25a2 2 0 01-1-1.73V4a2 2 0 00-2-2z"/><circle cx="12" cy="12" r="3"/></svg>API & Kết Nối</a>
+      <a class="nav-item " href="13-team-members.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Thành Viên</a>
+    </div>
+  </nav>
+  <div class="sidebar-footer"><div class="sidebar-user"><div class="avatar">A</div><div><div class="uname">Admin</div><div class="urole">Super Admin</div></div></div></div>
+</aside>
+<div class="sidebar-overlay"></div>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="topbar-left"><button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">☰</button><h2>Chi Tiết Bài Viết</h2></div>
+  <div class="topbar-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><input type="text" placeholder="Tìm bài, site, keyword..." aria-label="Tìm kiếm"><kbd>⌘K</kbd></div>
+  <div class="topbar-right">
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" title="Dark/Light">🌙</button>
+    <button class="icon-btn" aria-label="Thông báo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg><span class="dot" aria-hidden="true"></span></button>
+    <a href="08-editor.html" class="btn btn-accent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Tạo bài mới</a>
+  </div>
+</header>
+
+<main class="main">
+
+<!-- Breadcrumb -->
+<div style="margin-bottom:14px;font-size:.78rem;color:var(--text-tertiary)">
+  <a href="14-articles.html" style="color:var(--accent);text-decoration:none">← Quản Lý Bài Viết</a>
+</div>
+
+<div class="detail-header">
+  <div>
+    <div class="detail-title">10 Mẹo SEO Không Thể Bỏ Qua Năm 2026</div>
+    <div class="detail-meta">
+      <span>📝 Tác giả: <strong>Admin</strong></span>
+      <span>📅 Tạo: 24/03/2026</span>
+      <span>📂 Danh mục: <strong>SEO</strong></span>
+      <span>🏷 Tags: seo, tips, 2026</span>
+    </div>
+  </div>
+  <div style="display:flex;gap:6px">
+    <a href="08-editor.html" class="btn btn-outline">✏️ Chỉnh sửa</a>
+    <button class="btn btn-accent" onclick="openModal('pushModal')">🚀 Đẩy đến website</button>
+  </div>
+</div>
+
+<div class="grid-2 mb-24" style="grid-template-columns:2fr 1fr">
+  <!-- LEFT: Push Status -->
+  <div>
+    <h3 style="font-size:.92rem;font-weight:700;margin-bottom:10px">Trạng Thái Đẩy Bài</h3>
+    <div class="push-status">
+      <span style="font-size:1.1rem">✅</span>
+      <div class="push-site">techblog.vn</div>
+      <span class="tag tag-green">Đã đẩy</span>
+      <div class="push-time">24/03 10:30</div>
+      <div class="push-actions">
+        <button class="btn btn-outline" style="font-size:.68rem;padding:3px 8px" onclick="toast('Đang cập nhật...')">🔄 Cập nhật</button>
+        <button class="btn btn-outline" style="font-size:.68rem;padding:3px 8px" onclick="toast('🔗 Đang mở bài viết trên techblog.vn...')">🔗 Xem trên site</button>
+      </div>
+    </div>
+    <div class="push-status">
+      <span style="font-size:1.1rem">✅</span>
+      <div class="push-site">blog.digimart.vn</div>
+      <span class="tag tag-green">Đã đẩy</span>
+      <div class="push-time">24/03 10:32</div>
+      <div class="push-actions">
+        <button class="btn btn-outline" style="font-size:.68rem;padding:3px 8px" onclick="toast('Đang cập nhật...')">🔄 Cập nhật</button>
+        <button class="btn btn-outline" style="font-size:.68rem;padding:3px 8px" onclick="toast('🔗 Đang mở bài viết trên digimart.vn...')">🔗 Xem</button>
+      </div>
+    </div>
+    <div class="push-status" style="border-color:var(--warn-border)">
+      <span style="font-size:1.1rem">⏰</span>
+      <div class="push-site">financehub.vn</div>
+      <span class="tag tag-warn">Hẹn giờ</span>
+      <div class="push-time">25/03 08:00</div>
+      <div class="push-actions">
+        <button class="btn btn-outline" style="font-size:.68rem;padding:3px 8px" onclick="toast('Đã hủy hẹn giờ','error')">Hủy</button>
+        <button class="btn btn-accent" style="font-size:.68rem;padding:3px 8px" onclick="toast('🚀 Đã đẩy ngay!')">Đẩy ngay</button>
+      </div>
+    </div>
+    <div class="push-status" style="border-color:var(--error-border)">
+      <span style="font-size:1.1rem">❌</span>
+      <div class="push-site">healthlife.vn</div>
+      <span class="tag tag-error">Lỗi: API timeout</span>
+      <div class="push-time">24/03 10:35</div>
+      <div class="push-actions">
+        <button class="btn btn-accent" style="font-size:.68rem;padding:3px 8px" onclick="toast('🔄 Đang thử lại...')">Thử lại</button>
+      </div>
+    </div>
+    <div class="push-status" style="border-color:var(--border-subtle);opacity:.5">
+      <span style="font-size:1.1rem">—</span>
+      <div class="push-site">eduvn.com</div>
+      <span class="tag" style="color:var(--text-quaternary);border-color:var(--border-subtle)">Chưa đẩy</span>
+      <div class="push-actions" style="margin-left:auto">
+        <button class="btn btn-outline" style="font-size:.68rem;padding:3px 8px" onclick="toast('🚀 Đã đẩy!')">Đẩy</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: Info -->
+  <div>
+    <div class="card mb-16">
+      <div class="card-head"><h3>SEO Info</h3></div>
+      <div class="card-body">
+        <div style="text-align:center;margin-bottom:10px"><svg viewBox="0 0 80 80" width="65" height="65"><circle cx="40" cy="40" r="30" fill="none" stroke="var(--bg-elevated)" stroke-width="6"/><circle cx="40" cy="40" r="30" fill="none" stroke="var(--accent)" stroke-width="6" stroke-dasharray="188" stroke-dashoffset="34" stroke-linecap="round" transform="rotate(-90 40 40)"/><text x="40" y="44" text-anchor="middle" font-family="var(--font-display)" font-size="17" fill="var(--text-primary)">82</text></svg></div>
+        <div style="display:flex;flex-direction:column;gap:4px;font-size:.8rem">
+          <div style="display:flex;justify-content:space-between"><span>Focus Keyword</span><span class="mono">mẹo seo 2026</span></div>
+          <div style="display:flex;justify-content:space-between"><span>Word Count</span><span class="mono">2,150</span></div>
+          <div style="display:flex;justify-content:space-between"><span>Readability</span><span class="mono" style="color:var(--accent)">Good</span></div>
+          <div style="display:flex;justify-content:space-between"><span>Internal Links</span><span class="mono">5</span></div>
+          <div style="display:flex;justify-content:space-between"><span>External Links</span><span class="mono">3</span></div>
+          <div style="display:flex;justify-content:space-between"><span>Schema</span><span class="mono" style="color:var(--accent)">Article ✓</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head"><h3>Lịch Sử</h3></div>
+      <div class="card-body" style="padding:6px 16px;max-height:200px;overflow-y:auto">
+        <div class="history-item"><span style="color:var(--accent)">●</span>Đẩy đến techblog.vn <span class="mono" style="margin-left:auto;font-size:.7rem;color:var(--text-tertiary)">24/03 10:30</span></div>
+        <div class="history-item"><span style="color:var(--accent)">●</span>Đẩy đến digimart <span class="mono" style="margin-left:auto;font-size:.7rem;color:var(--text-tertiary)">24/03 10:32</span></div>
+        <div class="history-item"><span style="color:var(--error)">●</span>Lỗi đẩy healthlife <span class="mono" style="margin-left:auto;font-size:.7rem;color:var(--text-tertiary)">24/03 10:35</span></div>
+        <div class="history-item"><span style="color:var(--info)">●</span>Chỉnh sửa bởi Admin <span class="mono" style="margin-left:auto;font-size:.7rem;color:var(--text-tertiary)">24/03 09:15</span></div>
+        <div class="history-item"><span style="color:var(--purple)">●</span>AI tối ưu SEO <span class="mono" style="margin-left:auto;font-size:.7rem;color:var(--text-tertiary)">23/03 16:00</span></div>
+        <div class="history-item"><span style="color:var(--info)">●</span>Tạo bài viết <span class="mono" style="margin-left:auto;font-size:.7rem;color:var(--text-tertiary)">23/03 14:00</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-head"><h3>Performance (sau khi đẩy)</h3></div>
+  <div class="card-body">
+    <div class="grid-4">
+      <div style="text-align:center;padding:12px;background:var(--bg-elevated);border-radius:var(--radius-md)"><div class="mono" style="font-size:1.2rem;font-weight:700">1,247</div><div style="font-size:.7rem;color:var(--text-tertiary)">Pageviews (7d)</div></div>
+      <div style="text-align:center;padding:12px;background:var(--bg-elevated);border-radius:var(--radius-md)"><div class="mono" style="font-size:1.2rem;font-weight:700">2:34</div><div style="font-size:.7rem;color:var(--text-tertiary)">Avg. Time on Page</div></div>
+      <div style="text-align:center;padding:12px;background:var(--bg-elevated);border-radius:var(--radius-md)"><div class="mono" style="font-size:1.2rem;font-weight:700;color:var(--accent)">#5</div><div style="font-size:.7rem;color:var(--text-tertiary)">Google Ranking</div></div>
+      <div style="text-align:center;padding:12px;background:var(--bg-elevated);border-radius:var(--radius-md)"><div class="mono" style="font-size:1.2rem;font-weight:700">23</div><div style="font-size:.7rem;color:var(--text-tertiary)">Backlinks earned</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Push Modal (reuse) -->
+<div class="modal-overlay" id="pushModal" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal" style="max-width:480px">
+    <div class="modal-head"><h3>🚀 Đẩy Bài Đến Website</h3><button class="modal-close" aria-label="Đóng" onclick="closeModal('pushModal')">✕</button></div>
+    <div class="modal-body">
+      <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:14px">
+        <label style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--bg-elevated);border-radius:var(--radius-md);cursor:pointer;font-size:.84rem"><input type="checkbox" style="accent-color:var(--accent)"> eduvn.com <span class="tag tag-green" style="margin-left:auto">79</span></label>
+        <label style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--bg-elevated);border-radius:var(--radius-md);cursor:pointer;font-size:.84rem"><input type="checkbox" style="accent-color:var(--accent)"> travel.vn <span class="tag tag-warn" style="margin-left:auto">Pending</span></label>
+      </div>
+      <p style="font-size:.76rem;color:var(--text-tertiary)">Đã đẩy: techblog.vn ✓, digimart.vn ✓. Hẹn giờ: financehub.vn ⏰</p>
+    </div>
+    <div class="modal-foot"><button class="btn btn-outline" onclick="closeModal('pushModal')">Hủy</button><button class="btn btn-accent" onclick="closeModal('pushModal');toast('🚀 Đã đẩy!')">Đẩy</button></div>
+  </div>
+</div>
+
+</main>
+</div>
+<div id="toast" class="toast"></div>
+<script src="shared.js"></script>
+</body></html>

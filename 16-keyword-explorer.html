@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>BlogHub — Keyword Explorer</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared-styles.css">
+<style>
+.kw-search{display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap}
+.kw-search .input-field{flex:1;min-width:200px;max-width:420px;padding:10px 14px;font-size:.9rem}
+.kw-search select{background:var(--bg-elevated);border:1px solid var(--border-subtle);border-radius:var(--radius-sm);padding:9px 12px;color:var(--text-primary);font-size:.8rem;font-family:var(--font-body);outline:none;cursor:pointer}
+.kw-search select:focus{border-color:var(--accent)}
+.kd-bar{width:60px;height:6px;background:var(--bg-elevated);border-radius:10px;overflow:hidden;display:inline-block;vertical-align:middle;margin-right:6px}
+.kd-bar .kd-fill{height:100%;border-radius:10px}
+.mini-bars{display:flex;align-items:end;gap:2px;height:20px}
+.mini-bars span{width:4px;border-radius:2px 2px 0 0;background:var(--accent)}
+.question-item{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border-subtle);font-size:.82rem;gap:10px}
+.question-item:last-child{border:none}
+.question-item .q-text{flex:1;color:var(--text-primary)}
+.question-meta{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.serp-table{display:grid;grid-template-columns:40px 2fr .8fr .8fr .8fr .8fr;gap:6px;font-size:.82rem;align-items:center;padding:8px 4px;border-bottom:1px solid var(--border-subtle)}
+.serp-table:hover:not(:first-child){background:var(--bg-hover)}
+.serp-table:first-child{font-size:.66rem;font-weight:700;color:var(--text-quaternary);text-transform:uppercase;letter-spacing:.05em;border:none;padding-bottom:6px;cursor:default}
+</style>
+</head>
+<body>
+<div class="app">
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-brand"><div class="logo">B</div><h1>Blog<span>Hub</span></h1></div>
+  <nav class="sidebar-nav">
+    <div class="nav-group">
+      <div class="nav-group-title">Tổng quan</div>
+      <a class="nav-item " href="01-dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a>
+      <a class="nav-item " href="07-website-manager.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>Website Manager<span class="nav-badge badge-green">28</span></a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">Nội dung</div>
+      <a class="nav-item " href="14-articles.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>Quản Lý Bài Viết<span class="nav-badge badge-green">247</span></a>
+      <a class="nav-item " href="08-editor.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>Soạn & Tối Ưu</a>
+      <a class="nav-item " href="09-content-planner.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Content Planner</a>
+      <a class="nav-item " href="10-distribute.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>Đẩy Bài<span class="nav-badge badge-warn">5</span></a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">SEO & Analytics</div>
+      <a class="nav-item " href="02-seo-dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>SEO Dashboard</a>
+      <a class="nav-item " href="03-site-audit.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>Site Audit<span class="nav-badge badge-error">17</span></a>
+      <a class="nav-item " href="04-backlinks.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>Backlinks</a>
+      <a class="nav-item " href="05-competitor.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Competitor</a>
+      <a class="nav-item " href="06-core-web-vitals.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Core Web Vitals</a>
+      <a class="nav-item " href="11-topic-clusters.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="4" r="1.5"/><circle cx="18.5" cy="8" r="1.5"/><circle cx="18.5" cy="16" r="1.5"/><circle cx="12" cy="20" r="1.5"/><circle cx="5.5" cy="16" r="1.5"/><circle cx="5.5" cy="8" r="1.5"/></svg>Topic Clusters</a>
+      <a class="nav-item active" href="16-keyword-explorer.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M8 11h6M11 8v6"/></svg>Keyword Explorer</a>
+      <a class="nav-item " href="17-rank-tracker.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>Rank Tracker</a>
+      <a class="nav-item " href="18-serp-analyzer.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>SERP Analyzer</a>
+      <a class="nav-item " href="19-onpage-checker.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>On-Page Checker</a>
+      <a class="nav-item " href="20-link-building.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 7h3a5 5 0 015 5 5 5 0 01-5 5h-3m-6 0H6a5 5 0 01-5-5 5 5 0 015-5h3"/><line x1="8" y1="12" x2="16" y2="12"/></svg>Link Building</a>
+      <a class="nav-item " href="22-crawl-analysis.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>Crawl Analysis</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">Hệ thống</div>
+      <a class="nav-item " href="21-content-explorer.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>Content Explorer</a>
+      <a class="nav-item " href="23-traffic-analytics.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>Traffic Analytics</a>
+      <a class="nav-item " href="25-reports.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/></svg>Báo Cáo</a>
+      <a class="nav-item " href="12-api-settings.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 00-2 2v.18a2 2 0 01-1 1.73l-.43.25a2 2 0 01-2 0l-.15-.08a2 2 0 00-2.73.73l-.22.38a2 2 0 00.73 2.73l.15.1a2 2 0 011 1.72v.51a2 2 0 01-1 1.74l-.15.09a2 2 0 00-.73 2.73l.22.38a2 2 0 002.73.73l.15-.08a2 2 0 012 0l.43.25a2 2 0 011 1.73V20a2 2 0 002 2h.44a2 2 0 002-2v-.18a2 2 0 011-1.73l.43-.25a2 2 0 012 0l.15.08a2 2 0 002.73-.73l.22-.39a2 2 0 00-.73-2.73l-.15-.08a2 2 0 01-1-1.74v-.5a2 2 0 011-1.74l.15-.09a2 2 0 00.73-2.73l-.22-.38a2 2 0 00-2.73-.73l-.15.08a2 2 0 01-2 0l-.43-.25a2 2 0 01-1-1.73V4a2 2 0 00-2-2z"/><circle cx="12" cy="12" r="3"/></svg>API & Kết Nối</a>
+      <a class="nav-item " href="13-team-members.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Thành Viên</a>
+    </div>
+  </nav>
+  <div class="sidebar-footer"><div class="sidebar-user"><div class="avatar">A</div><div><div class="uname">Admin</div><div class="urole">Super Admin</div></div></div></div>
+</aside>
+<div class="sidebar-overlay"></div>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="topbar-left"><button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button><h2>Keyword Explorer</h2></div>
+  <div class="topbar-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><input type="text" placeholder="Tìm bài, site, keyword..." aria-label="Tìm kiếm"><kbd>⌘K</kbd></div>
+  <div class="topbar-right">
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" title="Dark/Light">🌙</button>
+    <button class="icon-btn" aria-label="Thông báo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg><div class="dot"></div></button>
+    <a href="08-editor.html" class="btn btn-accent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Tạo bài mới</a>
+  </div>
+</header>
+
+<main class="main">
+
+<!-- Search Bar -->
+<div class="kw-search">
+  <input class="input-field" type="text" placeholder="Nhập seed keyword..." value="seo">
+  <select>
+    <option selected>Việt Nam</option>
+    <option>US</option>
+    <option>Global</option>
+  </select>
+  <button class="btn btn-accent">Phân tích</button>
+</div>
+
+<!-- Stats Row -->
+<div class="stats-grid stats-4">
+  <div class="stat-card"><div class="stat-icon" style="background:var(--accent-subtle);color:var(--accent)">🔍</div><div class="stat-label">Search Volume</div><div class="stat-value">14,800</div><div style="font-size:.7rem;color:var(--text-tertiary)">/tháng</div></div>
+  <div class="stat-card"><div class="stat-icon" style="background:var(--warn-subtle);color:var(--warn)">🎯</div><div class="stat-label">Keyword Difficulty</div><div class="stat-value" style="color:var(--warn)">67<span style="font-size:.7rem;font-weight:400">/100</span></div><div style="margin-top:6px"><div class="kd-bar" style="width:100%"><div class="kd-fill" style="width:67%;background:var(--warn)"></div></div></div></div>
+  <div class="stat-card"><div class="stat-icon" style="background:var(--info-subtle);color:var(--info)">💰</div><div class="stat-label">CPC</div><div class="stat-value" style="color:var(--info)">$2.40</div></div>
+  <div class="stat-card"><div class="stat-icon" style="background:var(--purple-subtle);color:var(--purple)">⚡</div><div class="stat-label">SERP Features</div><div class="stat-value" style="color:var(--purple)">5</div><div style="font-size:.7rem;color:var(--text-tertiary)">loại</div></div>
+</div>
+
+<!-- Keyword Suggestions + Related Questions -->
+<div class="grid-2 mb-16">
+  <div class="card">
+    <div class="card-head"><h3>Keyword gợi ý</h3><span class="tag tag-green">8 kết quả</span></div>
+    <div class="card-body" style="padding:8px 16px">
+      <div class="serp-table"><span>#</span><span>Keyword</span><span style="text-align:center">Volume</span><span style="text-align:center">KD</span><span style="text-align:center">CPC</span><span style="text-align:center">Trend</span></div>
+      <div class="serp-table"><span class="mono">1</span><span style="font-weight:500">seo la gi</span><span class="mono" style="text-align:center">12,100</span><span style="text-align:center"><div class="kd-bar"><div class="kd-fill" style="width:42%;background:var(--accent)"></div></div>42</span><span class="mono" style="text-align:center">$1.80</span><span style="text-align:center"><div class="mini-bars"><span style="height:40%"></span><span style="height:55%"></span><span style="height:70%"></span><span style="height:60%"></span><span style="height:80%"></span><span style="height:90%"></span></div></span></div>
+      <div class="serp-table"><span class="mono">2</span><span style="font-weight:500">cach lam seo</span><span class="mono" style="text-align:center">8,400</span><span style="text-align:center"><div class="kd-bar"><div class="kd-fill" style="width:55%;background:var(--warn)"></div></div>55</span><span class="mono" style="text-align:center">$2.10</span><span style="text-align:center"><div class="mini-bars"><span style="height:60%"></span><span style="height:50%"></span><span style="height:75%"></span><span style="height:85%"></span><span style="height:70%"></span><span style="height:65%"></span></div></span></div>
+      <div class="serp-table"><span class="mono">3</span><span style="font-weight:500">seo website</span><span class="mono" style="text-align:center">6,600</span><span style="text-align:center"><div class="kd-bar"><div class="kd-fill" style="width:71%;background:var(--warn)"></div></div>71</span><span class="mono" style="text-align:center">$3.20</span><span style="text-align:center"><div class="mini-bars"><span style="height:50%"></span><span style="height:65%"></span><span style="height:80%"></span><span style="height:75%"></span><span style="height:90%"></span><span style="height:85%"></span></div></span></div>
+      <div class="serp-table"><span class="mono">4</span><span style="font-weight:500">tu khoa seo</span><span class="mono" style="text-align:center">4,200</span><span style="text-align:center"><div class="kd-bar"><div class="kd-fill" style="width:38%;background:var(--accent)"></div></div>38</span><span class="mono" style="text-align:center">$1.50</span><span style="text-align:center"><div class="mini-bars"><span style="height:45%"></span><span style="height:55%"></span><span style="height:50%"></span><span style="height:65%"></span><span style="height:70%"></span><span style="height:60%"></span></div></span></div>
+      <div class="serp-table"><span class="mono">5</span><span style="font-weight:500">cong cu seo</span><span class="mono" style="text-align:center">3,800</span><span style="text-align:center"><div class="kd-bar"><div class="kd-fill" style="width:48%;background:var(--warn)"></div></div>48</span><span class="mono" style="text-align:center">$2.80</span><span style="text-align:center"><div class="mini-bars"><span style="height:70%"></span><span style="height:60%"></span><span style="height:55%"></span><span style="height:80%"></span><span style="height:75%"></span><span style="height:90%"></span></div></span></div>
+      <div class="serp-table"><span class="mono">6</span><span style="font-weight:500">hoc seo</span><span class="mono" style="text-align:center">3,100</span><span style="text-align:center"><div class="kd-bar"><div class="kd-fill" style="width:35%;background:var(--accent)"></div></div>35</span><span class="mono" style="text-align:center">$1.20</span><span style="text-align:center"><div class="mini-bars"><span style="height:55%"></span><span style="height:65%"></span><span style="height:80%"></span><span style="height:70%"></span><span style="height:85%"></span><span style="height:75%"></span></div></span></div>
+      <div class="serp-table"><span class="mono">7</span><span style="font-weight:500">dich vu seo</span><span class="mono" style="text-align:center">2,900</span><span style="text-align:center"><div class="kd-bar"><div class="kd-fill" style="width:62%;background:var(--warn)"></div></div>62</span><span class="mono" style="text-align:center">$4.50</span><span style="text-align:center"><div class="mini-bars"><span style="height:80%"></span><span style="height:70%"></span><span style="height:65%"></span><span style="height:90%"></span><span style="height:85%"></span><span style="height:75%"></span></div></span></div>
+      <div class="serp-table" style="border:none"><span class="mono">8</span><span style="font-weight:500">seo google</span><span class="mono" style="text-align:center">2,400</span><span style="text-align:center"><div class="kd-bar"><div class="kd-fill" style="width:58%;background:var(--warn)"></div></div>58</span><span class="mono" style="text-align:center">$2.60</span><span style="text-align:center"><div class="mini-bars"><span style="height:65%"></span><span style="height:75%"></span><span style="height:60%"></span><span style="height:85%"></span><span style="height:80%"></span><span style="height:70%"></span></div></span></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-head"><h3>Câu hỏi liên quan</h3></div>
+    <div class="card-body" style="padding:8px 16px">
+      <div class="question-item"><div class="q-text">SEO là gì và tại sao quan trọng?</div><div class="question-meta"><span class="mono" style="font-size:.75rem;color:var(--text-tertiary)">9,200</span><span class="tag tag-green">32</span></div></div>
+      <div class="question-item"><div class="q-text">Làm sao để SEO website lên top?</div><div class="question-meta"><span class="mono" style="font-size:.75rem;color:var(--text-tertiary)">6,800</span><span class="tag tag-warn">58</span></div></div>
+      <div class="question-item"><div class="q-text">SEO on-page và off-page khác nhau thế nào?</div><div class="question-meta"><span class="mono" style="font-size:.75rem;color:var(--text-tertiary)">4,500</span><span class="tag tag-green">41</span></div></div>
+      <div class="question-item"><div class="q-text">Học SEO bắt đầu từ đâu cho người mới?</div><div class="question-meta"><span class="mono" style="font-size:.75rem;color:var(--text-tertiary)">3,900</span><span class="tag tag-green">29</span></div></div>
+      <div class="question-item"><div class="q-text">Công cụ SEO miễn phí tốt nhất 2026?</div><div class="question-meta"><span class="mono" style="font-size:.75rem;color:var(--text-tertiary)">3,200</span><span class="tag tag-warn">52</span></div></div>
+      <div class="question-item"><div class="q-text">Mất bao lâu để SEO có hiệu quả?</div><div class="question-meta"><span class="mono" style="font-size:.75rem;color:var(--text-tertiary)">2,800</span><span class="tag tag-green">36</span></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SERP Overview -->
+<div class="card mb-16">
+  <div class="card-head"><h3>SERP Overview</h3><span class="tag tag-info">Top 10</span></div>
+  <div class="card-body" style="padding:8px 16px">
+    <div class="serp-table"><span>#</span><span>URL</span><span style="text-align:center">DR</span><span style="text-align:center">Backlinks</span><span style="text-align:center">Traffic</span><span style="text-align:center">Words</span></div>
+    <div class="serp-table"><span class="mono">1</span><span style="font-size:.78rem;color:var(--accent)">ahrefs.com/blog/seo-basics</span><span class="mono" style="text-align:center">92</span><span class="mono" style="text-align:center">4,521</span><span class="mono" style="text-align:center">89.2K</span><span class="mono" style="text-align:center">5,240</span></div>
+    <div class="serp-table"><span class="mono">2</span><span style="font-size:.78rem;color:var(--accent)">moz.com/beginners-guide-to-seo</span><span class="mono" style="text-align:center">91</span><span class="mono" style="text-align:center">12,340</span><span class="mono" style="text-align:center">156K</span><span class="mono" style="text-align:center">8,120</span></div>
+    <div class="serp-table"><span class="mono">3</span><span style="font-size:.78rem;color:var(--accent)">semrush.com/blog/what-is-seo</span><span class="mono" style="text-align:center">89</span><span class="mono" style="text-align:center">3,892</span><span class="mono" style="text-align:center">67.4K</span><span class="mono" style="text-align:center">4,380</span></div>
+    <div class="serp-table"><span class="mono">4</span><span style="font-size:.78rem;color:var(--accent)">backlinko.com/seo-guide</span><span class="mono" style="text-align:center">85</span><span class="mono" style="text-align:center">2,156</span><span class="mono" style="text-align:center">42.8K</span><span class="mono" style="text-align:center">6,750</span></div>
+    <div class="serp-table"><span class="mono">5</span><span style="font-size:.78rem;color:var(--accent)">neilpatel.com/what-is-seo</span><span class="mono" style="text-align:center">83</span><span class="mono" style="text-align:center">1,874</span><span class="mono" style="text-align:center">38.1K</span><span class="mono" style="text-align:center">3,920</span></div>
+    <div class="serp-table"><span class="mono">6</span><span style="font-size:.78rem;color:var(--accent)">searchenginejournal.com/seo-guide</span><span class="mono" style="text-align:center">80</span><span class="mono" style="text-align:center">1,432</span><span class="mono" style="text-align:center">28.5K</span><span class="mono" style="text-align:center">4,100</span></div>
+    <div class="serp-table"><span class="mono">7</span><span style="font-size:.78rem;color:var(--accent)">hubspot.com/marketing/seo</span><span class="mono" style="text-align:center">78</span><span class="mono" style="text-align:center">987</span><span class="mono" style="text-align:center">21.3K</span><span class="mono" style="text-align:center">3,450</span></div>
+    <div class="serp-table"><span class="mono">8</span><span style="font-size:.78rem;color:var(--accent)">yoast.com/what-is-seo</span><span class="mono" style="text-align:center">76</span><span class="mono" style="text-align:center">756</span><span class="mono" style="text-align:center">18.7K</span><span class="mono" style="text-align:center">2,890</span></div>
+    <div class="serp-table"><span class="mono">9</span><span style="font-size:.78rem;color:var(--accent)">wordstream.com/seo</span><span class="mono" style="text-align:center">74</span><span class="mono" style="text-align:center">543</span><span class="mono" style="text-align:center">14.2K</span><span class="mono" style="text-align:center">2,340</span></div>
+    <div class="serp-table" style="border:none"><span class="mono">10</span><span style="font-size:.78rem;color:var(--accent)">contentstudio.io/blog/seo-tips</span><span class="mono" style="text-align:center">68</span><span class="mono" style="text-align:center">321</span><span class="mono" style="text-align:center">9.8K</span><span class="mono" style="text-align:center">2,100</span></div>
+  </div>
+</div>
+
+<!-- Keyword Trend -->
+<div class="card">
+  <div class="card-head"><h3>Keyword Trend</h3><span style="font-size:.72rem;color:var(--text-tertiary)">12 tháng gần nhất</span></div>
+  <div class="card-body" style="padding:16px">
+    <svg viewBox="0 0 600 140" style="width:100%;height:140px">
+      <defs>
+        <linearGradient id="kwGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.3"/>
+          <stop offset="100%" stop-color="var(--accent)" stop-opacity="0.02"/>
+        </linearGradient>
+      </defs>
+      <!-- Grid lines -->
+      <line x1="40" y1="10" x2="590" y2="10" stroke="var(--border-subtle)" stroke-width="0.5"/>
+      <line x1="40" y1="40" x2="590" y2="40" stroke="var(--border-subtle)" stroke-width="0.5"/>
+      <line x1="40" y1="70" x2="590" y2="70" stroke="var(--border-subtle)" stroke-width="0.5"/>
+      <line x1="40" y1="100" x2="590" y2="100" stroke="var(--border-subtle)" stroke-width="0.5"/>
+      <line x1="40" y1="130" x2="590" y2="130" stroke="var(--border-subtle)" stroke-width="0.5"/>
+      <!-- Y labels -->
+      <text x="35" y="14" text-anchor="end" fill="var(--text-quaternary)" font-size="9" font-family="var(--font-mono)">20K</text>
+      <text x="35" y="44" text-anchor="end" fill="var(--text-quaternary)" font-size="9" font-family="var(--font-mono)">15K</text>
+      <text x="35" y="74" text-anchor="end" fill="var(--text-quaternary)" font-size="9" font-family="var(--font-mono)">10K</text>
+      <text x="35" y="104" text-anchor="end" fill="var(--text-quaternary)" font-size="9" font-family="var(--font-mono)">5K</text>
+      <text x="35" y="134" text-anchor="end" fill="var(--text-quaternary)" font-size="9" font-family="var(--font-mono)">0</text>
+      <!-- Area -->
+      <path d="M50,75 L100,68 L150,72 L200,58 L250,50 L300,45 L350,52 L400,40 L450,35 L500,42 L550,30 L590,25 L590,130 L50,130 Z" fill="url(#kwGrad)"/>
+      <!-- Line -->
+      <polyline points="50,75 100,68 150,72 200,58 250,50 300,45 350,52 400,40 450,35 500,42 550,30 590,25" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <!-- Dots -->
+      <circle cx="50" cy="75" r="3" fill="var(--accent)"/>
+      <circle cx="100" cy="68" r="3" fill="var(--accent)"/>
+      <circle cx="150" cy="72" r="3" fill="var(--accent)"/>
+      <circle cx="200" cy="58" r="3" fill="var(--accent)"/>
+      <circle cx="250" cy="50" r="3" fill="var(--accent)"/>
+      <circle cx="300" cy="45" r="3" fill="var(--accent)"/>
+      <circle cx="350" cy="52" r="3" fill="var(--accent)"/>
+      <circle cx="400" cy="40" r="3" fill="var(--accent)"/>
+      <circle cx="450" cy="35" r="3" fill="var(--accent)"/>
+      <circle cx="500" cy="42" r="3" fill="var(--accent)"/>
+      <circle cx="550" cy="30" r="3" fill="var(--accent)"/>
+      <circle cx="590" cy="25" r="3" fill="var(--accent)"/>
+      <!-- X labels -->
+      <text x="50" y="140" fill="var(--text-quaternary)" font-size="8" text-anchor="middle">T4</text>
+      <text x="100" y="140" fill="var(--text-quaternary)" font-size="8" text-anchor="middle">T5</text>
+      <text x="150" y="140" fill="var(--text-quaternary)" font-size="8" text-anchor="middle">T6</text>
+      <text x="200" y="140" fill="var(--text-quaternary)" font-size="8" text-anchor="middle">T7</text>
+      <text x="250" y="140" fill="var(--text-quaternary)" font-size="8" text-anchor="middle">T8</text>
+      <text x="300" y="140" fill="var(--text-quaternary)" font-size="8" text-anchor="middle">T9</text>
+      <text x="350" y="140" fill="var(--text-quaternary)" font-size="8" text-anchor="middle">T10</text>
+      <text x="400" y="140" fill="var(--text-quaternary)" font-size="8" text-anchor="middle">T11</text>
+      <text x="450" y="140" fill="var(--text-quaternary)" font-size="8" text-anchor="middle">T12</text>
+      <text x="500" y="140" fill="var(--text-quaternary)" font-size="8" text-anchor="middle">T1</text>
+      <text x="550" y="140" fill="var(--text-quaternary)" font-size="8" text-anchor="middle">T2</text>
+      <text x="590" y="140" fill="var(--text-quaternary)" font-size="8" text-anchor="middle">T3</text>
+    </svg>
+  </div>
+</div>
+
+</main>
+</div>
+<div id="toast" class="toast"></div>
+<script src="shared.js"></script>
+</body></html>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>BlogHub — SERP Analyzer</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared-styles.css">
+<style>
+.sa-toolbar{display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap}
+.sa-toolbar .input-field{max-width:400px}
+.sa-toolbar select{background:var(--bg-elevated);border:1px solid var(--border-subtle);border-radius:var(--radius-sm);padding:7px 10px;color:var(--text-primary);font-size:.8rem;font-family:var(--font-body);outline:none;cursor:pointer}
+.sa-toolbar select:focus{border-color:var(--accent)}
+.feature-row{display:flex;flex-wrap:wrap;gap:8px;padding:4px 0}
+.feature-badge{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:var(--radius-md);font-size:.78rem;font-weight:600;border:1px solid}
+.feature-badge.present{color:var(--accent);border-color:var(--accent-border);background:var(--accent-subtle)}
+.feature-badge.absent{color:var(--text-quaternary);border-color:var(--border-subtle);background:var(--bg-elevated)}
+.serp-result{display:flex;align-items:flex-start;gap:14px;padding:14px 16px;border-bottom:1px solid var(--border-subtle);transition:background .1s}
+.serp-result:last-child{border:none}
+.serp-result:hover{background:var(--bg-hover)}
+.serp-pos{width:36px;height:36px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;font-size:1rem;flex-shrink:0}
+.serp-pos.top3{background:var(--accent-subtle);color:var(--accent);border:1px solid var(--accent-border)}
+.serp-pos.mid{background:var(--info-subtle);color:var(--info);border:1px solid var(--info-border)}
+.serp-pos.low{background:var(--warn-subtle);color:var(--warn);border:1px solid var(--warn-border)}
+.serp-info{flex:1;min-width:0}
+.serp-title{font-weight:600;font-size:.84rem;margin-bottom:2px}
+.serp-url{font-family:var(--font-mono);font-size:.7rem;color:var(--text-tertiary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:400px}
+.serp-meta{display:flex;align-items:center;gap:8px;margin-top:6px;flex-wrap:wrap}
+.serp-meta .tag{font-size:.62rem}
+.serp-desc{font-size:.72rem;color:var(--text-tertiary);margin-top:5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:600px}
+.paa-item{display:flex;align-items:center;gap:8px;padding:9px 11px;border-radius:var(--radius-md);background:var(--bg-elevated);margin-bottom:5px;font-size:.82rem;cursor:pointer;transition:background .1s}
+.paa-item:hover{background:var(--bg-hover)}
+.paa-icon{color:var(--text-quaternary);font-size:.7rem;flex-shrink:0}
+</style>
+</head>
+<body>
+<div class="app">
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-brand"><div class="logo">B</div><h1>Blog<span>Hub</span></h1></div>
+  <nav class="sidebar-nav">
+    <div class="nav-group">
+      <div class="nav-group-title">Tổng quan</div>
+      <a class="nav-item " href="01-dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a>
+      <a class="nav-item " href="07-website-manager.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>Website Manager<span class="nav-badge badge-green">28</span></a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">Nội dung</div>
+      <a class="nav-item " href="14-articles.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>Quản Lý Bài Viết<span class="nav-badge badge-green">247</span></a>
+      <a class="nav-item " href="08-editor.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>Soạn & Tối Ưu</a>
+      <a class="nav-item " href="09-content-planner.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Content Planner</a>
+      <a class="nav-item " href="10-distribute.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>Đẩy Bài<span class="nav-badge badge-warn">5</span></a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">SEO & Analytics</div>
+      <a class="nav-item " href="02-seo-dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>SEO Dashboard</a>
+      <a class="nav-item " href="03-site-audit.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>Site Audit<span class="nav-badge badge-error">17</span></a>
+      <a class="nav-item " href="04-backlinks.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>Backlinks</a>
+      <a class="nav-item " href="05-competitor.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Competitor</a>
+      <a class="nav-item " href="06-core-web-vitals.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Core Web Vitals</a>
+      <a class="nav-item " href="11-topic-clusters.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="4" r="1.5"/><circle cx="18.5" cy="8" r="1.5"/><circle cx="18.5" cy="16" r="1.5"/><circle cx="12" cy="20" r="1.5"/><circle cx="5.5" cy="16" r="1.5"/><circle cx="5.5" cy="8" r="1.5"/></svg>Topic Clusters</a>
+      <a class="nav-item " href="16-keyword-explorer.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M8 11h6M11 8v6"/></svg>Keyword Explorer</a>
+      <a class="nav-item " href="17-rank-tracker.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>Rank Tracker</a>
+      <a class="nav-item active" href="18-serp-analyzer.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>SERP Analyzer</a>
+      <a class="nav-item " href="19-onpage-checker.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>On-Page Checker</a>
+      <a class="nav-item " href="20-link-building.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 7h3a5 5 0 015 5 5 5 0 01-5 5h-3m-6 0H6a5 5 0 01-5-5 5 5 0 015-5h3"/><line x1="8" y1="12" x2="16" y2="12"/></svg>Link Building</a>
+      <a class="nav-item " href="22-crawl-analysis.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>Crawl Analysis</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">Hệ thống</div>
+      <a class="nav-item " href="21-content-explorer.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>Content Explorer</a>
+      <a class="nav-item " href="23-traffic-analytics.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>Traffic Analytics</a>
+      <a class="nav-item " href="25-reports.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/></svg>Báo Cáo</a>
+      <a class="nav-item " href="12-api-settings.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 00-2 2v.18a2 2 0 01-1 1.73l-.43.25a2 2 0 01-2 0l-.15-.08a2 2 0 00-2.73.73l-.22.38a2 2 0 00.73 2.73l.15.1a2 2 0 011 1.72v.51a2 2 0 01-1 1.74l-.15.09a2 2 0 00-.73 2.73l.22.38a2 2 0 002.73.73l.15-.08a2 2 0 012 0l.43.25a2 2 0 011 1.73V20a2 2 0 002 2h.44a2 2 0 002-2v-.18a2 2 0 011-1.73l.43-.25a2 2 0 012 0l.15.08a2 2 0 002.73-.73l.22-.39a2 2 0 00-.73-2.73l-.15-.08a2 2 0 01-1-1.74v-.5a2 2 0 011-1.74l.15-.09a2 2 0 00.73-2.73l-.22-.38a2 2 0 00-2.73-.73l-.15.08a2 2 0 01-2 0l-.43-.25a2 2 0 01-1-1.73V4a2 2 0 00-2-2z"/><circle cx="12" cy="12" r="3"/></svg>API & Kết Nối</a>
+      <a class="nav-item " href="13-team-members.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Thành Viên</a>
+    </div>
+  </nav>
+  <div class="sidebar-footer"><div class="sidebar-user"><div class="avatar">A</div><div><div class="uname">Admin</div><div class="urole">Super Admin</div></div></div></div>
+</aside>
+<div class="sidebar-overlay"></div>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="topbar-left"><button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button><h2>SERP Analyzer</h2></div>
+  <div class="topbar-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><input type="text" placeholder="Tìm bài, site, keyword..." aria-label="Tìm kiếm"><kbd>⌘K</kbd></div>
+  <div class="topbar-right">
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" title="Dark/Light">🌙</button>
+    <button class="icon-btn" aria-label="Thông báo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg><div class="dot"></div></button>
+    <a href="08-editor.html" class="btn btn-accent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Tạo bài mới</a>
+  </div>
+</header>
+
+<main class="main">
+
+<!-- Search Bar -->
+<div class="sa-toolbar">
+  <input type="text" class="input-field" placeholder="Nhập từ khóa để phân tích SERP..." value="cách tối ưu seo onpage 2026" style="max-width:400px">
+  <button class="btn btn-accent">Phân tích</button>
+  <select>
+    <option>Việt Nam</option>
+    <option>US</option>
+    <option>Global</option>
+  </select>
+</div>
+
+<!-- Stats -->
+<div class="stats-grid stats-4">
+  <div class="stat-card"><div class="stat-icon" style="background:var(--accent-subtle);color:var(--accent)">🔍</div><div class="stat-label">Tổng kết quả</div><div class="stat-value">1,240,000</div></div>
+  <div class="stat-card"><div class="stat-icon" style="background:var(--info-subtle);color:var(--info)">⭐</div><div class="stat-label">Featured Snippet</div><div class="stat-value"><span class="tag tag-green">Có</span></div></div>
+  <div class="stat-card"><div class="stat-icon" style="background:var(--purple-subtle);color:var(--purple)">❓</div><div class="stat-label">People Also Ask</div><div class="stat-value">4 <span style="font-size:.8rem;color:var(--text-tertiary)">câu hỏi</span></div></div>
+  <div class="stat-card"><div class="stat-icon" style="background:var(--warn-subtle);color:var(--warn)">📊</div><div class="stat-label">Độ khó</div><div class="stat-value" style="color:var(--warn)">72<span style="font-size:.8rem;color:var(--text-tertiary)">/100</span></div></div>
+</div>
+
+<!-- SERP Features -->
+<div class="card mb-24">
+  <div class="card-head"><h3>SERP Features</h3><span class="tag tag-info">8 features</span></div>
+  <div class="card-body">
+    <div class="feature-row">
+      <span class="feature-badge present">&#10003; Featured Snippet</span>
+      <span class="feature-badge present">&#10003; People Also Ask</span>
+      <span class="feature-badge present">&#10003; Image Pack</span>
+      <span class="feature-badge absent">&#10007; Video</span>
+      <span class="feature-badge absent">&#10007; Local Pack</span>
+      <span class="feature-badge absent">&#10007; Knowledge Panel</span>
+      <span class="feature-badge present">&#10003; Site Links</span>
+      <span class="feature-badge absent">&#10007; Reviews</span>
+    </div>
+  </div>
+</div>
+
+<!-- Top 10 Results -->
+<div class="card mb-24">
+  <div class="card-head"><h3>Top 10 Kết Quả</h3><span class="tag tag-green">google.com.vn</span></div>
+  <div class="card-body" style="padding:0">
+    <div class="serp-result">
+      <div class="serp-pos top3">1</div>
+      <div class="serp-info">
+        <div class="serp-title">Hướng dẫn SEO Onpage A-Z cho người mới bắt đầu 2026</div>
+        <div class="serp-url">seoviet.vn/huong-dan-seo-onpage-a-z</div>
+        <div class="serp-meta"><span class="tag tag-purple">DR 72</span><span class="tag tag-info">234 backlinks</span><span class="tag tag-green">3,420 từ</span><span class="tag tag-green">Score 95</span></div>
+        <div class="serp-desc">Tổng hợp chi tiết cách tối ưu SEO onpage từ title tag, meta description, heading, hình ảnh đến internal link...</div>
+      </div>
+    </div>
+    <div class="serp-result">
+      <div class="serp-pos top3">2</div>
+      <div class="serp-info">
+        <div class="serp-title">Tối ưu SEO Onpage: 15 kỹ thuật quan trọng nhất</div>
+        <div class="serp-url">techblog.vn/toi-uu-seo-onpage-15-ky-thuat</div>
+        <div class="serp-meta"><span class="tag tag-purple">DR 68</span><span class="tag tag-info">187 backlinks</span><span class="tag tag-green">2,850 từ</span><span class="tag tag-green">Score 88</span></div>
+        <div class="serp-desc">15 kỹ thuật tối ưu onpage SEO hiệu quả giúp tăng thứ hạng Google nhanh chóng, áp dụng cho mọi website...</div>
+      </div>
+    </div>
+    <div class="serp-result">
+      <div class="serp-pos top3">3</div>
+      <div class="serp-info">
+        <div class="serp-title">SEO Onpage 2026: Checklist đầy đủ nhất hiện nay</div>
+        <div class="serp-url">marketingai.vn/seo-onpage-2026-checklist</div>
+        <div class="serp-meta"><span class="tag tag-purple">DR 65</span><span class="tag tag-info">156 backlinks</span><span class="tag tag-green">2,680 từ</span><span class="tag tag-green">Score 85</span></div>
+        <div class="serp-desc">Checklist SEO onpage 2026 cập nhật theo thuật toán mới nhất của Google, bao gồm Core Web Vitals...</div>
+      </div>
+    </div>
+    <div class="serp-result">
+      <div class="serp-pos mid">4</div>
+      <div class="serp-info">
+        <div class="serp-title">On-Page SEO: Hướng dẫn toàn diện cho người mới</div>
+        <div class="serp-url">ahrefs.com/blog/on-page-seo-vi</div>
+        <div class="serp-meta"><span class="tag tag-purple">DR 89</span><span class="tag tag-info">412 backlinks</span><span class="tag tag-green">2,540 từ</span><span class="tag tag-info">Score 82</span></div>
+        <div class="serp-desc">Hướng dẫn từng bước thực hiện on-page SEO hiệu quả, từ nghiên cứu từ khóa đến tối ưu nội dung...</div>
+      </div>
+    </div>
+    <div class="serp-result">
+      <div class="serp-pos mid">5</div>
+      <div class="serp-info">
+        <div class="serp-title">Onpage SEO là gì? Tổng hợp yếu tố cần tối ưu</div>
+        <div class="serp-url">seohero.vn/onpage-seo-la-gi-tong-hop</div>
+        <div class="serp-meta"><span class="tag tag-purple">DR 58</span><span class="tag tag-info">98 backlinks</span><span class="tag tag-info">2,310 từ</span><span class="tag tag-info">Score 78</span></div>
+        <div class="serp-desc">Tìm hiểu onpage SEO là gì và tổng hợp các yếu tố quan trọng nhất cần tối ưu để lên top Google...</div>
+      </div>
+    </div>
+    <div class="serp-result">
+      <div class="serp-pos mid">6</div>
+      <div class="serp-info">
+        <div class="serp-title">Cách tối ưu SEO Onpage cho WordPress chi tiết</div>
+        <div class="serp-url">wpviet.com/toi-uu-seo-onpage-wordpress</div>
+        <div class="serp-meta"><span class="tag tag-purple">DR 54</span><span class="tag tag-info">89 backlinks</span><span class="tag tag-info">2,200 từ</span><span class="tag tag-info">Score 76</span></div>
+        <div class="serp-desc">Hướng dẫn tối ưu SEO onpage cho website WordPress sử dụng Yoast SEO và Rank Math...</div>
+      </div>
+    </div>
+    <div class="serp-result">
+      <div class="serp-pos mid">7</div>
+      <div class="serp-info">
+        <div class="serp-title">SEO Onpage: Các bước thực hiện từ cơ bản đến nâng cao</div>
+        <div class="serp-url">digimart.vn/blog/seo-onpage-co-ban-nang-cao</div>
+        <div class="serp-meta"><span class="tag tag-purple">DR 52</span><span class="tag tag-info">67 backlinks</span><span class="tag tag-warn">1,980 từ</span><span class="tag tag-warn">Score 72</span></div>
+        <div class="serp-desc">Từ cơ bản đến nâng cao, bài viết hướng dẫn chi tiết các bước thực hiện SEO onpage hiệu quả...</div>
+      </div>
+    </div>
+    <div class="serp-result">
+      <div class="serp-pos low">8</div>
+      <div class="serp-info">
+        <div class="serp-title">Hướng dẫn tối ưu Onpage cho website thương mại điện tử</div>
+        <div class="serp-url">vinaseo.net/onpage-thuong-mai-dien-tu</div>
+        <div class="serp-meta"><span class="tag tag-purple">DR 47</span><span class="tag tag-info">45 backlinks</span><span class="tag tag-warn">1,850 từ</span><span class="tag tag-warn">Score 68</span></div>
+        <div class="serp-desc">Tối ưu SEO onpage cho các trang sản phẩm, danh mục và landing page thương mại điện tử...</div>
+      </div>
+    </div>
+    <div class="serp-result">
+      <div class="serp-pos low">9</div>
+      <div class="serp-info">
+        <div class="serp-title">Kiểm tra SEO Onpage: 20 yếu tố không thể bỏ qua</div>
+        <div class="serp-url">blogseo.vn/kiem-tra-seo-onpage-20-yeu-to</div>
+        <div class="serp-meta"><span class="tag tag-purple">DR 44</span><span class="tag tag-info">38 backlinks</span><span class="tag tag-warn">1,720 từ</span><span class="tag tag-warn">Score 65</span></div>
+        <div class="serp-desc">Danh sách 20 yếu tố SEO onpage quan trọng nhất bạn cần kiểm tra và tối ưu cho website...</div>
+      </div>
+    </div>
+    <div class="serp-result">
+      <div class="serp-pos low">10</div>
+      <div class="serp-info">
+        <div class="serp-title">SEO Onpage cho developer: Những điều cần biết</div>
+        <div class="serp-url">topdev.vn/blog/seo-onpage-cho-developer</div>
+        <div class="serp-meta"><span class="tag tag-purple">DR 41</span><span class="tag tag-info">34 backlinks</span><span class="tag tag-warn">1,670 từ</span><span class="tag tag-warn">Score 62</span></div>
+        <div class="serp-desc">Góc nhìn từ developer về SEO onpage: structured data, semantic HTML, lazy loading và page speed...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bottom Grid -->
+<div class="grid-2 mb-24">
+  <!-- People Also Ask -->
+  <div class="card">
+    <div class="card-head"><h3>People Also Ask</h3><span class="tag tag-purple">6 câu hỏi</span></div>
+    <div class="card-body">
+      <div class="paa-item"><span class="paa-icon">&#9654;</span><span>SEO onpage là gì và tại sao quan trọng?</span></div>
+      <div class="paa-item"><span class="paa-icon">&#9654;</span><span>Cách tối ưu title tag cho SEO onpage?</span></div>
+      <div class="paa-item"><span class="paa-icon">&#9654;</span><span>Meta description ảnh hưởng đến SEO như thế nào?</span></div>
+      <div class="paa-item"><span class="paa-icon">&#9654;</span><span>Heading H1, H2, H3 sử dụng đúng cách?</span></div>
+      <div class="paa-item"><span class="paa-icon">&#9654;</span><span>Keyword density bao nhiêu là hợp lý?</span></div>
+      <div class="paa-item"><span class="paa-icon">&#9654;</span><span>Internal link ảnh hưởng đến ranking không?</span></div>
+    </div>
+  </div>
+
+  <!-- Related Searches -->
+  <div class="card">
+    <div class="card-head"><h3>Related Searches</h3><span class="tag tag-info">12 từ khóa</span></div>
+    <div class="card-body">
+      <div style="display:flex;flex-wrap:wrap;gap:6px">
+        <span class="tag tag-info">seo onpage la gi</span>
+        <span class="tag tag-info">checklist seo onpage</span>
+        <span class="tag tag-purple">tối ưu seo onpage wordpress</span>
+        <span class="tag tag-info">seo onpage vs offpage</span>
+        <span class="tag tag-purple">công cụ kiểm tra seo onpage</span>
+        <span class="tag tag-info">yếu tố seo onpage 2026</span>
+        <span class="tag tag-info">cách viết meta description</span>
+        <span class="tag tag-purple">tối ưu heading seo</span>
+        <span class="tag tag-info">keyword density chuẩn seo</span>
+        <span class="tag tag-purple">internal link strategy</span>
+        <span class="tag tag-info">seo onpage cho người mới</span>
+        <span class="tag tag-info">hướng dẫn seo website</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+
+<div id="toast" class="toast"></div>
+<script src="shared.js"></script>
+</body></html>
